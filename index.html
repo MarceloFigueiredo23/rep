@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>V4 - Dashboard Estratégico | Negociações Marcelo</title>
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <style>
+        /* ===== RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f3f0;
+            color: #2d2a24;
+            padding: 20px;
+        }
+
+        /* ===== CORES V4 ===== */
+        :root {
+            --v4-red: #c62828;
+            --v4-red-light: #ef5350;
+            --v4-red-dark: #8e0000;
+            --v4-orange: #f57c00;
+            --v4-orange-light: #ffb74d;
+            --v4-white: #ffffff;
+            --v4-off-white: #faf8f5;
+            --v4-gray: #8d8a85;
+            --v4-dark: #2d2a24;
+            --shadow: 0 8px 30px rgba(198, 40, 40, 0.12);
+        }
+
+        /* ===== LAYOUT ===== */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, var(--v4-red-dark), var(--v4-red), var(--v4-orange));
+            padding: 28px 40px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-placeholder {
+            background: var(--v4-white);
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 24px;
+            letter-spacing: -1px;
+            color: var(--v4-red);
+        }
+
+        .logo-placeholder span {
+            color: var(--v4-orange);
+        }
+
+        .header h1 {
+            color: var(--v4-white);
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .header h1 small {
+            display: block;
+            font-size: 13px;
+            font-weight: 300;
+            opacity: 0.85;
+            margin-top: 4px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .period-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: var(--v4-white);
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .period-badge i {
+            margin-right: 8px;
+        }
+
+        /* ===== CARDS TOPO ===== */
+        .top-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .card-metric {
+            background: var(--v4-white);
+            border-radius: 16px;
+            padding: 20px 22px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--v4-red);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card-metric:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(198, 40, 40, 0.18);
+        }
+
+        .card-metric .label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--v4-gray);
+        }
+
+        .card-metric .value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--v4-dark);
+            margin: 6px 0 2px;
+        }
+
+        .card-metric .sub {
+            font-size: 14px;
+            color: var(--v4-gray);
+        }
+
+        .card-metric .sub i {
+            color: var(--v4-orange);
+            margin-right: 4px;
+        }
+
+        .card-metric.orange {
+            border-left-color: var(--v4-orange);
+        }
+        .card-metric.orange .value {
+            color: var(--v4-orange);
+        }
+        .card-metric.red {
+            border-left-color: var(--v4-red);
+        }
+        .card-metric.red .value {
+            color: var(--v4-red);
+        }
+        .card-metric.dark {
+            border-left-color: var(--v4-dark);
+        }
+        .card-metric.dark .value {
+            color: var(--v4-dark);
+        }
+
+        /* ===== GRID GRÁFICOS ===== */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-card {
+            background: var(--v4-white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .chart-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--v4-dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-card h3 i {
+            color: var(--v4-red);
+            font-size: 20px;
+        }
+
+        .chart-card .chart-container {
+            position: relative;
+            height: 250px;
+        }
+
+        /* ===== TABELA / LISTA ===== */
+        .table-section {
+            margin-top: 24px;
+            background: var(--v4-white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .table-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--v4-dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-section h3 i {
+            color: var(--v4-orange);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead {
+            background: var(--v4-off-white);
+            border-bottom: 2px solid var(--v4-red);
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 14px;
+            font-weight: 700;
+            color: var(--v4-red-dark);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #eee;
+            color: var(--v4-dark);
+        }
+
+        tr:hover td {
+            background: #fff8f5;
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-status.convertida {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .badge-status.perdida {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .badge-status.negociacao {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .badge-status .fa-circle {
+            font-size: 8px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline-section {
+            margin-top: 24px;
+            background: var(--v4-white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .timeline-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--v4-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timeline-section h3 i {
+            color: var(--v4-red);
+        }
+
+        .timeline-container {
+            position: relative;
+            height: 200px;
+        }
+
+        /* ===== BANNER ALERTA ===== */
+        .alert-banner {
+            margin-top: 24px;
+            background: linear-gradient(135deg, #fff3e0, #ffccbc);
+            border-left: 6px solid var(--v4-red);
+            border-radius: 16px;
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: var(--shadow);
+        }
+
+        .alert-banner .icon {
+            font-size: 36px;
+            color: var(--v4-red);
+        }
+
+        .alert-banner .content h4 {
+            font-size: 16px;
+            color: var(--v4-red-dark);
+        }
+
+        .alert-banner .content p {
+            font-size: 14px;
+            color: #5d4037;
+        }
+
+        .alert-banner .action-btn {
+            margin-left: auto;
+            background: var(--v4-red);
+            color: var(--v4-white);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .alert-banner .action-btn:hover {
+            background: var(--v4-red-dark);
+            transform: scale(1.02);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--v4-gray);
+            border-top: 1px solid #e0ddd8;
+            padding-top: 20px;
+        }
+
+        .footer i {
+            color: var(--v4-red);
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 600px) {
+            .header {
+                padding: 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header h1 {
+                font-size: 18px;
+            }
+            .card-metric .value {
+                font-size: 26px;
+            }
+            .top-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .alert-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .alert-banner .action-btn {
+                margin-left: 0;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo-placeholder">
+                    V<span>4</span>
+                </div>
+                <h1>
+                    Dashboard Estratégico
+                    <small>Negociações · Farmer Marcelo</small>
+                </h1>
+            </div>
+            <div class="header-right">
+                <span class="period-badge">
+                    <i class="fas fa-calendar-alt"></i> 26/10/2025 – 30/07/2026
+                </span>
+                <span class="period-badge" style="background:rgba(255,255,255,0.35);">
+                    <i class="fas fa-sync-alt"></i> Atualizado: hoje
+                </span>
+            </div>
+        </header>
+
+        <!-- ===== CARDS ===== -->
+        <section class="top-cards">
+            <div class="card-metric red">
+                <div class="label"><i class="fas fa-handshake"></i> Total Negociações</div>
+                <div class="value">102</div>
+                <div class="sub"><i class="fas fa-arrow-up" style="color:#2e7d32;"></i> +12 nos últimos 30 dias</div>
+            </div>
+            <div class="card-metric orange">
+                <div class="label"><i class="fas fa-check-circle"></i> Convertidas</div>
+                <div class="value">10</div>
+                <div class="sub">Taxa: 9,8%</div>
+            </div>
+            <div class="card-metric red">
+                <div class="label"><i class="fas fa-times-circle"></i> Perdidas</div>
+                <div class="value">48</div>
+                <div class="sub">47,1% do total</div>
+            </div>
+            <div class="card-metric dark">
+                <div class="label"><i class="fas fa-clock"></i> Em Negociação</div>
+                <div class="value">44</div>
+                <div class="sub">43,1% do total</div>
+            </div>
+            <div class="card-metric orange">
+                <div class="label"><i class="fas fa-ticket-alt"></i> Ticket Médio</div>
+                <div class="value">R$ 20.338</div>
+                <div class="sub">Convertidas: R$ 14.100</div>
+            </div>
+            <div class="card-metric red">
+                <div class="label"><i class="fas fa-money-bill-wave"></i> Faturamento Total</div>
+                <div class="value">R$ 141k</div>
+                <div class="sub">10 negociações convertidas</div>
+            </div>
+        </section>
+
+        <!-- ===== GRÁFICOS ===== -->
+        <section class="charts-grid">
+            <!-- Gráfico 1: Evolução Mensal -->
+            <div class="chart-card">
+                <h3><i class="fas fa-chart-line"></i> Evolução Mensal</h3>
+                <div class="chart-container">
+                    <canvas id="chartEvolucao"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico 2: Distribuição por Estágio -->
+            <div class="chart-card">
+                <h3><i class="fas fa-chart-pie"></i> Distribuição por Estágio</h3>
+                <div class="chart-container">
+                    <canvas id="chartDistribuicao"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico 3: Ticket Médio por Consultor -->
+            <div class="chart-card">
+                <h3><i class="fas fa-user-tie"></i> Ticket Médio por Consultor</h3>
+                <div class="chart-container">
+                    <canvas id="chartConsultores"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico 4: Taxa de Conversão por Mês -->
+            <div class="chart-card">
+                <h3><i class="fas fa-percent"></i> Taxa de Conversão Mensal</h3>
+                <div class="chart-container">
+                    <canvas id="chartConversao"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== TIMELINE ===== -->
+        <section class="timeline-section">
+            <h3><i class="fas fa-timeline"></i> Timeline de Conversões</h3>
+            <div class="timeline-container">
+                <canvas id="chartTimeline"></canvas>
+            </div>
+        </section>
+
+        <!-- ===== TABELA ===== -->
+        <section class="table-section">
+            <h3><i class="fas fa-table"></i> Últimas Negociações</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Cliente</th>
+                        <th>Consultor</th>
+                        <th>Valor (R$)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaNegociacoes">
+                    <!-- Preenchido via JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ===== BANNER ALERTA ===== -->
+        <div class="alert-banner">
+            <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="content">
+                <h4>⚠️ Alerta: Queda de Conversão</h4>
+                <p>
+                    <strong>Junho e Julho/2026: 0 conversões</strong> — Último fechamento em maio/2026.
+                    A mudança no modelo de atuação do trio (Especialista → Consultor → Farmer) pode ser a causa.
+                    <strong>Ação recomendada:</strong> Restabelecer o fluxo original com papéis claros.
+                </p>
+            </div>
+            <button class="action-btn" onclick="alert('Reunião agendada para alinhamento do modelo Trio.')">
+                <i class="fas fa-arrow-right"></i> Ver Ações
+            </button>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <i class="fas fa-database"></i> Dados extraídos da planilha V4 ·
+            <i class="fas fa-chart-simple"></i> Dashboard interativo ·
+            <i class="fas fa-code"></i> v1.0
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        //  DADOS
+        // ============================================================
+        const meses = ['Out/25', 'Nov/25', 'Dez/25', 'Jan/26', 'Fev/26', 'Mar/26', 'Abr/26', 'Mai/26', 'Jun/26', 'Jul/26'];
+        const totais = [1, 8, 14, 10, 8, 12, 17, 13, 3, 9];
+        const convertidas = [0, 0, 1, 0, 1, 2, 3, 2, 0, 0];
+        const perdidas = [0, 4, 5, 6, 5, 6, 7, 7, 2, 1];
+        const emNegociacao = [1, 4, 8, 4, 2, 4, 7, 4, 1, 8];
+
+        const taxaConversao = convertidas.map((c, i) => totais[i] ? +(c / totais[i] * 100).toFixed(1) : 0);
+
+        const consultores = ['Rafaela', 'Juan', 'Éder'];
+        const ticketsConsultores = [15250, 13333, 12500];
+
+        // Dados da tabela (últimas 12 negociações)
+        const negociacoes = [
+            { data: '28/07/26', cliente: 'Agro Sol Nascente', consultor: 'Rafaela', valor: 22000, status: 'negociacao' },
+            { data: '25/07/26', cliente: 'Fazenda Boa Vista', consultor: 'Juan', valor: 18000, status: 'negociacao' },
+            { data: '22/07/26', cliente: 'Grupo São Lucas', consultor: 'Éder', valor: 35000, status: 'negociacao' },
+            { data: '18/07/26', cliente: 'Agropecuária Rio Verde', consultor: 'Rafaela', valor: 12000, status: 'negociacao' },
+            { data: '15/07/26', cliente: 'Fazenda Santa Helena', consultor: 'Juan', valor: 28000, status: 'perdida' },
+            { data: '10/07/26', cliente: 'Sítio Nova Aliança', consultor: 'Éder', valor: 15000, status: 'negociacao' },
+            { data: '05/07/26', cliente: 'Agro Serra Azul', consultor: 'Rafaela', valor: 9000, status: 'perdida' },
+            { data: '28/06/26', cliente: 'Fazenda do Lago', consultor: 'Juan', valor: 16000, status: 'perdida' },
+            { data: '20/06/26', cliente: 'Grupo Horizonte', consultor: 'Éder', valor: 21000, status: 'negociacao' },
+            { data: '15/06/26', cliente: 'Agroplan', consultor: 'Rafaela', valor: 19000, status: 'perdida' },
+            { data: '30/05/26', cliente: 'Fazenda Esperança', consultor: 'Juan', valor: 12000, status: 'convertida' },
+            { data: '25/05/26', cliente: 'Sítio Vale Verde', consultor: 'Éder', valor: 15000, status: 'convertida' },
+        ];
+
+        // ============================================================
+        //  GRÁFICO 1: EVOLUÇÃO MENSAL (Linhas)
+        // ============================================================
+        const ctx1 = document.getElementById('chartEvolucao').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: meses,
+                datasets: [{
+                    label: 'Total',
+                    data: totais,
+                    borderColor: '#c62828',
+                    backgroundColor: 'rgba(198,40,40,0.05)',
+                    tension: 0.3,
+                    fill: true,
+                    pointBackgroundColor: '#c62828',
+                }, {
+                    label: 'Convertidas',
+                    data: convertidas,
+                    borderColor: '#f57c00',
+                    backgroundColor: 'rgba(245,124,0,0.05)',
+                    tension: 0.3,
+                    fill: true,
+                    pointBackgroundColor: '#f57c00',
+                    borderDash: [5, 5],
+                }, {
+                    label: 'Perdidas',
+                    data: perdidas,
+                    borderColor: '#8d8a85',
+                    backgroundColor: 'rgba(141,138,133,0.05)',
+                    tension: 0.3,
+                    fill: true,
+                    pointBackgroundColor: '#8d8a85',
+                    borderDash: [3, 3],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top', labels: { boxWidth: 12, padding: 12 } }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f0ede8' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // ============================================================
+        //  GRÁFICO 2: DISTRIBUIÇÃO (Pizza)
+        // ============================================================
+        const ctx2 = document.getElementById('chartDistribuicao').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Convertidas (10)', 'Perdidas (48)', 'Em Negociação (44)'],
+                datasets: [{
+                    data: [10, 48, 44],
+                    backgroundColor: ['#f57c00', '#c62828', '#ffb74d'],
+                    borderColor: ['#fff', '#fff', '#fff'],
+                    borderWidth: 3,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 14, padding: 14 } }
+                },
+                cutout: '65%',
+            }
+        });
+
+        // ============================================================
+        //  GRÁFICO 3: TICKET POR CONSULTOR (Barras)
+        // ============================================================
+        const ctx3 = document.getElementById('chartConsultores').getContext('2d');
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: consultores,
+                datasets: [{
+                    label: 'Ticket Médio (R$)',
+                    data: ticketsConsultores,
+                    backgroundColor: ['#c62828', '#f57c00', '#ffb74d'],
+                    borderRadius: 8,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f0ede8' }, ticks: { callback: v => 'R$ ' + v } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // ============================================================
+        //  GRÁFICO 4: TAXA DE CONVERSÃO (Barras + Linha)
+        // ============================================================
+        const ctx4 = document.getElementById('chartConversao').getContext('2d');
+        new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: meses,
+                datasets: [{
+                    label: 'Taxa de Conversão (%)',
+                    data: taxaConversao,
+                    backgroundColor: taxaConversao.map(v => v === 0 ? '#ffcdd2' : '#c62828'),
+                    borderRadius: 4,
+                    yAxisID: 'y',
+                }, {
+                    label: 'Média Geral (9,8%)',
+                    data: Array(meses.length).fill(9.8),
+                    borderColor: '#f57c00',
+                    borderDash: [6, 4],
+                    type: 'line',
+                    fill: false,
+                    pointRadius: 0,
+                    borderWidth: 2,
+                    yAxisID: 'y',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top', labels: { boxWidth: 12, padding: 12 } }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f0ede8' }, ticks: { callback: v => v + '%' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // ============================================================
+        //  GRÁFICO 5: TIMELINE (Linha com marcadores)
+        // ============================================================
+        const ctx5 = document.getElementById('chartTimeline').getContext('2d');
+        // Simula uma linha do tempo com os meses e conversões acumuladas
+        const convAcumuladas = [];
+        let acc = 0;
+        convertidas.forEach(v => { acc += v;
+            convAcumuladas.push(acc); });
+
+        new Chart(ctx5, {
+            type: 'line',
+            data: {
+                labels: meses,
+                datasets: [{
+                    label: 'Conversões Acumuladas',
+                    data: convAcumuladas,
+                    borderColor: '#c62828',
+                    backgroundColor: 'rgba(198,40,40,0.08)',
+                    tension: 0.2,
+                    fill: true,
+                    pointBackgroundColor: '#c62828',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top', labels: { boxWidth: 12 } },
+                    tooltip: { callbacks: { label: ctx => 'Total convertidas: ' + ctx.parsed.y } }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f0ede8' }, ticks: { stepSize: 1 } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // ============================================================
+        //  POPULAR TABELA
+        // ============================================================
+        const statusMap = {
+            'convertida': { label: 'Convertida', icon: 'fa-check-circle', cls: 'convertida' },
+            'perdida': { label: 'Perdida', icon: 'fa-times-circle', cls: 'perdida' },
+            'negociacao': { label: 'Em Negociação', icon: 'fa-clock', cls: 'negociacao' },
+        };
+
+        const tbody = document.getElementById('tabelaNegociacoes');
+        negociacoes.forEach(n => {
+            const st = statusMap[n.status] || statusMap['negociacao'];
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${n.data}</td>
+                <td><strong>${n.cliente}</strong></td>
+                <td>${n.consultor}</td>
+                <td>R$ ${n.valor.toLocaleString()}</td>
+                <td><span class="badge-status ${st.cls}"><i class="fas ${st.icon}"></i> ${st.label}</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    </script>
+</body>
+</html>
