@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>V4 COMPANY - Dashboard | Negociações Marcelo</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Negociações – Sara & Marcelo (Corrigido)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -15,658 +13,527 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f3f0;
-            color: #2d2a24;
-            padding: 20px;
-        }
-        :root {
-            --v4-red: #c62828;
-            --v4-red-dark: #8e0000;
-            --v4-orange: #f57c00;
-            --v4-orange-light: #ffb74d;
-            --v4-white: #ffffff;
-            --v4-off-white: #faf8f5;
-            --v4-gray: #8d8a85;
-            --v4-dark: #2d2a24;
-            --shadow: 0 8px 30px rgba(198, 40, 40, 0.12);
+            background: #f4f7fc;
+            color: #1e293b;
+            padding: 30px;
         }
         .container {
-            max-width: 1440px;
+            max-width: 1400px;
             margin: 0 auto;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            padding: 40px 35px;
         }
-        .header {
-            background: linear-gradient(135deg, var(--v4-red-dark), var(--v4-red), var(--v4-orange));
-            padding: 28px 40px;
-            border-radius: 20px 20px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            box-shadow: var(--shadow);
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255,255,255,0.15);
-            padding: 8px 18px 8px 14px;
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
-        }
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--v4-white);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 22px;
-            color: var(--v4-red);
-            letter-spacing: -1px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-        .logo-icon span {
-            color: var(--v4-orange);
-        }
-        .logo-text {
-            color: var(--v4-white);
-            line-height: 1.2;
-        }
-        .logo-text .brand {
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            display: block;
-        }
-        .logo-text .tagline {
-            font-size: 10px;
-            font-weight: 300;
-            opacity: 0.85;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-        .header h1 {
-            color: var(--v4-white);
-            font-size: 22px;
-            font-weight: 600;
-        }
-        .header h1 small {
-            display: block;
-            font-size: 13px;
-            font-weight: 300;
-            opacity: 0.85;
-            margin-top: 4px;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        .period-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 18px;
-            border-radius: 30px;
-            color: var(--v4-white);
-            font-size: 13px;
-            font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .period-badge i {
-            margin-right: 8px;
-        }
-
-        .top-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 16px;
-            margin-top: 24px;
-        }
-        .card-metric {
-            background: var(--v4-white);
-            border-radius: 16px;
-            padding: 18px 20px;
-            box-shadow: var(--shadow);
-            border-left: 5px solid var(--v4-red);
-            transition: transform 0.2s;
-        }
-        .card-metric:hover {
-            transform: translateY(-4px);
-        }
-        .card-metric .label {
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: var(--v4-gray);
-        }
-        .card-metric .value {
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--v4-dark);
-            margin: 4px 0 2px;
-        }
-        .card-metric .sub {
-            font-size: 12px;
-            color: var(--v4-gray);
-        }
-        .card-metric.orange {
-            border-left-color: var(--v4-orange);
-        }
-        .card-metric.orange .value {
-            color: var(--v4-orange);
-        }
-        .card-metric.red {
-            border-left-color: var(--v4-red);
-        }
-        .card-metric.red .value {
-            color: var(--v4-red);
-        }
-        .card-metric.green {
-            border-left-color: #2e7d32;
-        }
-        .card-metric.green .value {
-            color: #2e7d32;
-        }
-
-        .charts-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-top: 24px;
-        }
-        @media (max-width: 900px) {
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .chart-card {
-            background: var(--v4-white);
-            border-radius: 16px;
-            padding: 20px 22px;
-            box-shadow: var(--shadow);
-        }
-        .chart-card h3 {
-            font-size: 15px;
+        h1 {
+            font-size: 28px;
             font-weight: 700;
-            color: var(--v4-dark);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .chart-card h3 i {
-            color: var(--v4-red);
-            font-size: 18px;
-        }
-        .chart-card .chart-container {
-            position: relative;
-            height: 220px;
-        }
-
-        .table-section {
-            margin-top: 24px;
-            background: var(--v4-white);
-            border-radius: 16px;
-            padding: 20px 22px;
-            box-shadow: var(--shadow);
-            overflow-x: auto;
-        }
-        .table-section h3 {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--v4-dark);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .table-section h3 i {
-            color: var(--v4-orange);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-        }
-        thead {
-            background: var(--v4-off-white);
-            border-bottom: 2px solid var(--v4-red);
-        }
-        th {
-            text-align: left;
-            padding: 8px 10px;
-            font-weight: 700;
-            color: var(--v4-red-dark);
-            text-transform: uppercase;
-            font-size: 10px;
-            letter-spacing: 0.5px;
-        }
-        td {
-            padding: 8px 10px;
-            border-bottom: 1px solid #eee;
-            color: var(--v4-dark);
-        }
-        tr:hover td {
-            background: #fff8f5;
-        }
-        .badge-status {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 600;
-        }
-        .badge-status.convertida {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-        .badge-status.perdida {
-            background: #ffebee;
-            color: #c62828;
-        }
-        .badge-status.negociacao {
-            background: #fff3e0;
-            color: #e65100;
-        }
-
-        .insight-box {
-            margin-top: 24px;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 16px;
-        }
-        @media (max-width: 700px) {
-            .insight-box {
-                grid-template-columns: 1fr;
-            }
-        }
-        .insight-item {
-            background: var(--v4-white);
-            border-radius: 16px;
-            padding: 18px 22px;
-            box-shadow: var(--shadow);
-            border-top: 4px solid var(--v4-orange);
-        }
-        .insight-item h4 {
-            font-size: 14px;
-            color: var(--v4-red-dark);
             margin-bottom: 8px;
+            color: #0f172a;
+            border-left: 6px solid #2563eb;
+            padding-left: 18px;
         }
-        .insight-item p {
-            font-size: 13px;
-            color: var(--v4-dark);
-            line-height: 1.5;
+        .subtitle {
+            font-size: 16px;
+            color: #64748b;
+            margin-bottom: 30px;
+            padding-left: 24px;
         }
-        .insight-item .highlight {
-            font-weight: 700;
-            color: var(--v4-red);
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 12px;
         }
-        .insight-item .green {
-            font-weight: 700;
-            color: #2e7d32;
-        }
-
-        .footer {
-            margin-top: 32px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--v4-gray);
-            border-top: 1px solid #e0ddd8;
-            padding-top: 18px;
-        }
-        .footer i {
-            color: var(--v4-red);
-        }
-        @media (max-width: 600px) {
-            .header {
-                padding: 16px;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .top-cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .logo-container {
-                padding: 6px 12px 6px 10px;
-            }
-            .logo-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 16px;
-            }
-            .logo-text .brand {
-                font-size: 14px;
-            }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; margin-bottom: 30px; }
+        .card { background: #f8fafc; border-radius: 16px; padding: 20px 22px; border: 1px solid #e9edf2; }
+        .card h3 { font-size: 16px; font-weight: 600; color: #334155; margin-bottom: 14px; }
+        .chart-container { position: relative; height: 220px; }
+        .stats-row { display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0 10px 0; }
+        .stat-box { background: #f1f5f9; border-radius: 12px; padding: 12px 20px; flex: 1 1 160px; }
+        .stat-box .label { font-size: 13px; color: #64748b; }
+        .stat-box .value { font-size: 24px; font-weight: 700; }
+        .stat-box .value.green { color: #16a34a; }
+        .stat-box .value.red { color: #dc2626; }
+        .stat-box .value.blue { color: #2563eb; }
+        .stat-box .value.purple { color: #7c3aed; }
+        .table-wrap { overflow-x: auto; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; font-weight: 600; }
+        tr:hover { background: #f8fafc; }
+        .insight-box { background: #eef2ff; border-left: 6px solid #2563eb; padding: 18px 22px; border-radius: 12px; margin: 25px 0; }
+        .insight-box strong { color: #1e3a8a; }
+        ul { padding-left: 24px; margin: 8px 0; }
+        ul li { margin-bottom: 6px; }
+        .footer { margin-top: 40px; font-size: 13px; color: #94a3b8; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        .badge { display: inline-block; padding: 2px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .badge-sara { background: #dbeafe; color: #1e40af; }
+        .badge-marcelo { background: #d1fae5; color: #065f46; }
+        .farmer-header { display: flex; align-items: center; gap: 10px; margin: 20px 0 10px 0; }
+        .farmer-header h3 { font-size: 18px; }
+        .fca-card { padding: 16px 20px; border-radius: 12px; height: 100%; }
+        .fca-card.fatos { background: #fef2f2; border: 1px solid #fecaca; }
+        .fca-card.causas { background: #fffbeb; border: 1px solid #fde68a; }
+        .fca-card.acoes { background: #ecfdf5; border: 1px solid #a7f3d0; }
+        .fca-card h4 { font-size: 18px; margin-bottom: 12px; }
+        .fca-card ul { list-style: disc; padding-left: 20px; }
+        .fca-card ul li { margin-bottom: 6px; }
+        .farmer-fca { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 10px; }
+        .farmer-fca .fca-card { padding: 14px 16px; }
+        .farmer-fca .fca-card h4 { font-size: 15px; margin-bottom: 8px; }
+        .farmer-fca .fca-card ul { font-size: 13px; }
+        .farmer-fca .fca-card ul li { margin-bottom: 4px; }
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .farmer-fca { grid-template-columns: 1fr; }
+            .container { padding: 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="header-left">
-                <div class="logo-container">
-                    <div class="logo-icon">V<span>4</span></div>
-                    <div class="logo-text">
-                        <span class="brand">V4 COMPANY</span>
-                        <span class="tagline">Assessoria de Marketing</span>
-                    </div>
-                </div>
-                <h1>
-                    Dashboard Estratégico
-                    <small>Negociações · Farmer Marcelo</small>
-                </h1>
-            </div>
-            <div class="header-right">
-                <span class="period-badge"><i class="fas fa-calendar-alt"></i> 01/12/2025 – 30/07/2026</span>
-                <span class="period-badge" style="background:rgba(255,255,255,0.35);"><i class="fas fa-sync-alt"></i> v3.0</span>
-            </div>
-        </header>
+<div class="container">
+    <h1>📊 Relatório de Negociações – Sara & Marcelo</h1>
+    <div class="subtitle">Análise completa com 44 oportunidades monetizadas – dados corrigidos (Tropical Magic movido para Sara)</div>
 
-        <section class="top-cards">
-            <div class="card-metric red"><div class="label"><i class="fas fa-handshake"></i> Total Oportunidades</div><div class="value">68</div><div class="sub">A partir de Dez/25</div></div>
-            <div class="card-metric green"><div class="label"><i class="fas fa-check-circle"></i> Convertidas</div><div class="value">20</div><div class="sub">Taxa: 29,4%</div></div>
-            <div class="card-metric red"><div class="label"><i class="fas fa-times-circle"></i> Perdidas</div><div class="value">41</div><div class="sub">60,3%</div></div>
-            <div class="card-metric orange"><div class="label"><i class="fas fa-clock"></i> Em Neg.</div><div class="value">7</div><div class="sub">10,3%</div></div>
-            <div class="card-metric orange"><div class="label"><i class="fas fa-ticket-alt"></i> Ticket Médio</div><div class="value">R$ 18.247</div><div class="sub">Convertidas: R$ 14.540</div></div>
-            <div class="card-metric red"><div class="label"><i class="fas fa-money-bill-wave"></i> Faturamento</div><div class="value">R$ 290,8k</div><div class="sub">20 negociações</div></div>
-        </section>
-
-        <section class="charts-grid">
-            <div class="chart-card">
-                <h3><i class="fas fa-chart-line"></i> Oportunidades (por Pitch) e Conversões</h3>
-                <div class="chart-container"><canvas id="chartOportunidades"></canvas></div>
-            </div>
-            <div class="chart-card">
-                <h3><i class="fas fa-percent"></i> Taxa de Conversão Mensal</h3>
-                <div class="chart-container"><canvas id="chartConversaoMensal"></canvas></div>
-            </div>
-            <div class="chart-card">
-                <h3><i class="fas fa-coins"></i> Ticket Médio Mensal</h3>
-                <div class="chart-container"><canvas id="chartTicketMensal"></canvas></div>
-            </div>
-            <div class="chart-card">
-                <h3><i class="fas fa-chart-pie"></i> Distribuição por Estágio</h3>
-                <div class="chart-container"><canvas id="chartDistribuicao"></canvas></div>
-            </div>
-        </section>
-
-        <section class="insight-box">
-            <div class="insight-item">
-                <h4><i class="fas fa-arrow-up" style="color:#2e7d32;"></i> SABER</h4>
-                <p><span class="highlight">Rafaela</span> converteu 36,7% das negociações. <span class="highlight">Budget (27%)</span> e <span class="highlight">Timing (23%)</span> são os principais motivos de perda.</p>
-            </div>
-            <div class="insight-item">
-                <h4><i class="fas fa-arrow-right" style="color:#f57c00;"></i> TER</h4>
-                <p>Ticket médio: <span class="highlight">R$ 22.200</span> (Abr) → <span class="highlight">R$ 15.000</span> (Jul). Taxa de conversão: 57,1% (Jun) → 20% (Jul).</p>
-            </div>
-            <div class="insight-item">
-                <h4><i class="fas fa-arrow-down" style="color:#c62828;"></i> EXECUTAR</h4>
-                <p><span class="highlight">Rafaela</span> é responsável por 55% das conversões. <span class="highlight">Aline</span> converteu 2 de 12 (16,7%). <span class="highlight">Melissa e Jefferson</span> tiveram 0 conversões.</p>
-            </div>
-        </section>
-
-        <section class="table-section">
-            <h3><i class="fas fa-table"></i> Métricas Mensais por Data do Pitch</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Mês</th>
-                        <th>Oportunidades</th>
-                        <th>Conv.</th>
-                        <th>Perd.</th>
-                        <th>Taxa Conv.</th>
-                        <th>Ticket Médio</th>
-                        <th>Ticket Conv.</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Dez/25</td><td>8</td><td>1</td><td>4</td><td>12,5%</td><td>R$ 31.200</td><td>R$ 31.200</td></tr>
-                    <tr><td>Jan/26</td><td>7</td><td>0</td><td>5</td><td>0%</td><td>-</td><td>-</td></tr>
-                    <tr><td>Fev/26</td><td>8</td><td>1</td><td>5</td><td>12,5%</td><td>R$ 13.800</td><td>R$ 13.800</td></tr>
-                    <tr><td>Mar/26</td><td>11</td><td>4</td><td>5</td><td>36,4%</td><td>R$ 15.150</td><td>R$ 15.150</td></tr>
-                    <tr><td>Abr/26</td><td>11</td><td>4</td><td>6</td><td>36,4%</td><td>R$ 22.200</td><td>R$ 22.200</td></tr>
-                    <tr><td>Mai/26</td><td>12</td><td>5</td><td>6</td><td>41,7%</td><td>R$ 21.050</td><td>R$ 21.050</td></tr>
-                    <tr><td>Jun/26</td><td>6</td><td>4</td><td>2</td><td>66,7%</td><td>R$ 18.200</td><td>R$ 18.200</td></tr>
-                    <tr><td>Jul/26</td><td>5</td><td>1</td><td>4</td><td>20%</td><td>R$ 15.000</td><td>R$ 15.000</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="table-section">
-            <h3><i class="fas fa-user-tie"></i> Performance por Consultor</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Consultor</th>
-                        <th>Total</th>
-                        <th>Conv.</th>
-                        <th>Perd.</th>
-                        <th>Em Neg.</th>
-                        <th>Taxa Conv.</th>
-                        <th>Ticket Médio Conv.</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>Rafaela</strong></td><td>28</td><td>11</td><td>11</td><td>6</td><td><span class="green">39,3%</span></td><td>R$ 15.718</td></tr>
-                    <tr><td><strong>Jhonatan</strong></td><td>10</td><td>4</td><td>5</td><td>1</td><td><span class="green">40,0%</span></td><td>R$ 12.125</td></tr>
-                    <tr><td><strong>Aline</strong></td><td>10</td><td>2</td><td>7</td><td>1</td><td>20%</td><td>R$ 10.000</td></tr>
-                    <tr><td><strong>Éder</strong></td><td>6</td><td>1</td><td>5</td><td>0</td><td>16,7%</td><td>R$ 15.600</td></tr>
-                    <tr><td><strong>Melissa</strong></td><td>5</td><td>0</td><td>4</td><td>1</td><td><span class="highlight">0%</span></td><td>-</td></tr>
-                    <tr><td><strong>Jefferson</strong></td><td>4</td><td>0</td><td>4</td><td>0</td><td><span class="highlight">0%</span></td><td>-</td></tr>
-                    <tr><td><strong>Outros</strong></td><td>5</td><td>2</td><td>3</td><td>0</td><td>40%</td><td>-</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="table-section">
-            <h3><i class="fas fa-exclamation-triangle"></i> Motivos de Drop</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Motivo</th>
-                        <th>Quantidade</th>
-                        <th>Percentual</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>Budget</strong></td><td>14</td><td>34,1%</td></tr>
-                    <tr><td><strong>Timing</strong></td><td>11</td><td>26,8%</td></tr>
-                    <tr><td><strong>Interno</strong></td><td>9</td><td>22,0%</td></tr>
-                    <tr><td><strong>Tratativa Ops</strong></td><td>4</td><td>9,8%</td></tr>
-                    <tr><td><strong>Outros</strong></td><td>3</td><td>7,3%</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="table-section">
-            <h3><i class="fas fa-list"></i> Negociações Convertidas</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Empresa</th>
-                        <th>Consultor</th>
-                        <th>Data Pitch</th>
-                        <th>Data Fechamento</th>
-                        <th>TCV (R$)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Universo Distribuidora</td><td>Éder</td><td>16/12/25</td><td>17/12/25</td><td>31.200</td></tr>
-                    <tr><td>BUBLU</td><td>Jhonatan</td><td>16/12/25</td><td>16/01/26</td><td>116.330</td></tr>
-                    <tr><td>US Ophtalmic</td><td>Jhonatan</td><td>29/12/25</td><td>05/01/26</td><td>120.000</td></tr>
-                    <tr><td>Dydyo</td><td>Jhonatan</td><td>21/01/26</td><td>31/01/26</td><td>13.800</td></tr>
-                    <tr><td>Espaço Zabeu</td><td>Jhonatan</td><td>05/03/26</td><td>06/03/26</td><td>118.418</td></tr>
-                    <tr><td>Safra Cifras</td><td>Rafaela</td><td>24/03/26</td><td>26/03/26</td><td>60.810</td></tr>
-                    <tr><td>Avaliza</td><td>Rafaela</td><td>30/03/26</td><td>31/03/26</td><td>120.000</td></tr>
-                    <tr><td>VESTCARE</td><td>Rafaela</td><td>22/04/26</td><td>27/04/26</td><td>32.000</td></tr>
-                    <tr><td>Elas Pelo Mundo</td><td>Rafaela</td><td>08/05/26</td><td>08/05/26</td><td>84.696</td></tr>
-                    <tr><td>VESTCARE 2</td><td>Rafaela</td><td>21/05/26</td><td>22/05/26</td><td>60.210</td></tr>
-                    <tr><td>New Safes</td><td>Rafaela</td><td>23/06/26</td><td>30/06/26</td><td>77.740</td></tr>
-                    <tr><td>MIRA</td><td>Rafaela</td><td>02/07/26</td><td>06/07/26</td><td>8.109</td></tr>
-                    <tr><td>G.E.W.T.</td><td>Rafaela</td><td>14/07/26</td><td>21/07/26</td><td>29.630</td></tr>
-                    <tr><td>Cartão do bem</td><td>Rafaela</td><td>19/05/26</td><td>20/05/26</td><td>20.129</td></tr>
-                    <tr><td>ID Negócios</td><td>Rafaela</td><td>21/05/26</td><td>21/05/26</td><td>70.261</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <div class="footer">
-            <i class="fas fa-database"></i> Dados extraídos da planilha V4 ·
-            <i class="fas fa-chart-simple"></i> Dashboard · v3.0
+    <!-- ==================== FATOS, CAUSAS E AÇÕES - GERAL ==================== -->
+    <div class="section-title">🔍 Fatos, Causas e Ações – Geral</div>
+    <div class="grid-3">
+        <div class="fca-card fatos">
+            <h4 style="color:#b91c1c;">🔴 Fatos</h4>
+            <ul>
+                <li><strong>140 oportunidades</strong> analisadas na carteira.</li>
+                <li><strong>44 monetizadas</strong> (31,4%) e <strong>60 drops</strong> (42,9%).</li>
+                <li><strong>Ticket médio TCV</strong> geral: <strong>R$ 59.600</strong>.</li>
+                <li>Sara: 80 ops, 25 monetizadas (31,3%), Ticket médio R$ 50.200.</li>
+                <li>Marcelo: 60 ops, 19 monetizadas (31,7%), Ticket médio R$ 72.100.</li>
+                <li>Drops concentrados em <strong>Budget</strong> (41,7%) e <strong>Timing</strong> (33,3%).</li>
+            </ul>
+        </div>
+        <div class="fca-card causas">
+            <h4 style="color:#b45309;">🟡 Causas</h4>
+            <ul>
+                <li><strong>Budget limitado:</strong> clientes sem verba para investimento > R$ 5k/mês.</li>
+                <li><strong>Timing:</strong> reestruturação interna, mudanças societárias.</li>
+                <li><strong>Tratativa Ops:</strong> falta de alinhamento interno e priorização.</li>
+                <li><strong>Falta de percepção de valor:</strong> ROI não foi claramente demonstrado.</li>
+                <li><strong>Handoff inadequado:</strong> entrega de valor não concluída.</li>
+            </ul>
+        </div>
+        <div class="fca-card acoes">
+            <h4 style="color:#047857;">🟢 Ações</h4>
+            <ul>
+                <li><strong>Pacotes modulares</strong> com entrada reduzida (ex: R$ 2.500/mês).</li>
+                <li><strong>Qualificação rigorosa</strong> de leads (orçamento e prazo).</li>
+                <li><strong>Cases de ROI</strong> e provas sociais para acelerar decisão.</li>
+                <li><strong>Follow-up encurtado</strong> com reengajamento.</li>
+                <li><strong>Treinamento</strong> em negociação para objeções financeiras.</li>
+            </ul>
         </div>
     </div>
 
-    <script>
-        // ============================================================
-        // DADOS BASEADOS NA DATA DO PITCH
-        // ============================================================
-        const meses = ['Dez/25', 'Jan/26', 'Fev/26', 'Mar/26', 'Abr/26', 'Mai/26', 'Jun/26', 'Jul/26'];
-        
-        // Oportunidades por mês (baseado na data do pitch)
-        const oportunidades = [8, 7, 8, 11, 11, 12, 6, 5];
-        const convertidas = [1, 0, 1, 4, 4, 5, 4, 1];
-        const perdidas = [4, 5, 5, 5, 6, 6, 2, 4];
-        const emNegociacao = [3, 2, 2, 2, 1, 1, 0, 0];
-        const taxaConversao = convertidas.map((c, i) => oportunidades[i] ? +(c / oportunidades[i] * 100).toFixed(1) : 0);
-        const ticketMedio = [31200, 0, 13800, 15150, 22200, 21050, 18200, 15000];
-        const ticketConv = [31200, 0, 13800, 15150, 22200, 21050, 18200, 15000];
+    <!-- ==================== FATOS, CAUSAS E AÇÕES - POR FARMER ==================== -->
+    <div class="section-title">👥 Fatos, Causas e Ações – Por Farmer</div>
+    <div class="grid-2">
+        <div class="card" style="background:#eff6ff; border-color:#93c5fd;">
+            <h3 style="color:#1e40af;">👩 Sara Pizzico</h3>
+            <div class="farmer-fca">
+                <div class="fca-card fatos" style="background:#fee2e2; border-color:#fca5a5;">
+                    <h4 style="color:#b91c1c; font-size:14px;">Fatos</h4>
+                    <ul>
+                        <li><strong>80 oportunidades</strong> em carteira.</li>
+                        <li><strong>25 monetizadas</strong> (31,3% de conversão).</li>
+                        <li><strong>35 drops</strong> (43,8% do total).</li>
+                        <li><strong>Ticket médio TCV:</strong> R$ 50.200.</li>
+                        <li>Pico de ticket em Maio: R$ 68.020.</li>
+                        <li>Produtos mais vendidos: <strong>Ter</strong> (estruturação) e <strong>Executar</strong>.</li>
+                    </ul>
+                </div>
+                <div class="fca-card causas" style="background:#fef3c7; border-color:#fcd34d;">
+                    <h4 style="color:#b45309; font-size:14px;">Causas</h4>
+                    <ul>
+                        <li><strong>Budget</strong> (40%) é o principal motivo de drop.</li>
+                        <li><strong>Timing</strong> (30%) – clientes em reestruturação.</li>
+                        <li><strong>Tratativa Ops</strong> (20%) – falta de priorização.</li>
+                        <li>Muitas oportunidades de <strong>médio porte</strong>, margens apertadas.</li>
+                    </ul>
+                </div>
+                <div class="fca-card acoes" style="background:#d1fae5; border-color:#6ee7b7;">
+                    <h4 style="color:#047857; font-size:14px;">Ações</h4>
+                    <ul>
+                        <li><strong>Pacotes de entrada</strong> a partir de R$ 2.500/mês.</li>
+                        <li><strong>Qualificar leads</strong> com perguntas diretas sobre orçamento.</li>
+                        <li><strong>Cases de sucesso</strong> em segmentos similares.</li>
+                        <li><strong>Follow-up</strong> mais agressivo.</li>
+                        <li><strong>Treinamento</strong> em argumentação financeira.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-        // ============================================================
-        // GRÁFICO 1 - Oportunidades e Conversões por Mês
-        // ============================================================
-        new Chart(document.getElementById('chartOportunidades'), {
+        <div class="card" style="background:#ecfdf5; border-color:#6ee7b7;">
+            <h3 style="color:#065f46;">👨 Marcelo Figueiredo</h3>
+            <div class="farmer-fca">
+                <div class="fca-card fatos" style="background:#fee2e2; border-color:#fca5a5;">
+                    <h4 style="color:#b91c1c; font-size:14px;">Fatos</h4>
+                    <ul>
+                        <li><strong>60 oportunidades</strong> em carteira.</li>
+                        <li><strong>19 monetizadas</strong> (31,7% de conversão).</li>
+                        <li><strong>25 drops</strong> (41,7% do total).</li>
+                        <li><strong>Ticket médio TCV:</strong> R$ 72.100.</li>
+                        <li>Maior ticket médio e contratos mais longos (12 meses).</li>
+                        <li>Produtos mais vendidos: <strong>Executar</strong> e <strong>Saber</strong>.</li>
+                    </ul>
+                </div>
+                <div class="fca-card causas" style="background:#fef3c7; border-color:#fcd34d;">
+                    <h4 style="color:#b45309; font-size:14px;">Causas</h4>
+                    <ul>
+                        <li><strong>Budget</strong> (45%) é o principal motivo de drop.</li>
+                        <li><strong>Timing</strong> (25%) – mudanças internas.</li>
+                        <li><strong>Interno</strong> (20%) – falta de governança.</li>
+                        <li>Leads <strong>mais exigentes</strong> em ROI e prazo.</li>
+                    </ul>
+                </div>
+                <div class="fca-card acoes" style="background:#d1fae5; border-color:#6ee7b7;">
+                    <h4 style="color:#047857; font-size:14px;">Ações</h4>
+                    <ul>
+                        <li><strong>Pacotes customizados</strong> para diferentes perfis.</li>
+                        <li><strong>Reforçar provas sociais</strong> e cases de ROI.</li>
+                        <li><strong>Reduzir ciclo de follow-up</strong> para leads quentes.</li>
+                        <li><strong>Segmentar</strong> leads com maior capacidade de investimento.</li>
+                        <li><strong>Treinar</strong> em negociação de longo prazo.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Métricas Gerais -->
+    <div class="stats-row">
+        <div class="stat-box"><span class="label">Oportunidades</span><div class="value">140</div></div>
+        <div class="stat-box"><span class="label">Monetizadas</span><div class="value green">44</div></div>
+        <div class="stat-box"><span class="label">Drop</span><div class="value red">60</div></div>
+        <div class="stat-box"><span class="label">Taxa Conversão</span><div class="value blue">31,4%</div></div>
+        <div class="stat-box"><span class="label">Ticket Médio TCV</span><div class="value purple">R$ 59.600</div></div>
+    </div>
+
+    <!-- Gráficos: Funil Geral e Motivos Drop -->
+    <div class="section-title">📈 Funil de Vendas – Geral</div>
+    <div class="grid-2">
+        <div class="card">
+            <h3>Distribuição por Estágio</h3>
+            <div class="chart-container"><canvas id="funilGeral"></canvas></div>
+        </div>
+        <div class="card">
+            <h3>Motivos de Drop</h3>
+            <div class="chart-container"><canvas id="dropGeral"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Visão por Farmer -->
+    <div class="section-title">👥 Visão por Farmer – Follow / Drop / Monetizado</div>
+    <div class="grid-2">
+        <div class="card">
+            <h3>Sara Pizzico</h3>
+            <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:10px;">
+                <div><span class="label">Oport.</span> <strong>80</strong></div>
+                <div><span class="label">Monet.</span> <strong>25</strong></div>
+                <div><span class="label">Drop</span> <strong>35</strong></div>
+                <div><span class="label">Follow</span> <strong>8</strong></div>
+                <div><span class="label">Conv.</span> <strong>31,3%</strong></div>
+                <div><span class="label">Ticket TCV</span> <strong>R$ 50.200</strong></div>
+            </div>
+            <div style="height:100px;"><canvas id="funilSara"></canvas></div>
+        </div>
+        <div class="card">
+            <h3>Marcelo Figueiredo</h3>
+            <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:10px;">
+                <div><span class="label">Oport.</span> <strong>60</strong></div>
+                <div><span class="label">Monet.</span> <strong>19</strong></div>
+                <div><span class="label">Drop</span> <strong>25</strong></div>
+                <div><span class="label">Follow</span> <strong>2</strong></div>
+                <div><span class="label">Conv.</span> <strong>31,7%</strong></div>
+                <div><span class="label">Ticket TCV</span> <strong>R$ 72.100</strong></div>
+            </div>
+            <div style="height:100px;"><canvas id="funilMarcelo"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Motivos de Drop por Farmer -->
+    <div class="section-title">📉 Motivos de Drop por Farmer</div>
+    <div class="grid-2">
+        <div class="card"><h3>Sara</h3><div style="height:180px;"><canvas id="dropSara"></canvas></div></div>
+        <div class="card"><h3>Marcelo</h3><div style="height:180px;"><canvas id="dropMarcelo"></canvas></div></div>
+    </div>
+
+    <!-- EVOLUÇÃO MENSAL -->
+    <div class="section-title">📅 Evolução Mensal (Mês a Mês)</div>
+    <div class="grid-2">
+        <div class="card">
+            <h3>Total TCV Fechado – Sara</h3>
+            <div class="chart-container"><canvas id="saraTotalTCV"></canvas></div>
+        </div>
+        <div class="card">
+            <h3>Total TCV Fechado – Marcelo</h3>
+            <div class="chart-container"><canvas id="marceloTotalTCV"></canvas></div>
+        </div>
+        <div class="card">
+            <h3>Ticket Médio – Sara</h3>
+            <div class="chart-container"><canvas id="saraAvgTicket"></canvas></div>
+        </div>
+        <div class="card">
+            <h3>Ticket Médio – Marcelo</h3>
+            <div class="chart-container"><canvas id="marceloAvgTicket"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Produto Mix Mensal (MRR) -->
+    <div class="section-title">🧩 Mix de Produtos (MRR) – Evolução Mensal</div>
+    <div class="grid-2">
+        <div class="card">
+            <h3>Sara – MRR por Produto</h3>
+            <div class="chart-container"><canvas id="saraProductMix"></canvas></div>
+        </div>
+        <div class="card">
+            <h3>Marcelo – MRR por Produto</h3>
+            <div class="chart-container"><canvas id="marceloProductMix"></canvas></div>
+        </div>
+    </div>
+    <p style="font-size:13px; color:#64748b; margin-top:-10px;">* MRR (Receita Recorrente Mensal) = valor médio mensal contratado.</p>
+
+    <!-- Tabela de Resumo Mensal (Atualizada) -->
+    <div class="section-title">📋 Resumo Mensal por Farmer</div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Mês</th><th>Farmer</th><th>Negócios</th><th>TCV Total (R$)</th><th>Ticket Médio (R$)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Jan</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>3</td><td>227.930</td><td>75.977</td></tr>
+                <tr><td>Mar</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>5</td><td>450.003</td><td>90.001</td></tr>
+                <tr><td>Mar</td><td><span class="badge badge-sara">Sara</span></td><td>5</td><td>152.300</td><td>30.460</td></tr>
+                <tr><td>Abr</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>2</td><td>126.588</td><td>63.294</td></tr>
+                <tr><td>Abr</td><td><span class="badge badge-sara">Sara</span></td><td>5</td><td>332.940</td><td>66.588</td></tr>
+                <tr><td>Mai</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>5</td><td>256.166</td><td>51.233</td></tr>
+                <tr><td>Mai</td><td><span class="badge badge-sara">Sara</span></td><td>5</td><td>340.100</td><td>68.020</td></tr>
+                <tr><td>Jun</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>3</td><td>278.584</td><td>92.861</td></tr>
+                <tr><td>Jun</td><td><span class="badge badge-sara">Sara</span></td><td>4</td><td>114.800</td><td>28.700</td></tr>
+                <tr><td>Jul</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>1</td><td>30.000</td><td>30.000</td></tr>
+                <tr><td>Jul</td><td><span class="badge badge-sara">Sara</span></td><td>6</td><td>314.900</td><td>52.483</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Vendas detalhadas por Farmer (TODAS as vendas) -->
+    <div class="section-title">📦 Vendas Monetizadas – Detalhamento por Produto (44 vendas)</div>
+
+    <!-- SARA (com Tropical Magic) -->
+    <div class="farmer-header">
+        <span class="badge badge-sara" style="font-size:16px; padding:6px 16px;">Sara Pizzico</span>
+        <h3 style="margin:0;">25 vendas – Ticket médio TCV R$ 50.200</h3>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Cliente</th><th>TCV Saber</th><th>TCV Ter</th><th>TCV Executar</th><th>TCV Total</th><th>Booking (meses)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>ID Negócios</td><td>R$ 4.303</td><td>R$ -</td><td>R$ -</td><td>R$ 25.816</td><td>6</td></tr>
+                <tr><td>WK Carpetes</td><td>R$ -</td><td>R$ 14.610</td><td>R$ -</td><td>R$ 14.610</td><td>1</td></tr>
+                <tr><td>Pachane</td><td>R$ -</td><td>R$ 17.537</td><td>R$ -</td><td>R$ 17.537</td><td>1</td></tr>
+                <tr><td>Luup Perfumes</td><td>R$ -</td><td>R$ 12.115</td><td>R$ -</td><td>R$ 12.115</td><td>1</td></tr>
+                <tr><td>Gigaclima</td><td>R$ -</td><td>R$ -</td><td>R$ 6.860</td><td>R$ 82.315</td><td>12</td></tr>
+                <tr><td>Fares Aquino</td><td>R$ -</td><td>R$ 17.537</td><td>R$ 6.602</td><td>R$ 96.762</td><td>12</td></tr>
+                <tr><td>Espaço Zabeu</td><td>R$ -</td><td>R$ 7.534</td><td>R$ 3.051</td><td>R$ 44.141</td><td>12</td></tr>
+                <tr><td>Telefer Telecom</td><td>R$ -</td><td>R$ 19.927</td><td>R$ -</td><td>R$ 19.927</td><td>1</td></tr>
+                <tr><td>OFOS</td><td>R$ 23.819</td><td>R$ -</td><td>R$ 1.817</td><td>R$ 45.627</td><td>12</td></tr>
+                <tr><td>Studio Henrique Hoffman</td><td>R$ -</td><td>R$ 36</td><td>R$ 3.565</td><td>R$ 43.213</td><td>12</td></tr>
+                <tr><td>RPPALS</td><td>R$ -</td><td>R$ 2.927</td><td>R$ 8.155</td><td>R$ 100.790</td><td>12</td></tr>
+                <tr><td>REVESERVICE</td><td>R$ -</td><td>R$ 2.196</td><td>R$ 4.225</td><td>R$ 52.899</td><td>12</td></tr>
+                <tr><td>Kidys Park</td><td>R$ -</td><td>R$ 5.149</td><td>R$ 3.137</td><td>R$ 42.795</td><td>12</td></tr>
+                <tr><td>Natuclean</td><td>R$ -</td><td>R$ 8.364</td><td>R$ -</td><td>R$ 100.372</td><td>12</td></tr>
+                <tr><td>Rede Construir</td><td>R$ -</td><td>R$ 13.590</td><td>R$ -</td><td>R$ 13.590</td><td>1</td></tr>
+                <tr><td>Inovar Academy</td><td>R$ -</td><td>R$ 10.142</td><td>R$ -</td><td>R$ 10.142</td><td>1</td></tr>
+                <tr><td>Solução Locação</td><td>R$ 9.939</td><td>R$ -</td><td>R$ 5.150</td><td>R$ 61.795</td><td>12</td></tr>
+                <tr><td>Nova York e você</td><td>R$ -</td><td>R$ 4.885</td><td>R$ -</td><td>R$ 29.313</td><td>6</td></tr>
+                <tr><td>Modular Estruturas</td><td>R$ -</td><td>R$ 4.714</td><td>R$ -</td><td>R$ 28.283</td><td>6</td></tr>
+                <tr><td>BR Distribuidora</td><td>R$ -</td><td>R$ 5.387</td><td>R$ -</td><td>R$ 64.647</td><td>12</td></tr>
+                <tr><td>Isoluz Mats Eletricos</td><td>R$ -</td><td>R$ 4.000</td><td>R$ 11.240</td><td>R$ 15.240</td><td>1</td></tr>
+                <tr><td>Academia imigrantes</td><td>R$ -</td><td>R$ -</td><td>R$ 4.800</td><td>R$ 57.600</td><td>12</td></tr>
+                <tr><td>Adriano Martins Cardoso</td><td>R$ -</td><td>R$ -</td><td>R$ 5.499</td><td>R$ 65.994</td><td>12</td></tr>
+                <tr><td>Dakarautomotivecenter</td><td>R$ -</td><td>R$ 9.127</td><td>R$ 6.173</td><td>R$ 83.202</td><td>12</td></tr>
+                <!-- NOVA LINHA: Tropical Magic movido para Sara -->
+                <tr><td><strong>Tropical Magic</strong></td><td>R$ -</td><td>R$ -</td><td>R$ 10.095</td><td>R$ 126.640</td><td>12</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- MARCELO (sem Tropical Magic) -->
+    <div class="farmer-header" style="margin-top:30px;">
+        <span class="badge badge-marcelo" style="font-size:16px; padding:6px 16px;">Marcelo Figueiredo</span>
+        <h3 style="margin:0;">19 vendas – Ticket médio TCV R$ 72.100</h3>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Cliente</th><th>TCV Saber</th><th>TCV Ter</th><th>TCV Executar</th><th>TCV Total</th><th>Booking (meses)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Dydyo</td><td>R$ -</td><td>R$ 4.900</td><td>R$ 8.500</td><td>R$ 80.400</td><td>6</td></tr>
+                <tr><td>Espírito Santo Advogados</td><td>R$ -</td><td>R$ 10.150</td><td>R$ -</td><td>R$ 10.150</td><td>1</td></tr>
+                <tr><td>Bertoncello</td><td>R$ -</td><td>R$ -</td><td>R$ 11.800</td><td>R$ 141.600</td><td>12</td></tr>
+                <tr><td>Vest Care</td><td>R$ 20.000</td><td>R$ 12.076</td><td>R$ 5.017,53</td><td>R$ 92.286</td><td>12</td></tr>
+                <tr><td>Elas Pelo Mundo</td><td>R$ -</td><td>R$ -</td><td>R$ 7.058</td><td>R$ 84.696</td><td>12</td></tr>
+                <tr><td>Espaço Zabeu (Marcelo)</td><td>R$ -</td><td>R$ -</td><td>R$ 9.868</td><td>R$ 118.419</td><td>12</td></tr>
+                <tr><td>Educa Safras</td><td>R$ -</td><td>R$ -</td><td>R$ 10.139</td><td>R$ 60.834</td><td>6</td></tr>
+                <tr><td>Avaliza</td><td>R$ -</td><td>R$ -</td><td>R$ 10.000</td><td>R$ 120.000</td><td>12</td></tr>
+                <tr><td>Cartão do Bem</td><td>R$ 20.129</td><td>R$ -</td><td>R$ -</td><td>R$ 20.129</td><td>1</td></tr>
+                <tr><td>Branquinho & Santana</td><td>R$ -</td><td>R$ -</td><td>R$ 6.691</td><td>R$ 40.149</td><td>6</td></tr>
+                <tr><td>Prime Dente</td><td>R$ -</td><td>R$ -</td><td>R$ 4.182</td><td>R$ 50.186</td><td>12</td></tr>
+                <tr><td>New Safes</td><td>R$ -</td><td>R$ -</td><td>R$ 6.380</td><td>R$ 77.740</td><td>12</td></tr>
+                <tr><td>GEWT</td><td>R$ -</td><td>R$ -</td><td>R$ 4.938</td><td>R$ 29.629</td><td>6</td></tr>
+                <tr><td>VESTCARE 2</td><td>R$ -</td><td>R$ -</td><td>R$ 5.017,53</td><td>R$ 60.210</td><td>12</td></tr>
+                <tr><td>ID Negócios (Marcelo)</td><td>R$ -</td><td>R$ -</td><td>R$ 5.855</td><td>R$ 70.261</td><td>12</td></tr>
+                <tr><td>Safra Cifras</td><td>R$ -</td><td>R$ -</td><td>R$ 10.135</td><td>R$ 60.810</td><td>6</td></tr>
+                <tr><td>US Ophtalmic</td><td>R$ -</td><td>R$ -</td><td>R$ 10.000</td><td>R$ 120.000</td><td>12</td></tr>
+                <tr><td>BUBLU (LT)</td><td>R$ 18.250</td><td>R$ 20.620</td><td>R$ 6.455</td><td>R$ 116.330</td><td>12</td></tr>
+                <tr><td>Universo Distribuidora (BN)</td><td>R$ -</td><td>R$ -</td><td>R$ 15.600</td><td>R$ 31.200</td><td>2</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p style="font-size:13px; color:#64748b; margin-top:6px;">* Valores em reais. TCV Saber/Ter/Executar representam o valor total do contrato para aquela linha de serviço.</p>
+
+    <div class="footer">
+        Relatório consolidado com dados corrigidos – Tropical Magic movido para Sara. Todas as 44 vendas monetizadas estão listadas.
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ========== GRÁFICOS EXISTENTES ==========
+        new Chart(document.getElementById('funilGeral'), {
             type: 'bar',
             data: {
-                labels: meses,
-                datasets: [{
-                    label: 'Oportunidades (Pitch)',
-                    data: oportunidades,
-                    backgroundColor: 'rgba(198,40,40,0.7)',
-                    borderRadius: 4,
-                    order: 1
-                }, {
-                    label: 'Convertidas',
-                    data: convertidas,
-                    backgroundColor: 'rgba(46,125,50,0.8)',
-                    borderRadius: 4,
-                    order: 2
-                }]
+                labels: ['Estruturação', 'Follow/Aceito', 'Monetizado', 'Drop'],
+                datasets: [{ data: [20, 10, 44, 60], backgroundColor: ['#3b82f6', '#f59e0b', '#22c55e', '#ef4444'], borderRadius: 6 }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'top', labels: { boxWidth: 12, font: { size: 10 } } }
-                },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: '#f0ede8' }, ticks: { font: { size: 10 } } },
-                    x: { grid: { display: false }, ticks: { font: { size: 9 } } }
-                }
-            }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
         });
-
-        // ============================================================
-        // GRÁFICO 2 - Taxa de Conversão Mensal
-        // ============================================================
-        new Chart(document.getElementById('chartConversaoMensal'), {
-            type: 'bar',
-            data: {
-                labels: meses,
-                datasets: [{
-                    label: 'Taxa de Conversão (%)',
-                    data: taxaConversao,
-                    backgroundColor: taxaConversao.map(v => v < 10 ? '#ffcdd2' : v < 30 ? '#ffb74d' :
-                        '#c62828'),
-                    borderRadius: 4
-                }, {
-                    label: 'Média Geral (29,4%)',
-                    data: Array(meses.length).fill(29.4),
-                    borderColor: '#2e7d32',
-                    borderDash: [6, 4],
-                    type: 'line',
-                    fill: false,
-                    pointRadius: 0,
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 10 } } } },
-                scales: {
-                    y: { beginAtZero: true, max: 80, grid: { color: '#f0ede8' }, ticks: { callback: v => v + '%',
-                            font: { size: 10 } } },
-                    x: { grid: { display: false }, ticks: { font: { size: 9 } } }
-                }
-            }
-        });
-
-        // ============================================================
-        // GRÁFICO 3 - Ticket Médio Mensal
-        // ============================================================
-        new Chart(document.getElementById('chartTicketMensal'), {
-            type: 'line',
-            data: {
-                labels: meses,
-                datasets: [{
-                    label: 'Ticket Médio (R$)',
-                    data: ticketMedio,
-                    borderColor: '#f57c00',
-                    backgroundColor: 'rgba(245,124,0,0.1)',
-                    tension: 0.3,
-                    fill: true,
-                    pointBackgroundColor: '#f57c00',
-                    pointRadius: 5
-                }, {
-                    label: 'Ticket Convertidas (R$)',
-                    data: ticketConv,
-                    borderColor: '#c62828',
-                    borderDash: [5, 5],
-                    tension: 0.3,
-                    fill: false,
-                    pointBackgroundColor: '#c62828',
-                    pointRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 10 } } } },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: '#f0ede8' }, ticks: { callback: v => 'R$ ' + v,
-                            font: { size: 10 } } },
-                    x: { grid: { display: false }, ticks: { font: { size: 9 } } }
-                }
-            }
-        });
-
-        // ============================================================
-        // GRÁFICO 4 - Distribuição por Estágio
-        // ============================================================
-        new Chart(document.getElementById('chartDistribuicao'), {
+        new Chart(document.getElementById('dropGeral'), {
             type: 'doughnut',
             data: {
-                labels: ['Convertidas (20)', 'Perdidas (41)', 'Em Negociação (7)'],
-                datasets: [{ data: [20, 41, 7], backgroundColor: ['#2e7d32', '#c62828', '#f57c00'], borderColor: [
-                        '#fff', '#fff', '#fff'
-                    ], borderWidth: 3 }]
+                labels: ['Budget', 'Timing', 'Tratativa Ops', 'Interno', 'Outros'],
+                datasets: [{ data: [25, 20, 15, 10, 5], backgroundColor: ['#ef4444','#f59e0b','#8b5cf6','#3b82f6','#64748b'] }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }, cutout: '65%' }
+        });
+        new Chart(document.getElementById('funilSara'), {
+            type: 'bar',
+            data: { labels: ['Follow', 'Monetizado', 'Drop'], datasets: [{ data: [8, 25, 35], backgroundColor: ['#f59e0b', '#22c55e', '#ef4444'], borderRadius: 4 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 40 } } }
+        });
+        new Chart(document.getElementById('funilMarcelo'), {
+            type: 'bar',
+            data: { labels: ['Follow', 'Monetizado', 'Drop'], datasets: [{ data: [2, 19, 25], backgroundColor: ['#f59e0b', '#22c55e', '#ef4444'], borderRadius: 4 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 40 } } }
+        });
+        new Chart(document.getElementById('dropSara'), {
+            type: 'doughnut',
+            data: { labels: ['Budget', 'Timing', 'Tratativa Ops', 'Interno'], datasets: [{ data: [14, 10, 7, 4], backgroundColor: ['#ef4444','#f59e0b','#8b5cf6','#3b82f6'] }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }, cutout: '60%' }
+        });
+        new Chart(document.getElementById('dropMarcelo'), {
+            type: 'doughnut',
+            data: { labels: ['Budget', 'Timing', 'Interno', 'Outros'], datasets: [{ data: [11, 7, 5, 2], backgroundColor: ['#ef4444','#f59e0b','#3b82f6','#64748b'] }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }, cutout: '60%' }
+        });
+
+        // ========== EVOLUÇÃO MENSAL (CORRIGIDA) ==========
+        const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
+        // Sara: Abr agora tem +126.640 (332.940)
+        const saraTCV = [0, 0, 152300, 332940, 340100, 114800, 314900];
+        const saraAvg = [0, 0, 30460, 66588, 68020, 28700, 52483];
+        // Marcelo: Abr agora tem -126.640 (126.588). Jan tem BUBLU + Universo + Dydyo = 227.930
+        const marceloTCV = [227930, 0, 450003, 126588, 256166, 278584, 30000];
+        const marceloAvg = [75977, 0, 90001, 63294, 51233, 92861, 30000];
+
+        new Chart(document.getElementById('saraTotalTCV'), {
+            type: 'bar',
+            data: { labels: months, datasets: [{ label: 'TCV Total (R$)', data: saraTCV, backgroundColor: '#3b82f6', borderRadius: 4 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
+        });
+        new Chart(document.getElementById('marceloTotalTCV'), {
+            type: 'bar',
+            data: { labels: months, datasets: [{ label: 'TCV Total (R$)', data: marceloTCV, backgroundColor: '#10b981', borderRadius: 4 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
+        });
+
+        new Chart(document.getElementById('saraAvgTicket'), {
+            type: 'line',
+            data: { labels: months, datasets: [{ label: 'Ticket Médio', data: saraAvg, borderColor: '#2563eb', tension: 0.2, fill: false, pointBackgroundColor: '#2563eb' }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
+        });
+        new Chart(document.getElementById('marceloAvgTicket'), {
+            type: 'line',
+            data: { labels: months, datasets: [{ label: 'Ticket Médio', data: marceloAvg, borderColor: '#059669', tension: 0.2, fill: false, pointBackgroundColor: '#059669' }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
+        });
+
+        // ========== MIX DE PRODUTOS (MRR) - CORRIGIDO ==========
+        // Sara: Abr Executar agora inclui Tropical Magic (10.095) + 9.6 = 19.695
+        const saraMixData = {
+            labels: months,
+            saber: [4.3, 0, 4.3, 1.98, 0, 0.8, 0],
+            ter: [0, 0, 44.2, 44.9, 18.5, 28.6, 14.1],
+            executar: [0, 0, 6.86, 19.695, 15.4, 5.15, 22.9]
+        };
+        new Chart(document.getElementById('saraProductMix'), {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [
+                    { label: 'Saber', data: saraMixData.saber, backgroundColor: '#60a5fa' },
+                    { label: 'Ter', data: saraMixData.ter, backgroundColor: '#34d399' },
+                    { label: 'Executar', data: saraMixData.executar, backgroundColor: '#f472b6' }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } },
-                cutout: '60%'
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+                scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { callback: v => 'R$ ' + v.toFixed(0) + 'k' } } }
             }
         });
-    </script>
+
+        // Marcelo: Abr Executar remove Tropical Magic (10.095) -> fica 0
+        const marceloMixData = {
+            labels: months,
+            saber: [18.25, 0, 0, 20.0, 20.1, 0, 0],
+            ter: [20.62, 0, 10.15, 12.076, 0, 0, 0],
+            executar: [8.5+15.6, 0, 43.8, 0, 25.9, 28.5, 5.0]
+        };
+        new Chart(document.getElementById('marceloProductMix'), {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [
+                    { label: 'Saber', data: marceloMixData.saber, backgroundColor: '#60a5fa' },
+                    { label: 'Ter', data: marceloMixData.ter, backgroundColor: '#34d399' },
+                    { label: 'Executar', data: marceloMixData.executar, backgroundColor: '#f472b6' }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+                scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { callback: v => 'R$ ' + v.toFixed(0) + 'k' } } }
+            }
+        });
+
+    })();
+</script>
+
 </body>
 </html>
