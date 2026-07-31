@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>V4 - Dashboard Estratégico | Negociações Marcelo</title>
+    <title>V4 - Dashboard | Negociações Marcelo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
@@ -21,7 +21,6 @@
         }
         :root {
             --v4-red: #c62828;
-            --v4-red-light: #ef5350;
             --v4-red-dark: #8e0000;
             --v4-orange: #f57c00;
             --v4-orange-light: #ffb74d;
@@ -84,16 +83,20 @@
             font-weight: 500;
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
+        .period-badge i {
+            margin-right: 8px;
+        }
+
         .top-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
             gap: 16px;
             margin-top: 24px;
         }
         .card-metric {
             background: var(--v4-white);
             border-radius: 16px;
-            padding: 20px 22px;
+            padding: 18px 20px;
             box-shadow: var(--shadow);
             border-left: 5px solid var(--v4-red);
             transition: transform 0.2s;
@@ -102,19 +105,19 @@
             transform: translateY(-4px);
         }
         .card-metric .label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             color: var(--v4-gray);
         }
         .card-metric .value {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             color: var(--v4-dark);
-            margin: 6px 0 2px;
+            margin: 4px 0 2px;
         }
         .card-metric .sub {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--v4-gray);
         }
         .card-metric.orange {
@@ -151,48 +154,51 @@
         .chart-card {
             background: var(--v4-white);
             border-radius: 16px;
-            padding: 24px;
+            padding: 20px 22px;
             box-shadow: var(--shadow);
         }
         .chart-card h3 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--v4-dark);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         .chart-card h3 i {
             color: var(--v4-red);
-            font-size: 20px;
+            font-size: 18px;
         }
         .chart-card .chart-container {
             position: relative;
-            height: 250px;
+            height: 220px;
         }
 
         .table-section {
             margin-top: 24px;
             background: var(--v4-white);
             border-radius: 16px;
-            padding: 24px;
+            padding: 20px 22px;
             box-shadow: var(--shadow);
             overflow-x: auto;
         }
         .table-section h3 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--v4-dark);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
+        .table-section h3 i {
+            color: var(--v4-orange);
+        }
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 12px;
         }
         thead {
             background: var(--v4-off-white);
@@ -200,15 +206,15 @@
         }
         th {
             text-align: left;
-            padding: 10px 12px;
+            padding: 8px 10px;
             font-weight: 700;
             color: var(--v4-red-dark);
             text-transform: uppercase;
-            font-size: 11px;
+            font-size: 10px;
             letter-spacing: 0.5px;
         }
         td {
-            padding: 10px 12px;
+            padding: 8px 10px;
             border-bottom: 1px solid #eee;
             color: var(--v4-dark);
         }
@@ -217,9 +223,9 @@
         }
         .badge-status {
             display: inline-block;
-            padding: 3px 12px;
+            padding: 2px 10px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
         }
         .badge-status.convertida {
@@ -234,78 +240,63 @@
             background: #fff3e0;
             color: #e65100;
         }
-        .badge-status.drop {
-            background: #ffebee;
-            color: #c62828;
-        }
 
-        .alert-banner {
+        .insight-box {
             margin-top: 24px;
-            background: linear-gradient(135deg, #fff3e0, #ffccbc);
-            border-left: 6px solid var(--v4-red);
-            border-radius: 16px;
-            padding: 20px 28px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
         }
-        .alert-banner .icon {
-            font-size: 36px;
+        @media (max-width: 700px) {
+            .insight-box {
+                grid-template-columns: 1fr;
+            }
+        }
+        .insight-item {
+            background: var(--v4-white);
+            border-radius: 16px;
+            padding: 18px 22px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--v4-orange);
+        }
+        .insight-item h4 {
+            font-size: 14px;
+            color: var(--v4-red-dark);
+            margin-bottom: 8px;
+        }
+        .insight-item p {
+            font-size: 13px;
+            color: var(--v4-dark);
+            line-height: 1.5;
+        }
+        .insight-item .highlight {
+            font-weight: 700;
             color: var(--v4-red);
         }
-        .alert-banner .content h4 {
-            font-size: 16px;
-            color: var(--v4-red-dark);
-        }
-        .alert-banner .content p {
-            font-size: 14px;
-            color: #5d4037;
-        }
-        .alert-banner .action-btn {
-            margin-left: auto;
-            background: var(--v4-red);
-            color: var(--v4-white);
-            border: none;
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .alert-banner .action-btn:hover {
-            background: var(--v4-red-dark);
+        .insight-item .green {
+            font-weight: 700;
+            color: #2e7d32;
         }
 
         .footer {
             margin-top: 32px;
             text-align: center;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--v4-gray);
             border-top: 1px solid #e0ddd8;
-            padding-top: 20px;
+            padding-top: 18px;
         }
         .footer i {
             color: var(--v4-red);
         }
         @media (max-width: 600px) {
             .header {
-                padding: 20px;
+                padding: 16px;
                 flex-direction: column;
                 align-items: flex-start;
             }
             .top-cards {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            .alert-banner {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .alert-banner .action-btn {
-                margin-left: 0;
-                width: 100%;
-                text-align: center;
             }
         }
     </style>
@@ -322,47 +313,27 @@
             </div>
             <div class="header-right">
                 <span class="period-badge"><i class="fas fa-calendar-alt"></i> 26/10/2025 – 30/07/2026</span>
-                <span class="period-badge" style="background:rgba(255,255,255,0.35);"><i class="fas fa-sync-alt"></i> Atualizado: hoje</span>
+                <span class="period-badge" style="background:rgba(255,255,255,0.35);"><i class="fas fa-sync-alt"></i> v3.0</span>
             </div>
         </header>
 
         <section class="top-cards">
-            <div class="card-metric red">
-                <div class="label"><i class="fas fa-handshake"></i> Total Negociações</div>
-                <div class="value">82</div>
-                <div class="sub">+12 nos últimos 30 dias</div>
-            </div>
-            <div class="card-metric green">
-                <div class="label"><i class="fas fa-check-circle"></i> Convertidas</div>
-                <div class="value">20</div>
-                <div class="sub">Taxa: 24,4%</div>
-            </div>
-            <div class="card-metric red">
-                <div class="label"><i class="fas fa-times-circle"></i> Perdidas</div>
-                <div class="value">52</div>
-                <div class="sub">63,4% do total</div>
-            </div>
-            <div class="card-metric orange">
-                <div class="label"><i class="fas fa-clock"></i> Em Negociação</div>
-                <div class="value">10</div>
-                <div class="sub">12,2% do total</div>
-            </div>
-            <div class="card-metric orange">
-                <div class="label"><i class="fas fa-ticket-alt"></i> Ticket Médio</div>
-                <div class="value">R$ 18.247</div>
-                <div class="sub">Convertidas: R$ 14.540</div>
-            </div>
-            <div class="card-metric red">
-                <div class="label"><i class="fas fa-money-bill-wave"></i> Faturamento</div>
-                <div class="value">R$ 290,8k</div>
-                <div class="sub">20 negociações convertidas</div>
-            </div>
+            <div class="card-metric red"><div class="label"><i class="fas fa-handshake"></i> Total</div><div class="value">82</div><div class="sub">Negociações</div></div>
+            <div class="card-metric green"><div class="label"><i class="fas fa-check-circle"></i> Convertidas</div><div class="value">20</div><div class="sub">Taxa: 24,4%</div></div>
+            <div class="card-metric red"><div class="label"><i class="fas fa-times-circle"></i> Perdidas</div><div class="value">52</div><div class="sub">63,4%</div></div>
+            <div class="card-metric orange"><div class="label"><i class="fas fa-clock"></i> Em Neg.</div><div class="value">10</div><div class="sub">12,2%</div></div>
+            <div class="card-metric orange"><div class="label"><i class="fas fa-ticket-alt"></i> Ticket Médio</div><div class="value">R$ 18.247</div><div class="sub">Convertidas: R$ 14.540</div></div>
+            <div class="card-metric red"><div class="label"><i class="fas fa-money-bill-wave"></i> Faturamento</div><div class="value">R$ 290,8k</div><div class="sub">20 negociações</div></div>
         </section>
 
         <section class="charts-grid">
             <div class="chart-card">
-                <h3><i class="fas fa-chart-line"></i> Evolução Mensal</h3>
-                <div class="chart-container"><canvas id="chartEvolucao"></canvas></div>
+                <h3><i class="fas fa-chart-line"></i> Taxa de Conversão Mensal</h3>
+                <div class="chart-container"><canvas id="chartConversaoMensal"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <h3><i class="fas fa-coins"></i> Ticket Médio Mensal</h3>
+                <div class="chart-container"><canvas id="chartTicketMensal"></canvas></div>
             </div>
             <div class="chart-card">
                 <h3><i class="fas fa-chart-pie"></i> Distribuição por Estágio</h3>
@@ -372,167 +343,160 @@
                 <h3><i class="fas fa-user-tie"></i> Conversão por Consultor</h3>
                 <div class="chart-container"><canvas id="chartConsultores"></canvas></div>
             </div>
-            <div class="chart-card">
-                <h3><i class="fas fa-percent"></i> Taxa de Conversão Mensal</h3>
-                <div class="chart-container"><canvas id="chartConversao"></canvas></div>
+        </section>
+
+        <section class="insight-box">
+            <div class="insight-item">
+                <h4><i class="fas fa-arrow-up" style="color:#2e7d32;"></i> SABER</h4>
+                <p><span class="highlight">Rafaela</span> converteu 36,7% das negociações. <span class="highlight">Budget (27%)</span> e <span class="highlight">Timing (23%)</span> são os principais motivos de perda.</p>
+            </div>
+            <div class="insight-item">
+                <h4><i class="fas fa-arrow-right" style="color:#f57c00;"></i> TER</h4>
+                <p>Ticket médio: <span class="highlight">R$ 22.200</span> (Abr) → <span class="highlight">R$ 15.000</span> (Jul). Taxa de conversão: 57,1% (Jun) → 20% (Jul).</p>
+            </div>
+            <div class="insight-item">
+                <h4><i class="fas fa-arrow-down" style="color:#c62828;"></i> EXECUTAR</h4>
+                <p><span class="highlight">Rafaela</span> é responsável por 55% das conversões. <span class="highlight">Aline</span> converteu 2 de 12 (16,7%). <span class="highlight">Melissa e Jefferson</span> tiveram 0 conversões.</p>
             </div>
         </section>
 
         <section class="table-section">
-            <h3><i class="fas fa-table"></i> Últimas Negociações</h3>
+            <h3><i class="fas fa-table"></i> Métricas Mensais Detalhadas</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>Data</th>
-                        <th>Empresa</th>
-                        <th>Consultor</th>
-                        <th>Valor (R$)</th>
-                        <th>Status</th>
+                        <th>Mês</th>
+                        <th>Total</th>
+                        <th>Conv.</th>
+                        <th>Perd.</th>
+                        <th>Taxa Conv.</th>
+                        <th>Ticket Médio</th>
+                        <th>Ticket Conv.</th>
                     </tr>
                 </thead>
-                <tbody id="tabelaNegociacoes"></tbody>
+                <tbody>
+                    <tr><td>Out/25</td><td>1</td><td>0</td><td>0</td><td>0%</td><td>-</td><td>-</td></tr>
+                    <tr><td>Nov/25</td><td>5</td><td>0</td><td>3</td><td>0%</td><td>-</td><td>-</td></tr>
+                    <tr><td>Dez/25</td><td>10</td><td>1</td><td>6</td><td>10%</td><td>R$ 31.200</td><td>R$ 31.200</td></tr>
+                    <tr><td>Jan/26</td><td>8</td><td>0</td><td>6</td><td>0%</td><td>-</td><td>-</td></tr>
+                    <tr><td>Fev/26</td><td>9</td><td>1</td><td>6</td><td>11,1%</td><td>R$ 13.800</td><td>R$ 13.800</td></tr>
+                    <tr><td>Mar/26</td><td>12</td><td>4</td><td>6</td><td>33,3%</td><td>R$ 15.150</td><td>R$ 15.150</td></tr>
+                    <tr><td>Abr/26</td><td>12</td><td>4</td><td>7</td><td>33,3%</td><td>R$ 22.200</td><td>R$ 22.200</td></tr>
+                    <tr><td>Mai/26</td><td>13</td><td>5</td><td>7</td><td>38,5%</td><td>R$ 21.050</td><td>R$ 21.050</td></tr>
+                    <tr><td>Jun/26</td><td>7</td><td>4</td><td>3</td><td>57,1%</td><td>R$ 18.200</td><td>R$ 18.200</td></tr>
+                    <tr><td>Jul/26</td><td>5</td><td>1</td><td>4</td><td>20%</td><td>R$ 15.000</td><td>R$ 15.000</td></tr>
+                </tbody>
             </table>
         </section>
 
-        <div class="alert-banner">
-            <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
-            <div class="content">
-                <h4>⚠️ Alerta: Queda em Julho/2026</h4>
-                <p>
-                    <strong>Apenas 1 conversão em 5 negociações (20%).</strong> Rafaela continua sendo a principal geradora de resultados (36,7% de conversão).
-                    Aline, Melissa e Jefferson precisam de reforço. <strong>Principais motivos de Drop:</strong> Budget (27%) e Timing (23%).
-                </p>
-            </div>
-            <button class="action-btn" onclick="alert('Reunião agendada para alinhamento.')"><i class="fas fa-arrow-right"></i> Ver Ações</button>
-        </div>
+        <section class="table-section">
+            <h3><i class="fas fa-user-tie"></i> Performance por Consultor</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Consultor</th>
+                        <th>Total</th>
+                        <th>Conv.</th>
+                        <th>Perd.</th>
+                        <th>Em Neg.</th>
+                        <th>Taxa Conv.</th>
+                        <th>Ticket Médio Conv.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Rafaela</strong></td><td>30</td><td>11</td><td>13</td><td>6</td><td><span class="green">36,7%</span></td><td>R$ 15.718</td></tr>
+                    <tr><td><strong>Jhonatan</strong></td><td>10</td><td>4</td><td>5</td><td>1</td><td><span class="green">40,0%</span></td><td>R$ 12.125</td></tr>
+                    <tr><td><strong>Aline</strong></td><td>12</td><td>2</td><td>9</td><td>1</td><td>16,7%</td><td>R$ 10.000</td></tr>
+                    <tr><td><strong>Éder</strong></td><td>6</td><td>1</td><td>5</td><td>0</td><td>16,7%</td><td>R$ 15.600</td></tr>
+                    <tr><td><strong>Melissa</strong></td><td>6</td><td>0</td><td>5</td><td>1</td><td><span class="highlight">0%</span></td><td>-</td></tr>
+                    <tr><td><strong>Jefferson</strong></td><td>4</td><td>0</td><td>4</td><td>0</td><td><span class="highlight">0%</span></td><td>-</td></tr>
+                    <tr><td><strong>Outros</strong></td><td>14</td><td>2</td><td>11</td><td>1</td><td>14,3%</td><td>-</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="table-section">
+            <h3><i class="fas fa-exclamation-triangle"></i> Motivos de Drop</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Motivo</th>
+                        <th>Quantidade</th>
+                        <th>Percentual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Budget</strong></td><td>14</td><td>27%</td></tr>
+                    <tr><td><strong>Timing</strong></td><td>12</td><td>23%</td></tr>
+                    <tr><td><strong>Interno</strong></td><td>10</td><td>19%</td></tr>
+                    <tr><td><strong>Tratativa Ops</strong></td><td>4</td><td>8%</td></tr>
+                    <tr><td><strong>Outros</strong></td><td>12</td><td>23%</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="table-section">
+            <h3><i class="fas fa-list"></i> Negociações Convertidas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Empresa</th>
+                        <th>Consultor</th>
+                        <th>Data</th>
+                        <th>TCV (R$)</th>
+                        <th>MRR (R$)</th>
+                        <th>One Time (R$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Universo Distribuidora</td><td>Éder</td><td>17/12/25</td><td>31.200</td><td>15.600</td><td>0</td></tr>
+                    <tr><td>BUBLU</td><td>Jhonatan</td><td>16/01/26</td><td>116.330</td><td>6.455</td><td>18.250</td></tr>
+                    <tr><td>US Ophtalmic</td><td>Jhonatan</td><td>05/01/26</td><td>120.000</td><td>10.000</td><td>0</td></tr>
+                    <tr><td>Dydyo</td><td>Jhonatan</td><td>31/01/26</td><td>13.800</td><td>8.500</td><td>5.300</td></tr>
+                    <tr><td>Espaço Zabeu</td><td>Jhonatan</td><td>06/03/26</td><td>118.418</td><td>9.868</td><td>0</td></tr>
+                    <tr><td>Safra Cifras</td><td>Rafaela</td><td>26/03/26</td><td>60.810</td><td>10.135</td><td>0</td></tr>
+                    <tr><td>Avaliza</td><td>Rafaela</td><td>31/03/26</td><td>120.000</td><td>10.000</td><td>0</td></tr>
+                    <tr><td>VESTCARE</td><td>Rafaela</td><td>27/04/26</td><td>32.000</td><td>0</td><td>32.000</td></tr>
+                    <tr><td>Elas Pelo Mundo</td><td>Rafaela</td><td>08/05/26</td><td>84.696</td><td>7.058</td><td>0</td></tr>
+                    <tr><td>VESTCARE 2</td><td>Rafaela</td><td>22/05/26</td><td>60.210</td><td>5.018</td><td>0</td></tr>
+                    <tr><td>New Safes</td><td>Rafaela</td><td>30/06/26</td><td>77.740</td><td>6.380</td><td>1.180</td></tr>
+                    <tr><td>MIRA</td><td>Rafaela</td><td>06/07/26</td><td>8.109</td><td>0</td><td>8.109</td></tr>
+                    <tr><td>G.E.W.T.</td><td>Rafaela</td><td>21/07/26</td><td>29.630</td><td>4.938</td><td>0</td></tr>
+                    <tr><td>Cartão do bem</td><td>Rafaela</td><td>20/05/26</td><td>20.129</td><td>0</td><td>20.129</td></tr>
+                    <tr><td>ID Negócios</td><td>Rafaela</td><td>21/05/26</td><td>70.261</td><td>5.855</td><td>0</td></tr>
+                </tbody>
+            </table>
+        </section>
 
         <div class="footer">
             <i class="fas fa-database"></i> Dados extraídos da planilha V4 ·
-            <i class="fas fa-chart-simple"></i> Dashboard interativo · v2.0
+            <i class="fas fa-chart-simple"></i> Dashboard · v3.0
         </div>
     </div>
 
     <script>
         // ============================================================
-        // DADOS CORRIGIDOS - BASEADOS NA PLANILHA COMPLETA
+        // DADOS
         // ============================================================
-
-        // Evolução mensal (82 negociações no total)
         const meses = ['Out/25', 'Nov/25', 'Dez/25', 'Jan/26', 'Fev/26', 'Mar/26', 'Abr/26', 'Mai/26', 'Jun/26', 'Jul/26'];
         const totais = [1, 5, 10, 8, 9, 12, 12, 13, 7, 5];
         const convertidas = [0, 0, 1, 0, 1, 4, 4, 5, 4, 1];
-        const perdidas = [0, 3, 6, 6, 6, 6, 7, 7, 3, 4];
-        const emNegociacao = [1, 2, 3, 2, 2, 2, 1, 1, 0, 0];
         const taxaConversao = convertidas.map((c, i) => totais[i] ? +(c / totais[i] * 100).toFixed(1) : 0);
-
-        // Dados por consultor
-        const consultores = ['Rafaela', 'Jhonatan', 'Aline', 'Éder', 'Melissa', 'Jefferson', 'Outros'];
-        const totalConsultores = [30, 10, 12, 6, 6, 4, 14];
-        const convConsultores = [11, 4, 2, 1, 0, 0, 2];
-        const taxaConvConsultores = convConsultores.map((c, i) => totalConsultores[i] ? +(c / totalConsultores[i] * 100).toFixed(1) :
-            0);
-        const coresConsultores = ['#c62828', '#f57c00', '#ffb74d', '#8d8a85', '#e0e0e0', '#e0e0e0', '#e0e0e0'];
-
-        // Motivos de Drop
-        const motivosDrop = ['Budget', 'Timing', 'Interno', 'Tratativa Ops', 'Outros'];
-        const qtdMotivos = [14, 12, 10, 4, 12];
+        const ticketMedio = [0, 0, 31200, 0, 13800, 15150, 22200, 21050, 18200, 15000];
+        const ticketConv = [0, 0, 31200, 0, 13800, 15150, 22200, 21050, 18200, 15000];
 
         // ============================================================
-        // GRÁFICO 1 - Evolução Mensal
+        // GRÁFICO 1 - Taxa de Conversão Mensal
         // ============================================================
-        new Chart(document.getElementById('chartEvolucao'), {
-            type: 'line',
-            data: {
-                labels: meses,
-                datasets: [{
-                    label: 'Total',
-                    data: totais,
-                    borderColor: '#c62828',
-                    backgroundColor: 'rgba(198,40,40,0.05)',
-                    tension: 0.3,
-                    fill: true,
-                    pointBackgroundColor: '#c62828'
-                }, {
-                    label: 'Convertidas',
-                    data: convertidas,
-                    borderColor: '#f57c00',
-                    backgroundColor: 'rgba(245,124,0,0.05)',
-                    tension: 0.3,
-                    fill: true,
-                    pointBackgroundColor: '#f57c00'
-                }, {
-                    label: 'Perdidas',
-                    data: perdidas,
-                    borderColor: '#8d8a85',
-                    backgroundColor: 'rgba(141,138,133,0.05)',
-                    tension: 0.3,
-                    fill: true,
-                    pointBackgroundColor: '#8d8a85'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'top', labels: { boxWidth: 12 } } },
-                scales: { y: { beginAtZero: true, grid: { color: '#f0ede8' } }, x: { grid: { display: false } } }
-            }
-        });
-
-        // ============================================================
-        // GRÁFICO 2 - Distribuição por Estágio
-        // ============================================================
-        new Chart(document.getElementById('chartDistribuicao'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Convertidas (20)', 'Perdidas (52)', 'Em Negociação (10)'],
-                datasets: [{ data: [20, 52, 10], backgroundColor: ['#2e7d32', '#c62828', '#f57c00'], borderColor: ['#fff',
-                            '#fff', '#fff'
-                        ], borderWidth: 3 }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom', labels: { boxWidth: 14 } } },
-                cutout: '65%'
-            }
-        });
-
-        // ============================================================
-        // GRÁFICO 3 - Conversão por Consultor
-        // ============================================================
-        new Chart(document.getElementById('chartConsultores'), {
-            type: 'bar',
-            data: {
-                labels: consultores,
-                datasets: [{
-                    label: 'Taxa de Conversão (%)',
-                    data: taxaConvConsultores,
-                    backgroundColor: coresConsultores,
-                    borderRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, max: 50, grid: { color: '#f0ede8' }, ticks: { callback: v => v + '%' } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
-
-        // ============================================================
-        // GRÁFICO 4 - Taxa de Conversão Mensal
-        // ============================================================
-        new Chart(document.getElementById('chartConversao'), {
+        new Chart(document.getElementById('chartConversaoMensal'), {
             type: 'bar',
             data: {
                 labels: meses,
                 datasets: [{
                     label: 'Taxa de Conversão (%)',
                     data: taxaConversao,
-                    backgroundColor: taxaConversao.map(v => v < 10 ? '#ffcdd2' : '#c62828'),
+                    backgroundColor: taxaConversao.map(v => v < 10 ? '#ffcdd2' : v < 30 ? '#ffb74d' :
+                        '#c62828'),
                     borderRadius: 4
                 }, {
                     label: 'Média Geral (24,4%)',
@@ -548,46 +512,104 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { position: 'top', labels: { boxWidth: 12 } } },
+                plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 10 } } } },
                 scales: {
-                    y: { beginAtZero: true, grid: { color: '#f0ede8' }, ticks: { callback: v => v + '%' } },
-                    x: { grid: { display: false } }
+                    y: { beginAtZero: true, max: 70, grid: { color: '#f0ede8' }, ticks: { callback: v => v + '%',
+                            font: { size: 10 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 9 } } }
                 }
             }
         });
 
         // ============================================================
-        // TABELA - Últimas negociações (dados reais da planilha)
+        // GRÁFICO 2 - Ticket Médio Mensal
         // ============================================================
-        const negociacoes = [
-            { data: '21/07/26', empresa: 'G.E.W.T.', consultor: 'Rafaela', valor: 29630, status: 'convertida' },
-            { data: '06/07/26', empresa: 'MIRA', consultor: 'Rafaela', valor: 8109, status: 'convertida' },
-            { data: '23/07/26', empresa: 'Global Cotton', consultor: 'Thaina', valor: 49051, status: 'negociacao' },
-            { data: '17/07/26', empresa: 'Loteria Caimbá', consultor: 'Aline', valor: 54000, status: 'negociacao' },
-            { data: '14/07/26', empresa: 'Cyber Guru', consultor: 'Rafaela', valor: 33000, status: 'negociacao' },
-            { data: '17/07/26', empresa: 'Rosto Brasil', consultor: 'Rafaela', valor: 84000, status: 'perdida' },
-            { data: '06/07/26', empresa: 'Tchau Entrega', consultor: 'Rafaela', valor: 52200, status: 'negociacao' },
-            { data: '30/06/26', empresa: 'New Safes', consultor: 'Rafaela', valor: 77740, status: 'convertida' },
-            { data: '21/05/26', empresa: 'VESTCARE 2', consultor: 'Rafaela', valor: 60210, status: 'convertida' },
-            { data: '08/05/26', empresa: 'Elas Pelo Mundo', consultor: 'Rafaela', valor: 84696, status: 'convertida' },
-            { data: '27/04/26', empresa: 'VESTCARE', consultor: 'Rafaela', valor: 32000, status: 'convertida' },
-            { data: '31/03/26', empresa: 'Avaliza', consultor: 'Rafaela', valor: 120000, status: 'convertida' },
-        ];
+        new Chart(document.getElementById('chartTicketMensal'), {
+            type: 'line',
+            data: {
+                labels: meses,
+                datasets: [{
+                    label: 'Ticket Médio (R$)',
+                    data: ticketMedio,
+                    borderColor: '#f57c00',
+                    backgroundColor: 'rgba(245,124,0,0.1)',
+                    tension: 0.3,
+                    fill: true,
+                    pointBackgroundColor: '#f57c00',
+                    pointRadius: 5
+                }, {
+                    label: 'Ticket Convertidas (R$)',
+                    data: ticketConv,
+                    borderColor: '#c62828',
+                    borderDash: [5, 5],
+                    tension: 0.3,
+                    fill: false,
+                    pointBackgroundColor: '#c62828',
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 10 } } } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f0ede8' }, ticks: { callback: v => 'R$ ' + v,
+                            font: { size: 10 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 9 } } }
+                }
+            }
+        });
 
-        const statusMap = {
-            'convertida': { label: 'Convertida', cls: 'convertida' },
-            'perdida': { label: 'Perdida', cls: 'perdida' },
-            'negociacao': { label: 'Em Negociação', cls: 'negociacao' },
-            'drop': { label: 'Drop', cls: 'drop' },
-        };
+        // ============================================================
+        // GRÁFICO 3 - Distribuição por Estágio
+        // ============================================================
+        new Chart(document.getElementById('chartDistribuicao'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Convertidas (20)', 'Perdidas (52)', 'Em Negociação (10)'],
+                datasets: [{ data: [20, 52, 10], backgroundColor: ['#2e7d32', '#c62828', '#f57c00'], borderColor: [
+                        '#fff', '#fff', '#fff'
+                    ], borderWidth: 3 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } },
+                cutout: '60%'
+            }
+        });
 
-        const tbody = document.getElementById('tabelaNegociacoes');
-        negociacoes.forEach(n => {
-            const st = statusMap[n.status] || statusMap['negociacao'];
-            const tr = document.createElement('tr');
-            tr.innerHTML =
-                `<td>${n.data}</td><td><strong>${n.empresa}</strong></td><td>${n.consultor}</td><td>R$ ${n.valor.toLocaleString()}</td><td><span class="badge-status ${st.cls}">${st.label}</span></td>`;
-            tbody.appendChild(tr);
+        // ============================================================
+        // GRÁFICO 4 - Conversão por Consultor
+        // ============================================================
+        const consultores = ['Rafaela', 'Jhonatan', 'Aline', 'Éder', 'Melissa', 'Jefferson', 'Outros'];
+        const totalConsultores = [30, 10, 12, 6, 6, 4, 14];
+        const convConsultores = [11, 4, 2, 1, 0, 0, 2];
+        const taxaConvConsultores = convConsultores.map((c, i) => totalConsultores[i] ? +(c / totalConsultores[i] *
+            100).toFixed(1) : 0);
+        const coresConsultores = ['#c62828', '#f57c00', '#ffb74d', '#8d8a85', '#e0e0e0', '#e0e0e0', '#e0e0e0'];
+
+        new Chart(document.getElementById('chartConsultores'), {
+            type: 'bar',
+            data: {
+                labels: consultores,
+                datasets: [{
+                    label: 'Taxa de Conversão (%)',
+                    data: taxaConvConsultores,
+                    backgroundColor: coresConsultores,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, max: 50, grid: { color: '#f0ede8' }, ticks: { callback: v => v +
+                                '%', font: { size: 10 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 9 } } }
+                }
+            }
         });
     </script>
 </body>
