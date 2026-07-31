@@ -89,8 +89,46 @@
         .farmer-fca .fca-card ul li { margin-bottom: 4px; }
         .impact-card { background: #f1f5f9; padding: 16px 20px; border-radius: 12px; border-left: 6px solid #8b5cf6; }
         .impact-card h4 { font-size: 16px; color: #4c1d95; margin-bottom: 8px; }
+        .strategy-block {
+            background: #f0f9ff;
+            border-radius: 16px;
+            padding: 24px 28px;
+            border: 1px solid #bae6fd;
+            margin-bottom: 20px;
+        }
+        .strategy-block h4 {
+            font-size: 18px;
+            color: #0369a1;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .strategy-block ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .strategy-block ul li {
+            padding: 8px 0 8px 28px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%230369a1" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>') left center no-repeat;
+            background-size: 16px;
+            margin-bottom: 2px;
+        }
+        .strategy-block .highlight {
+            background: #e0f2fe;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin: 10px 0;
+            font-weight: 500;
+            color: #0c4a6e;
+        }
+        .two-col-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 30px;
+        }
         @media (max-width: 768px) {
-            .grid-2, .grid-3, .farmer-fca { grid-template-columns: 1fr; }
+            .grid-2, .grid-3, .farmer-fca, .two-col-list { grid-template-columns: 1fr; }
             .container { padding: 20px; }
         }
     </style>
@@ -98,9 +136,9 @@
 <body>
 <div class="container">
     <h1>📊 Relatório de Negociações – Sara & Marcelo</h1>
-    <div class="subtitle">Análise completa com 44 oportunidades monetizadas – Fatos, Causas e Ações detalhados</div>
+    <div class="subtitle">Análise completa com 44 oportunidades monetizadas – Fatos, Causas e Ações detalhados + Estratégia e Plano de Ação</div>
 
-    <!-- ==================== FATOS, CAUSAS E AÇÕES - GERAL (DETALHADO) ==================== -->
+    <!-- ==================== FATOS, CAUSAS E AÇÕES - GERAL ==================== -->
     <div class="section-title">🔍 Fatos, Causas e Ações – Geral</div>
     <div class="grid-3">
         <div class="fca-card fatos">
@@ -175,10 +213,9 @@
         </div>
     </div>
 
-    <!-- ==================== FATOS, CAUSAS E AÇÕES - POR FARMER (DETALHADO) ==================== -->
+    <!-- ==================== FATOS, CAUSAS E AÇÕES - POR FARMER ==================== -->
     <div class="section-title">👥 Fatos, Causas e Ações – Por Farmer</div>
     <div class="grid-2">
-        <!-- SARA -->
         <div class="card" style="background:#eff6ff; border-color:#93c5fd;">
             <h3 style="color:#1e40af;">👩 Sara Pizzico</h3>
             <div class="farmer-fca">
@@ -219,7 +256,6 @@
             </div>
         </div>
 
-        <!-- MARCELO -->
         <div class="card" style="background:#ecfdf5; border-color:#6ee7b7;">
             <h3 style="color:#065f46;">👨 Marcelo Figueiredo</h3>
             <div class="farmer-fca">
@@ -261,10 +297,7 @@
         </div>
     </div>
 
-    <!-- ==================== RESTO DO RELATÓRIO (MÉTRICAS, GRÁFICOS, TABELAS) ==================== -->
-    <!-- (mantido o mesmo conteúdo das versões anteriores, apenas com os dados corrigidos) -->
-
-    <!-- Métricas Gerais -->
+    <!-- ==================== MÉTRICAS E GRÁFICOS ==================== -->
     <div class="stats-row">
         <div class="stat-box"><span class="label">Oportunidades</span><div class="value">140</div></div>
         <div class="stat-box"><span class="label">Monetizadas</span><div class="value green">44</div></div>
@@ -273,7 +306,6 @@
         <div class="stat-box"><span class="label">Ticket Médio TCV</span><div class="value purple">R$ 59.600</div></div>
     </div>
 
-    <!-- Gráficos: Funil Geral e Motivos Drop -->
     <div class="section-title">📈 Funil de Vendas – Geral</div>
     <div class="grid-2">
         <div class="card">
@@ -286,7 +318,6 @@
         </div>
     </div>
 
-    <!-- Visão por Farmer -->
     <div class="section-title">👥 Visão por Farmer – Follow / Drop / Monetizado</div>
     <div class="grid-2">
         <div class="card">
@@ -315,14 +346,12 @@
         </div>
     </div>
 
-    <!-- Motivos de Drop por Farmer -->
     <div class="section-title">📉 Motivos de Drop por Farmer</div>
     <div class="grid-2">
         <div class="card"><h3>Sara</h3><div style="height:180px;"><canvas id="dropSara"></canvas></div></div>
         <div class="card"><h3>Marcelo</h3><div style="height:180px;"><canvas id="dropMarcelo"></canvas></div></div>
     </div>
 
-    <!-- EVOLUÇÃO MENSAL -->
     <div class="section-title">📅 Evolução Mensal (Mês a Mês)</div>
     <div class="grid-2">
         <div class="card">
@@ -343,7 +372,6 @@
         </div>
     </div>
 
-    <!-- Produto Mix Mensal (MRR) -->
     <div class="section-title">🧩 Mix de Produtos (MRR) – Evolução Mensal</div>
     <div class="grid-2">
         <div class="card">
@@ -357,7 +385,6 @@
     </div>
     <p style="font-size:13px; color:#64748b; margin-top:-10px;">* MRR (Receita Recorrente Mensal) = valor médio mensal contratado.</p>
 
-    <!-- Tabela de Resumo Mensal -->
     <div class="section-title">📋 Resumo Mensal por Farmer</div>
     <div class="table-wrap">
         <table>
@@ -380,10 +407,7 @@
         </table>
     </div>
 
-    <!-- Vendas detalhadas por Farmer -->
     <div class="section-title">📦 Vendas Monetizadas – Detalhamento por Produto (44 vendas)</div>
-
-    <!-- SARA -->
     <div class="farmer-header">
         <span class="badge badge-sara" style="font-size:16px; padding:6px 16px;">Sara Pizzico</span>
         <h3 style="margin:0;">25 vendas – Ticket médio TCV R$ 50.200</h3>
@@ -423,7 +447,6 @@
         </table>
     </div>
 
-    <!-- MARCELO -->
     <div class="farmer-header" style="margin-top:30px;">
         <span class="badge badge-marcelo" style="font-size:16px; padding:6px 16px;">Marcelo Figueiredo</span>
         <h3 style="margin:0;">19 vendas – Ticket médio TCV R$ 72.100</h3>
@@ -458,8 +481,132 @@
     </div>
     <p style="font-size:13px; color:#64748b; margin-top:6px;">* Valores em reais. TCV Saber/Ter/Executar representam o valor total do contrato para aquela linha de serviço.</p>
 
+    <!-- ==================== ESTRATÉGIA E PLANO DE AÇÃO (NOVO) ==================== -->
+    <div class="section-title">🚀 Estratégia e Plano de Ação – Elevando a Operação para 10</div>
+
+    <div class="strategy-block">
+        <h4>🎯 1. Reestruturação do ICP e Pré-Qualificação (SDR/BDR)</h4>
+        <ul>
+            <li><strong>Barreira Financeira:</strong> Estabelecer como critério de qualificação (BANT/CHAMP) que a empresa contratante tenha faturamento bruto mínimo de <strong>R$ 500 mil/mês</strong> e orçamento mensal disponível para marketing/consultoria a partir de <strong>R$ 5.000/mês</strong>.</li>
+            <li><strong>Filtro Automático:</strong> Leads com orçamentos abaixo de R$ 3.000/mês não devem avançar para reuniões com os Farmers, sendo direcionados para produtos gravados ou conteúdos automáticos.</li>
+            <li><strong>Checklist de Qualificação:</strong> Criar um score de lead com peso para faturamento, orçamento, prazo de decisão e maturidade digital.</li>
+        </ul>
+    </div>
+
+    <div class="strategy-block">
+        <h4>📦 2. Reformulação da Esteira de Produtos e Pricing</h4>
+        <ul>
+            <li><strong>Pacote "Lite" / Entrada para Sara:</strong> Criar um módulo padrão com escopo fechado de <strong>R$ 2.500/mês a R$ 3.500/mês</strong> com fidelidade de 6 a 12 meses. Isso elimina contratos avulsos de 1 mês e traz previsibilidade de caixa.</li>
+            <li><strong>Empacotamento (Saber + Ter + Executar) para Marcelo:</strong> Criar soluções <strong>Enterprise Bundles</strong> combinando a consultoria de processos (Ter) com a automação (Saber) no primeiro mês, aumentando ainda mais o TCV das contas de grande porte.</li>
+            <li><strong>Revisão de Preços:</strong> Ajustar a precificação do <strong>Saber</strong> para torná-lo mais acessível como porta de entrada, com upsell para Executar após 3 meses.</li>
+        </ul>
+    </div>
+
+    <div class="strategy-block">
+        <h4>⏱️ 3. Mitigação de Drops por Timing e Handoff</h4>
+        <ul>
+            <li><strong>Cronograma Amarrado de Handoff:</strong> Definir prazo limite de <strong>48 horas</strong> entre o fechamento comercial e a reunião de kick-off com a equipe de entrega para evitar insegurança do cliente.</li>
+            <li><strong>Régua Rigorosa de Follow-up (15-30-45 dias):</strong> Impor limitação no CRM: qualquer negócio em Follow-up por mais de 20 dias sem avanço de etapa deve ser marcado como <strong>Lost/Drop temporário</strong> para limpar o funil e acionar régua de e-mails automáticos.</li>
+            <li><strong>Entregas Faseadas:</strong> Cada entrega da fase de Estruturação deve apresentar <strong>perspectivas de valores de investimento para cada ação</strong>, para que o cliente não se assuste com o valor final. Evitar citações vagas como "de 2k a 8k de investimento".</li>
+        </ul>
+    </div>
+
+    <div class="strategy-block">
+        <h4>🔄 4. Otimização da Transição Saber → Executar</h4>
+        <ul>
+            <li><strong>Trilha de Onboarding:</strong> Criar um programa de 30 dias que começa com <strong>Saber</strong> (diagnóstico e automação) e já engata no <strong>Executar</strong> com métricas claras de sucesso.</li>
+            <li><strong>Times com Mais Fit:</strong> Alocar Farmers especialistas em segmentos específicos (ex: Marcelo para LARGE, Sara para MEDIUM) para aumentar a taxa de conversão e reduzir o tempo de negociação.</li>
+            <li><strong>Atendimento Segmentado por Tier:</strong> Empresas <strong>MEDIUM/LARGE</strong> devem ter um atendimento diferenciado, com entregas mais robustas e um planejamento em fases, evitando refações e prazos estendidos (>90 dias) como observado em casos como Global WeB, C4 Científica, Simple WMS e CIEP.</li>
+        </ul>
+    </div>
+
+    <div class="strategy-block">
+        <h4>📋 5. Melhorias no Processo de Entrega e Proposta</h4>
+        <ul>
+            <li><strong>Proposta Mais Amarrada:</strong> A proposta comercial deve refletir o planejamento em fases, com marcos de entrega e <strong>valores parciais</strong> para cada etapa, de modo que o cliente veja o ROI progressivo.</li>
+            <li><strong>Revisão de Escopo:</strong> Para clientes MEDIUM/LARGE, o escopo deve ser mais detalhado e personalizado, com entregas validadas a cada 15 dias.</li>
+            <li><strong>Capacitação da Equipe de Entrega:</strong> Investir em treinamento para reduzir o tempo de execução e aumentar a qualidade das entregas, evitando refações que atrasam o ciclo.</li>
+        </ul>
+    </div>
+
+    <div class="strategy-block">
+        <h4>📊 6. Ações Táticas por Farmer</h4>
+        <div class="two-col-list">
+            <div>
+                <strong style="color:#1e40af;">👩 Sara Pizzico</strong>
+                <ul style="margin-top:6px;">
+                    <li>Focar em <strong>qualificação financeira</strong> para reduzir drops por budget.</li>
+                    <li>Implementar <strong>pacotes de entrada</strong> para SMALL com escopo enxuto.</li>
+                    <li>Reduzir o número de <strong>follow-ups abertos</strong> (atualmente 8) com ações de reengajamento.</li>
+                    <li>Buscar <strong>upsell</strong> em clientes já monetizados para aumentar o ticket médio.</li>
+                </ul>
+            </div>
+            <div>
+                <strong style="color:#065f46;">👨 Marcelo Figueiredo</strong>
+                <ul style="margin-top:6px;">
+                    <li>Diversificar a carteira para evitar <strong>lacunas de faturamento</strong> em meses de baixa prospecção.</li>
+                    <li>Manter o <strong>follow-up agressivo</strong> com leads enterprise (máx. 5 dias).</li>
+                    <li>Explorar <strong>parcerias estratégicas</strong> para complementar a oferta de Executar.</li>
+                    <li>Segmentar leads <strong>LARGE</strong> com propostas customizadas e maior valor agregado.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="strategy-block" style="background:#fef9e7; border-color:#fcd34d;">
+        <h4 style="color:#b45309;">⚠️ Ponto Crítico – Entregas e Prazos</h4>
+        <ul>
+            <li><strong>Problema identificado:</strong> Entregas para clientes MEDIUM/LARGE estão demorando até <strong>90 dias ou mais</strong> (ex: Global WeB, C4 Científica, Simple WMS, CIEP). Isso gera insatisfação e impacta a renovação.</li>
+            <li><strong>Causa raiz:</strong> Equipe de entrega não dimensionada para o volume de projetos complexos; planejamento de fases não está claro na proposta.</li>
+            <li><strong>Ação corretiva:</strong>
+                <ul>
+                    <li>Reforçar a equipe de entrega com <strong>profissionais seniores</strong> para projetos LARGE.</li>
+                    <li>Estabelecer <strong>checkpoints semanais</strong> com o cliente para alinhar expectativas.</li>
+                    <li>Na proposta, detalhar <strong>cada fase com valor associado</strong> e prazo de entrega.</li>
+                    <li>Evitar citações de valores genéricos como "de R$ 2k a R$ 8k" – isso foi muito criticado pelos clientes.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div style="background:#dbeafe; border-radius:12px; padding:20px; margin-top:20px; border-left:6px solid #2563eb;">
+        <h4 style="color:#1e3a8a;">📌 Próximos Passos – Roadmap de Implementação</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:15px; margin-top:10px;">
+            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
+                <span style="font-size:24px; display:block;">📋</span>
+                <strong>Semana 1-2</strong>
+                <p style="font-size:13px; color:#475569;">Revisar ICP e criar checklists de qualificação.</p>
+            </div>
+            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
+                <span style="font-size:24px; display:block;">💰</span>
+                <strong>Semana 3-4</strong>
+                <p style="font-size:13px; color:#475569;">Desenhar pacotes "Lite" e revisar precificação do Saber.</p>
+            </div>
+            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
+                <span style="font-size:24px; display:block;">⚙️</span>
+                <strong>Semana 5-6</strong>
+                <p style="font-size:13px; color:#475569;">Implantar cronograma de Handoff e régua de follow-up.</p>
+            </div>
+            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
+                <span style="font-size:24px; display:block;">📊</span>
+                <strong>Mês 2</strong>
+                <p style="font-size:13px; color:#475569;">Treinar equipe de entrega e revisar propostas com valores faseados.</p>
+            </div>
+            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
+                <span style="font-size:24px; display:block;">📈</span>
+                <strong>Mês 3</strong>
+                <p style="font-size:13px; color:#475569;">Monitorar KPIs: conversão, ticket, tempo de fechamento e renovação.</p>
+            </div>
+            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
+                <span style="font-size:24px; display:block;">🔄</span>
+                <strong>Contínuo</strong>
+                <p style="font-size:13px; color:#475569;">Revisar mensalmente a performance e ajustar estratégias.</p>
+            </div>
+        </div>
+    </div>
+
     <div class="footer">
-        Relatório consolidado com dados corrigidos – análise aprofundada de Fatos, Causas e Ações, com recomendações estratégicas para cada Farmer.
+        Relatório consolidado com dados corrigidos – análise aprofundada de Fatos, Causas e Ações, com recomendações estratégicas detalhadas para cada Farmer e plano de ação prático.
     </div>
 </div>
 
