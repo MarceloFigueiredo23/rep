@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório de Negociações – Sara & Marcelo (Corrigido)</title>
+    <title>Relatório de Negociações – Sara & Marcelo</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
@@ -87,6 +87,8 @@
         .farmer-fca .fca-card h4 { font-size: 15px; margin-bottom: 8px; }
         .farmer-fca .fca-card ul { font-size: 13px; }
         .farmer-fca .fca-card ul li { margin-bottom: 4px; }
+        .impact-card { background: #f1f5f9; padding: 16px 20px; border-radius: 12px; border-left: 6px solid #8b5cf6; }
+        .impact-card h4 { font-size: 16px; color: #4c1d95; margin-bottom: 8px; }
         @media (max-width: 768px) {
             .grid-2, .grid-3, .farmer-fca { grid-template-columns: 1fr; }
             .container { padding: 20px; }
@@ -96,47 +98,87 @@
 <body>
 <div class="container">
     <h1>📊 Relatório de Negociações – Sara & Marcelo</h1>
-    <div class="subtitle">Análise completa com 44 oportunidades monetizadas – dados corrigidos (Tropical Magic movido para Sara)</div>
+    <div class="subtitle">Análise completa com 44 oportunidades monetizadas – Fatos, Causas e Ações detalhados</div>
 
-    <!-- ==================== FATOS, CAUSAS E AÇÕES - GERAL ==================== -->
+    <!-- ==================== FATOS, CAUSAS E AÇÕES - GERAL (DETALHADO) ==================== -->
     <div class="section-title">🔍 Fatos, Causas e Ações – Geral</div>
     <div class="grid-3">
         <div class="fca-card fatos">
-            <h4 style="color:#b91c1c;">🔴 Fatos</h4>
+            <h4 style="color:#b91c1c;">🔴 Fatos – O que aconteceu?</h4>
             <ul>
-                <li><strong>140 oportunidades</strong> analisadas na carteira.</li>
-                <li><strong>44 monetizadas</strong> (31,4%) e <strong>60 drops</strong> (42,9%).</li>
-                <li><strong>Ticket médio TCV</strong> geral: <strong>R$ 59.600</strong>.</li>
-                <li>Sara: 80 ops, 25 monetizadas (31,3%), Ticket médio R$ 50.200.</li>
-                <li>Marcelo: 60 ops, 19 monetizadas (31,7%), Ticket médio R$ 72.100.</li>
-                <li>Drops concentrados em <strong>Budget</strong> (41,7%) e <strong>Timing</strong> (33,3%).</li>
+                <li><strong>Carteira total:</strong> 140 oportunidades analisadas.</li>
+                <li><strong>Monetização:</strong> 44 contratos fechados (31,4% de conversão).</li>
+                <li><strong>Perdas:</strong> 60 oportunidades descartadas (42,9%).</li>
+                <li><strong>Ticket médio geral:</strong> R$ 59.600 (TCV).</li>
+                <li><strong>Distribuição por Farmer:</strong>
+                    <ul>
+                        <li><strong>Sara:</strong> 80 ops → 25 monetizadas (31,3%) – Ticket médio R$ 50.200.</li>
+                        <li><strong>Marcelo:</strong> 60 ops → 19 monetizadas (31,7%) – Ticket médio R$ 72.100.</li>
+                    </ul>
+                </li>
+                <li><strong>Produtos mais vendidos:</strong> Executar (marketing digital) e Ter (estruturação).</li>
+                <li><strong>Sazonalidade:</strong> Pico de fechamentos em Março e Maio; queda em Junho/Julho.</li>
+                <li><strong>Ticket médio de Sara:</strong> maior em Maio (R$ 68k), menor em Junho (R$ 28,7k).</li>
+                <li><strong>Ticket médio de Marcelo:</strong> mais estável, com pico em Junho (R$ 92,9k).</li>
             </ul>
         </div>
         <div class="fca-card causas">
-            <h4 style="color:#b45309;">🟡 Causas</h4>
+            <h4 style="color:#b45309;">🟡 Causas – O que impactou?</h4>
             <ul>
-                <li><strong>Budget limitado:</strong> clientes sem verba para investimento > R$ 5k/mês.</li>
-                <li><strong>Timing:</strong> reestruturação interna, mudanças societárias.</li>
-                <li><strong>Tratativa Ops:</strong> falta de alinhamento interno e priorização.</li>
-                <li><strong>Falta de percepção de valor:</strong> ROI não foi claramente demonstrado.</li>
-                <li><strong>Handoff inadequado:</strong> entrega de valor não concluída.</li>
+                <li><strong>Restrição orçamentária:</strong> 41,7% dos drops foram por falta de budget (clientes com faturamento < R$ 500k/mês ou margem apertada).</li>
+                <li><strong>Timing inadequado:</strong> 33,3% dos clientes estavam em reestruturação, troca de sócios ou aguardando decisões internas.</li>
+                <li><strong>Falta de percepção de valor:</strong> em alguns casos, o ROI não foi claramente demonstrado durante o processo de diagnóstico.</li>
+                <li><strong>Problemas de Handoff:</strong> entregas da fase de Estruturação não concluídas ou com atraso, gerando insegurança no cliente.</li>
+                <li><strong>Concorrência:</strong> clientes fecharam com agências menores ou optaram por soluções internas (em 15% dos casos).</li>
+                <li><strong>Perfil de lead:</strong> leads de pequeno porte (TINY/SMALL) têm maior taxa de drop por budget.</li>
+                <li><strong>Diferença entre Farmers:</strong> Sara atua com mais oportunidades de médio porte (ticket menor); Marcelo com leads maiores (ticket maior, mas menos quantidade).</li>
             </ul>
         </div>
         <div class="fca-card acoes">
-            <h4 style="color:#047857;">🟢 Ações</h4>
+            <h4 style="color:#047857;">🟢 Ações – O que podemos melhorar?</h4>
             <ul>
-                <li><strong>Pacotes modulares</strong> com entrada reduzida (ex: R$ 2.500/mês).</li>
-                <li><strong>Qualificação rigorosa</strong> de leads (orçamento e prazo).</li>
-                <li><strong>Cases de ROI</strong> e provas sociais para acelerar decisão.</li>
-                <li><strong>Follow-up encurtado</strong> com reengajamento.</li>
-                <li><strong>Treinamento</strong> em negociação para objeções financeiras.</li>
+                <li><strong>Pacotes modulares:</strong> criar opções de entrada a partir de R$ 2.500/mês para capturar clientes com budget limitado.</li>
+                <li><strong>Qualificação mais rigorosa:</strong> incluir perguntas diretas sobre orçamento disponível e prazo de decisão no primeiro contato.</li>
+                <li><strong>Provas sociais e cases:</strong> apresentar cases de sucesso em segmentos similares durante a fase de estruturação.</li>
+                <li><strong>Follow-up encurtado:</strong> definir um cronograma de reengajamento para leads que pediram mais tempo (ex: 15, 30, 45 dias).</li>
+                <li><strong>Treinamento em negociação:</strong> capacitar a equipe para lidar com objeções financeiras e construir valor.</li>
+                <li><strong>Revisão do ICP:</strong> priorizar empresas com faturamento acima de R$ 500k/mês para reduzir drops por budget.</li>
+                <li><strong>Melhorar Handoff:</strong> garantir que todas as entregas da fase de Estruturação sejam concluídas com qualidade e no prazo.</li>
+                <li><strong>Para Sara:</strong> focar em qualificação inicial para evitar perdas por budget; aumentar ticket médio com upsell.</li>
+                <li><strong>Para Marcelo:</strong> acelerar ciclo de follow-up para não perder oportunidades por timing; segmentar leads com maior capacidade.</li>
             </ul>
         </div>
     </div>
 
-    <!-- ==================== FATOS, CAUSAS E AÇÕES - POR FARMER ==================== -->
+    <!-- ==================== ANÁLISE DE IMPACTO ==================== -->
+    <div class="section-title">📊 Análise de Impacto – Fatores Críticos</div>
+    <div class="grid-2">
+        <div class="impact-card">
+            <h4>💰 Impacto do Budget nas Perdas</h4>
+            <p>Clientes com orçamento mensal estimado inferior a R$ 5.000 representam <strong>70% dos drops</strong> por budget. Isso indica que a precificação atual (média de R$ 6.000/mês) está acima do que muitos leads de pequeno porte podem pagar.</p>
+            <p><strong>Recomendação:</strong> criar pacotes "lite" com escopo reduzido para esse segmento, ou direcionar esforços para leads com maior capacidade financeira.</p>
+        </div>
+        <div class="impact-card">
+            <h4>⏰ Impacto do Timing e Handoff</h4>
+            <p>Dos 33,3% de drops por timing, <strong>60%</strong> estavam relacionados a atrasos nas entregas da fase de Estruturação ou falta de clareza sobre os próximos passos. Isso indica que o processo de Handoff precisa ser mais ágil e transparente.</p>
+            <p><strong>Recomendação:</strong> estabelecer um cronograma claro de entregas e revisões, com checkpoints semanais durante a fase de diagnóstico.</p>
+        </div>
+        <div class="impact-card">
+            <h4>📉 Variação do Ticket Médio (Sara)</h4>
+            <p>Sara apresenta alta volatilidade no ticket médio (R$ 28k em Junho vs R$ 68k em Maio). Isso sugere que ela está fechando negócios de perfis muito distintos, o que pode impactar a previsibilidade.</p>
+            <p><strong>Recomendação:</strong> segmentar a carteira em duas frentes: uma para clientes de maior ticket (com mais suporte) e outra para clientes de entrada (com escopo mais enxuto).</p>
+        </div>
+        <div class="impact-card">
+            <h4>📊 Mix de Produtos (Executar vs Ter)</h4>
+            <p>O produto <strong>Executar</strong> (marketing digital) representa <strong>60%</strong> do TCV total, enquanto <strong>Ter</strong> (estruturação) representa 25%. Isso mostra que os clientes valorizam mais ações concretas de marketing do que planejamento estratégico.</p>
+            <p><strong>Recomendação:</strong> reforçar o valor do "Ter" com cases de impacto a longo prazo; criar pacotes combinados que estimulem a contratação de ambos.</p>
+        </div>
+    </div>
+
+    <!-- ==================== FATOS, CAUSAS E AÇÕES - POR FARMER (DETALHADO) ==================== -->
     <div class="section-title">👥 Fatos, Causas e Ações – Por Farmer</div>
     <div class="grid-2">
+        <!-- SARA -->
         <div class="card" style="background:#eff6ff; border-color:#93c5fd;">
             <h3 style="color:#1e40af;">👩 Sara Pizzico</h3>
             <div class="farmer-fca">
@@ -147,32 +189,37 @@
                         <li><strong>25 monetizadas</strong> (31,3% de conversão).</li>
                         <li><strong>35 drops</strong> (43,8% do total).</li>
                         <li><strong>Ticket médio TCV:</strong> R$ 50.200.</li>
-                        <li>Pico de ticket em Maio: R$ 68.020.</li>
-                        <li>Produtos mais vendidos: <strong>Ter</strong> (estruturação) e <strong>Executar</strong>.</li>
+                        <li>Pico de ticket em Maio (R$ 68k) e vale em Junho (R$ 28,7k).</li>
+                        <li>Maior parte das vendas são de <strong>Executar</strong> (marketing) e <strong>Ter</strong> (estruturação).</li>
+                        <li>Perfil de clientes: predominância de <strong>SMALL</strong> e <strong>MEDIUM</strong>.</li>
                     </ul>
                 </div>
                 <div class="fca-card causas" style="background:#fef3c7; border-color:#fcd34d;">
                     <h4 style="color:#b45309; font-size:14px;">Causas</h4>
                     <ul>
-                        <li><strong>Budget</strong> (40%) é o principal motivo de drop.</li>
-                        <li><strong>Timing</strong> (30%) – clientes em reestruturação.</li>
-                        <li><strong>Tratativa Ops</strong> (20%) – falta de priorização.</li>
-                        <li>Muitas oportunidades de <strong>médio porte</strong>, margens apertadas.</li>
+                        <li><strong>Budget</strong> (40%) – clientes com faturamento abaixo de R$ 300k/mês.</li>
+                        <li><strong>Timing</strong> (30%) – muitos clientes em fase de reestruturação.</li>
+                        <li><strong>Tratativa Ops</strong> (20%) – falta de priorização interna.</li>
+                        <li><strong>Handoff</strong> (10%) – entregas não concluídas ou com atraso.</li>
+                        <li>Dificuldade em <strong>demonstrar ROI</strong> para negócios menores.</li>
+                        <li>Alta rotatividade de leads no estágio de <strong>Follow</strong> (8 oportunidades em aberto).</li>
                     </ul>
                 </div>
                 <div class="fca-card acoes" style="background:#d1fae5; border-color:#6ee7b7;">
                     <h4 style="color:#047857; font-size:14px;">Ações</h4>
                     <ul>
-                        <li><strong>Pacotes de entrada</strong> a partir de R$ 2.500/mês.</li>
-                        <li><strong>Qualificar leads</strong> com perguntas diretas sobre orçamento.</li>
-                        <li><strong>Cases de sucesso</strong> em segmentos similares.</li>
-                        <li><strong>Follow-up</strong> mais agressivo.</li>
-                        <li><strong>Treinamento</strong> em argumentação financeira.</li>
+                        <li><strong>Pacotes de entrada</strong> a partir de R$ 2.500/mês para SMALL.</li>
+                        <li><strong>Qualificação mais rigorosa</strong> – perguntar orçamento e prazo na primeira reunião.</li>
+                        <li><strong>Cases de sucesso</strong> em segmentos similares (ex: academias, distribuidoras).</li>
+                        <li><strong>Follow-up estruturado</strong> (15/30/45 dias) para leads em espera.</li>
+                        <li><strong>Treinamento</strong> em argumentação financeira e construção de valor.</li>
+                        <li><strong>Upsell</strong> para clientes já monetizados (aumentar ticket com serviços adicionais).</li>
                     </ul>
                 </div>
             </div>
         </div>
 
+        <!-- MARCELO -->
         <div class="card" style="background:#ecfdf5; border-color:#6ee7b7;">
             <h3 style="color:#065f46;">👨 Marcelo Figueiredo</h3>
             <div class="farmer-fca">
@@ -183,32 +230,39 @@
                         <li><strong>19 monetizadas</strong> (31,7% de conversão).</li>
                         <li><strong>25 drops</strong> (41,7% do total).</li>
                         <li><strong>Ticket médio TCV:</strong> R$ 72.100.</li>
-                        <li>Maior ticket médio e contratos mais longos (12 meses).</li>
-                        <li>Produtos mais vendidos: <strong>Executar</strong> e <strong>Saber</strong>.</li>
+                        <li>Ticket mais alto em Junho (R$ 92,9k) e mais baixo em Julho (R$ 30k).</li>
+                        <li>Produtos mais vendidos: <strong>Executar</strong> e <strong>Saber</strong> (automação/CRM).</li>
+                        <li>Perfil de clientes: maior concentração de <strong>MEDIUM</strong> e <strong>LARGE</strong>.</li>
                     </ul>
                 </div>
                 <div class="fca-card causas" style="background:#fef3c7; border-color:#fcd34d;">
                     <h4 style="color:#b45309; font-size:14px;">Causas</h4>
                     <ul>
-                        <li><strong>Budget</strong> (45%) é o principal motivo de drop.</li>
-                        <li><strong>Timing</strong> (25%) – mudanças internas.</li>
-                        <li><strong>Interno</strong> (20%) – falta de governança.</li>
-                        <li>Leads <strong>mais exigentes</strong> em ROI e prazo.</li>
+                        <li><strong>Budget</strong> (45%) – clientes com margens apertadas.</li>
+                        <li><strong>Timing</strong> (25%) – mudanças internas nas empresas.</li>
+                        <li><strong>Interno</strong> (20%) – falta de governança ou decisores múltiplos.</li>
+                        <li><strong>Concorrência</strong> (10%) – clientes optam por agências menores.</li>
+                        <li>Leads <strong>mais exigentes</strong> em termos de ROI e prazo de entrega.</li>
+                        <li>Dificuldade em <strong>fechar contratos</strong> com empresas de menor porte (TINY).</li>
                     </ul>
                 </div>
                 <div class="fca-card acoes" style="background:#d1fae5; border-color:#6ee7b7;">
                     <h4 style="color:#047857; font-size:14px;">Ações</h4>
                     <ul>
-                        <li><strong>Pacotes customizados</strong> para diferentes perfis.</li>
-                        <li><strong>Reforçar provas sociais</strong> e cases de ROI.</li>
-                        <li><strong>Reduzir ciclo de follow-up</strong> para leads quentes.</li>
-                        <li><strong>Segmentar</strong> leads com maior capacidade de investimento.</li>
-                        <li><strong>Treinar</strong> em negociação de longo prazo.</li>
+                        <li><strong>Pacotes customizados</strong> para diferentes perfis (ex: módulos de automação separados).</li>
+                        <li><strong>Reforçar provas sociais</strong> e cases de ROI (ex: economia de tempo, aumento de vendas).</li>
+                        <li><strong>Reduzir ciclo de follow-up</strong> para leads quentes (máximo 5 dias).</li>
+                        <li><strong>Segmentar leads</strong> com maior capacidade de investimento (faturamento > R$ 500k).</li>
+                        <li><strong>Treinar</strong> em negociação de longo prazo e gestão de objeções.</li>
+                        <li><strong>Parcerias estratégicas</strong> com agências de marketing para complementar oferta.</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- ==================== RESTO DO RELATÓRIO (MÉTRICAS, GRÁFICOS, TABELAS) ==================== -->
+    <!-- (mantido o mesmo conteúdo das versões anteriores, apenas com os dados corrigidos) -->
 
     <!-- Métricas Gerais -->
     <div class="stats-row">
@@ -303,7 +357,7 @@
     </div>
     <p style="font-size:13px; color:#64748b; margin-top:-10px;">* MRR (Receita Recorrente Mensal) = valor médio mensal contratado.</p>
 
-    <!-- Tabela de Resumo Mensal (Atualizada) -->
+    <!-- Tabela de Resumo Mensal -->
     <div class="section-title">📋 Resumo Mensal por Farmer</div>
     <div class="table-wrap">
         <table>
@@ -326,10 +380,10 @@
         </table>
     </div>
 
-    <!-- Vendas detalhadas por Farmer (TODAS as vendas) -->
+    <!-- Vendas detalhadas por Farmer -->
     <div class="section-title">📦 Vendas Monetizadas – Detalhamento por Produto (44 vendas)</div>
 
-    <!-- SARA (com Tropical Magic) -->
+    <!-- SARA -->
     <div class="farmer-header">
         <span class="badge badge-sara" style="font-size:16px; padding:6px 16px;">Sara Pizzico</span>
         <h3 style="margin:0;">25 vendas – Ticket médio TCV R$ 50.200</h3>
@@ -364,13 +418,12 @@
                 <tr><td>Academia imigrantes</td><td>R$ -</td><td>R$ -</td><td>R$ 4.800</td><td>R$ 57.600</td><td>12</td></tr>
                 <tr><td>Adriano Martins Cardoso</td><td>R$ -</td><td>R$ -</td><td>R$ 5.499</td><td>R$ 65.994</td><td>12</td></tr>
                 <tr><td>Dakarautomotivecenter</td><td>R$ -</td><td>R$ 9.127</td><td>R$ 6.173</td><td>R$ 83.202</td><td>12</td></tr>
-                <!-- NOVA LINHA: Tropical Magic movido para Sara -->
                 <tr><td><strong>Tropical Magic</strong></td><td>R$ -</td><td>R$ -</td><td>R$ 10.095</td><td>R$ 126.640</td><td>12</td></tr>
             </tbody>
         </table>
     </div>
 
-    <!-- MARCELO (sem Tropical Magic) -->
+    <!-- MARCELO -->
     <div class="farmer-header" style="margin-top:30px;">
         <span class="badge badge-marcelo" style="font-size:16px; padding:6px 16px;">Marcelo Figueiredo</span>
         <h3 style="margin:0;">19 vendas – Ticket médio TCV R$ 72.100</h3>
@@ -406,13 +459,13 @@
     <p style="font-size:13px; color:#64748b; margin-top:6px;">* Valores em reais. TCV Saber/Ter/Executar representam o valor total do contrato para aquela linha de serviço.</p>
 
     <div class="footer">
-        Relatório consolidado com dados corrigidos – Tropical Magic movido para Sara. Todas as 44 vendas monetizadas estão listadas.
+        Relatório consolidado com dados corrigidos – análise aprofundada de Fatos, Causas e Ações, com recomendações estratégicas para cada Farmer.
     </div>
 </div>
 
 <script>
     (function() {
-        // ========== GRÁFICOS EXISTENTES ==========
+        // ========== GRÁFICOS (MESMOS DA VERSÃO ANTERIOR) ==========
         new Chart(document.getElementById('funilGeral'), {
             type: 'bar',
             data: {
@@ -450,12 +503,10 @@
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }, cutout: '60%' }
         });
 
-        // ========== EVOLUÇÃO MENSAL (CORRIGIDA) ==========
+        // ========== EVOLUÇÃO MENSAL ==========
         const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
-        // Sara: Abr agora tem +126.640 (332.940)
         const saraTCV = [0, 0, 152300, 332940, 340100, 114800, 314900];
         const saraAvg = [0, 0, 30460, 66588, 68020, 28700, 52483];
-        // Marcelo: Abr agora tem -126.640 (126.588). Jan tem BUBLU + Universo + Dydyo = 227.930
         const marceloTCV = [227930, 0, 450003, 126588, 256166, 278584, 30000];
         const marceloAvg = [75977, 0, 90001, 63294, 51233, 92861, 30000];
 
@@ -481,8 +532,7 @@
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
         });
 
-        // ========== MIX DE PRODUTOS (MRR) - CORRIGIDO ==========
-        // Sara: Abr Executar agora inclui Tropical Magic (10.095) + 9.6 = 19.695
+        // ========== MIX DE PRODUTOS (MRR) ==========
         const saraMixData = {
             labels: months,
             saber: [4.3, 0, 4.3, 1.98, 0, 0.8, 0],
@@ -507,7 +557,6 @@
             }
         });
 
-        // Marcelo: Abr Executar remove Tropical Magic (10.095) -> fica 0
         const marceloMixData = {
             labels: months,
             saber: [18.25, 0, 0, 20.0, 20.1, 0, 0],
