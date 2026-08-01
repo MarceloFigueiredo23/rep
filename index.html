@@ -131,6 +131,16 @@
             .grid-2, .grid-3, .farmer-fca, .two-col-list { grid-template-columns: 1fr; }
             .container { padding: 20px; }
         }
+
+        .compare-bar { display:flex; height:28px; border-radius:8px; overflow:hidden; margin:10px 0 6px; }
+        .compare-bar span { display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700; }
+        .case-tag { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700; background:#fee2e2; color:#991b1b; }
+        .src { font-size:12px; color:#64748b; }
+        .kpi-mini { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:14px; }
+        .kpi-mini .n { font-size:26px; font-weight:800; color:#0f172a; }
+        .kpi-mini .l { font-size:12px; color:#64748b; margin-top:4px; }
+        .anchor-nav { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 24px 24px; }
+        .anchor-nav a { font-size:13px; text-decoration:none; background:#f1f5f9; color:#1e40af; padding:6px 12px; border-radius:999px; border:1px solid #e2e8f0; }
         .note-box {
             background: #fefce8;
             border: 1px solid #fde68a;
@@ -144,10 +154,19 @@
 <body>
 <div class="container">
     <h1>📊 Relatório de Negociações – Sara & Marcelo</h1>
-    <div class="subtitle">Análise completa com dados corrigidos (Prime Dente e Espirito Santo ajustados) – 39 oportunidades monetizadas</div>
+    <div class="subtitle">Dados corrigidos (Prime Dente e Espírito Santo) · foco SABER → EXECUTAR · FCA enriquecido · atualizado 01/08/2026</div>
+    <div class="anchor-nav">
+        <a href="#fca-geral">FCA geral</a>
+        <a href="#saber-executar">Saber → Executar</a>
+        <a href="#casos-ml">Casos MEDIUM/LARGE</a>
+        <a href="#segmentacao">Segmentação Farmer</a>
+        <a href="#graficos">Gráficos</a>
+        <a href="#estrategia">Plano prático</a>
+    </div>
+
 
     <!-- ==================== FATOS, CAUSAS E AÇÕES - GERAL ==================== -->
-    <div class="section-title">🔍 Fatos, Causas e Ações – Geral</div>
+    <div class="section-title" id="fca-geral">🔍 Fatos, Causas e Ações – Geral</div>
     <div class="grid-3">
         <div class="fca-card fatos">
             <h4 style="color:#b91c1c;">🔴 Fatos – O que aconteceu?</h4>
@@ -162,7 +181,10 @@
                         <li><strong>Marcelo:</strong> 60 ops → 19 monetizadas (31,7%) – Ticket médio R$ 69.723.</li>
                     </ul>
                 </li>
-                <li><strong>Produtos mais vendidos:</strong> Executar (marketing digital) e Ter (estruturação).</li>
+                <li><strong>Produtos mais vendidos:</strong> Executar e Ter.</li>
+                <li><strong>Path SABER:</strong> só <strong>7 de 39</strong> wins (18%) têm linha Saber no contrato. Desses, <strong>5 fecharam também Executar</strong> (71% do subset Saber).</li>
+                <li><strong>Executar sem Saber:</strong> <strong>25 de 39</strong> wins (64%) entraram direto em Executar (ou Ter+Executar), sem Saber no TCV.</li>
+                <li><strong>Gap de ticket Farmer:</strong> Marcelo R$ 69.723 vs Sara R$ 44.806 (+55% ticket médio).</li>
                 <li><strong>Sazonalidade:</strong> Pico de fechamentos em Março e Maio; queda em Junho/Julho.</li>
                 <li><strong>Ticket médio de Sara:</strong> maior em Abril (R$ 61,4k), menor em Junho (R$ 28,7k).</li>
                 <li><strong>Ticket médio de Marcelo:</strong> mais estável, com pico em Janeiro (R$ 87,0k) e Junho (R$ 77,7k).</li>
@@ -174,7 +196,8 @@
                 <li><strong>Restrição orçamentária:</strong> 41,7% dos drops foram por falta de budget (clientes com faturamento < R$ 500k/mês ou margem apertada).</li>
                 <li><strong>Timing inadequado:</strong> 33,3% dos clientes estavam em reestruturação, troca de sócios ou aguardando decisões internas.</li>
                 <li><strong>Falta de percepção de valor:</strong> em alguns casos, o ROI não foi claramente demonstrado durante o processo de diagnóstico.</li>
-                <li><strong>Problemas de Handoff:</strong> entregas da fase de Estruturação não concluídas ou com atraso, gerando insegurança no cliente.</li>
+                <li><strong>Handoff / ciclo longo em MEDIUM-LARGE:</strong> contas de Estruturação tratadas com ritmo de entrega “padrão” geraram atraso, refação e assombro de preço no fechamento (casos Global WeB, C4, Simple WMS, CIEP — ver seção dedicada).</li>
+                <li><strong>Comunicação de preço vaga:</strong> faixas tipo “de R$ 2k a R$ 8k” foram ouvidas pelo time comercial e corroem âncora na transição para Executar.</li>
                 <li><strong>Concorrência:</strong> clientes fecharam com agências menores ou optaram por soluções internas (em 15% dos casos).</li>
                 <li><strong>Perfil de lead:</strong> leads de pequeno porte (TINY/SMALL) têm maior taxa de drop por budget.</li>
             </ul>
@@ -188,7 +211,9 @@
                 <li><strong>Follow-up encurtado:</strong> cronograma de reengajamento (15/30/45 dias).</li>
                 <li><strong>Treinamento em negociação:</strong> capacitar para lidar com objeções financeiras.</li>
                 <li><strong>Revisão do ICP:</strong> priorizar empresas com faturamento > R$ 500k/mês.</li>
-                <li><strong>Melhorar Handoff:</strong> garantir entregas concluídas com qualidade e no prazo.</li>
+                <li><strong>Handoff MEDIUM/LARGE:</strong> time mais robusto + proposta faseada com valor por fase (sem faixa 2k–8k).</li>
+                <li><strong>Segmentar Farmer por fit/tier:</strong> Marcelo em MEDIUM/LARGE consultivo; Sara em entrada/volume com pacote Lite (hipótese operacional — validar em piloto 30d).</li>
+                <li><strong>Trilha Saber→Executar:</strong> em todo Saber, calendário de Conversa de Transição + valores por fase antes do pitch final.</li>
             </ul>
         </div>
     </div>
@@ -301,7 +326,7 @@
         <div class="stat-box"><span class="label">Ticket Médio TCV</span><div class="value purple">R$ 61.158</div></div>
     </div>
 
-    <div class="section-title">📈 Funil de Vendas – Geral</div>
+    <div class="section-title" id="graficos">📈 Funil de Vendas – Geral</div>
     <div class="grid-2">
         <div class="card">
             <h3>Distribuição por Estágio</h3>
@@ -477,8 +502,233 @@
     </div>
     <p style="font-size:13px; color:#64748b; margin-top:6px;">* Valores em reais. TCV Total = (Saber + Ter + Executar) × Booking (quando aplicável) ou valor fixo (One Time).</p>
 
+
+    <!-- ==================== SABER → EXECUTAR ==================== -->
+    <div class="section-title" id="saber-executar">🔄 SABER → EXECUTAR · Onde o funil trava</div>
+    <div class="insight-box">
+        <strong>Leitura (só com os 39 wins):</strong> a esteira SABER ainda é minoria no TCV fechado (7/39). Quando o Saber entra no contrato, a chance de vir com Executar no mesmo pacote é alta (5/7). O volume de Executar “puro” (25) mostra que muita receita não passa pelo diagnóstico — e, quando passa, o risco está na <em>entrega longa + preço mal amarrado</em>, não só no close do Farmer.
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-box"><span class="label">Wins com Saber</span><div class="value blue">7 / 39</div><div class="src">18% dos contratos</div></div>
+        <div class="stat-box"><span class="label">Saber + Executar</span><div class="value green">5 / 7</div><div class="src">71% do subset Saber</div></div>
+        <div class="stat-box"><span class="label">Saber só (sem Exec)</span><div class="value red">2</div><div class="src">Espírito Santo · Cartão do Bem</div></div>
+        <div class="stat-box"><span class="label">Executar s/ Saber</span><div class="value purple">25</div><div class="src">64% dos wins</div></div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h3>Mix de path nos 39 wins</h3>
+            <div class="chart-container"><canvas id="pathMix"></canvas></div>
+            <p class="src">Fonte: tabela de vendas monetizadas deste relatório (contagem por presença de TCV Saber/Ter/Executar &gt; 0).</p>
+        </div>
+        <div class="card">
+            <h3>Saber → Executar (subset)</h3>
+            <div class="chart-container"><canvas id="saberFunnel"></canvas></div>
+            <p class="src">Dos 7 wins com Saber: 5 fecharam Executar no mesmo contrato; 2 ficaram Saber-only.</p>
+        </div>
+        <div class="card">
+            <h3>Ticket médio · Sara vs Marcelo</h3>
+            <div class="chart-container"><canvas id="ticketCompare"></canvas></div>
+            <p class="src">Marcelo +55% vs Sara. Suporte quantitativo à hipótese de segmentação por fit/ticket — não prova causalidade sozinha.</p>
+        </div>
+        <div class="card">
+            <h3>TCV total por Farmer</h3>
+            <div class="chart-container"><canvas id="tcvShare"></canvas></div>
+            <p class="src">Sara ~R$ 896k · Marcelo ~R$ 1,32M · Total ~R$ 2,22M (ticket médio × nº de wins).</p>
+        </div>
+    </div>
+
+    <div class="section-title">🧩 FCA · Transição SABER → EXECUTAR</div>
+    <div class="grid-3">
+        <div class="fca-card fatos">
+            <h4 style="color:#b91c1c;">🔴 Fatos</h4>
+            <ul>
+                <li>Só <strong>18%</strong> dos wins têm Saber no TCV.</li>
+                <li>Quando há Saber, <strong>71%</strong> já saem com Executar no pacote (OFOS, Solução Locação, Dydyo, Vest Care, BUBLU).</li>
+                <li>2 Saber-only: Espírito Santo (R$ 10.150) e Cartão do Bem (R$ 20.129) — sem upsell Executar registrado nesta base.</li>
+                <li>25 wins Executar sem Saber: receita grande fora da esteira diagnóstica.</li>
+                <li>Feedback CIEP (Cockpit CSAT): “Talvez um pouco mais de tempo neste processo, poderia auxiliar na melhor digestão das informações” — sinal de sobrecarga de entrega/absorção.</li>
+            </ul>
+        </div>
+        <div class="fca-card causas">
+            <h4 style="color:#b45309;">🟡 Causas</h4>
+            <ul>
+                <li><strong>MEDIUM/LARGE tratados como entrega normal:</strong> mesmo playbook de ciclo curto em conta complexa → atraso e refação.</li>
+                <li><strong>Proposta sem fases de investimento:</strong> cliente só vê o número final e assusta.</li>
+                <li><strong>Faixa comercial vaga (2k–8k):</strong> destrói âncora e gera desalinhamento na mesa de preço.</li>
+                <li><strong>Time de entrega subdimensionado</strong> para profundidade de EE/DR-X em contas maiores.</li>
+                <li><strong>Farmer único para perfis distintos:</strong> ticket e ciclo de Sara ≠ Marcelo; misturar sem régua de fit aumenta ruído.</li>
+            </ul>
+        </div>
+        <div class="fca-card acoes">
+            <h4 style="color:#047857;">🟢 Ações (executáveis)</h4>
+            <ul>
+                <li><strong>Checklist de fase:</strong> toda entrega EE lista ação + valor estimado + prazo (sem faixa aberta).</li>
+                <li><strong>Conversa de Transição obrigatória</strong> antes do pitch Executar (cliente verbaliza dor).</li>
+                <li><strong>Squad EE MEDIUM/LARGE:</strong> especialista + consultor (ponte confiança) + farmer (preço).</li>
+                <li><strong>Piloto 30d de segmentação:</strong> Marcelo prioriza MEDIUM/LARGE; Sara volume/entrada com Lite.</li>
+                <li><strong>Kill criteria:</strong> EE &gt;45d sem pitch → review gerência (Simple WMS já estourou esse padrão).</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:18px;">
+        <table>
+            <thead>
+                <tr><th>Cliente (win com Saber)</th><th>Farmer</th><th>Saber</th><th>Ter</th><th>Executar</th><th>TCV</th><th>Path</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>OFOS</td><td>Sara</td><td>23.819</td><td>—</td><td>21.809</td><td>45.627</td><td><span class="badge badge-sara">S+E</span></td></tr>
+                <tr><td>Solução Locação</td><td>Sara</td><td>9.939</td><td>—</td><td>51.856</td><td>61.795</td><td><span class="badge badge-sara">S+E</span></td></tr>
+                <tr><td>Dydyo</td><td>Marcelo</td><td>5.300</td><td>5.300</td><td>8.500</td><td>80.400</td><td><span class="badge badge-marcelo">S+T+E</span></td></tr>
+                <tr><td>Vest Care</td><td>Marcelo</td><td>20.000</td><td>12.076</td><td>5.018</td><td>92.286</td><td><span class="badge badge-marcelo">S+T+E</span></td></tr>
+                <tr><td>BUBLU</td><td>Marcelo</td><td>18.250</td><td>20.620</td><td>6.455</td><td>116.330</td><td><span class="badge badge-marcelo">S+T+E</span></td></tr>
+                <tr><td>Espírito Santo Advogados</td><td>Marcelo</td><td>10.150</td><td>—</td><td>—</td><td>10.150</td><td><span class="case-tag">Saber only</span></td></tr>
+                <tr><td>Cartão do Bem</td><td>Marcelo</td><td>20.129</td><td>—</td><td>—</td><td>20.129</td><td><span class="case-tag">Saber only</span></td></tr>
+            </tbody>
+        </table>
+        <p class="src">Fonte: detalhamento de vendas monetizadas deste HTML.</p>
+    </div>
+
+    <div class="section-title" id="casos-ml">⚠️ Casos MEDIUM/LARGE · atraso, refação e preço</div>
+    <div class="note-box">
+        <strong>Escopo desta seção:</strong> fatos operacionais citados pelo Farmer + cruzamento com Cockpit/planilha EE quando existir. Não inventamos taxa de conversão “após o plano”. Onde o número é aging/data, a fonte está na coluna.
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h3>Aging / ciclo (referências)</h3>
+            <div class="chart-container"><canvas id="agingCases"></canvas></div>
+            <p class="src">Barras = dias de referência documentados (não é média estatística da carteira inteira).</p>
+        </div>
+        <div class="card">
+            <h3>O que o cliente sente (síntese)</h3>
+            <ul>
+                <li><strong>Demora / refação</strong> em conta complexa tratada como entrega padrão.</li>
+                <li><strong>Preço final sem ramp</strong> de investimento por fase.</li>
+                <li><strong>Faixa 2k–8k</strong> no comercial: âncora fraca, objeção forte.</li>
+                <li><strong>Digestão</strong> do diagnóstico (CIEP CSAT) antes de decidir Executar.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Conta</th><th>Tier (fonte)</th><th>Fato documentado</th><th>Sinal para S→E</th><th>Fonte</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Global WeB</strong> (GOB)</td>
+                    <td>LARGE (planilha) · Cockpit Exclusive / SABER · LT 6</td>
+                    <td>Início projeto <strong>03/09/2025</strong> · LT Cockpit <strong>6</strong> em ago/26 · pitch Quente · POC Design+Social ainda em jul/26</td>
+                    <td>Ciclo SABER longo (meses), não janela de 4–5 semanas. Risco de desgaste antes do Executar.</td>
+                    <td class="src">Cockpit GOB · planilha EE drops · calls analysis jul/26</td>
+                </tr>
+                <tr>
+                    <td><strong>C4 Científica</strong></td>
+                    <td>MEDIUM</td>
+                    <td>Início 05/11/2025 · limite 20/12/2025 (janela 45d) · motivo drop <strong>Interno</strong> · obs <strong>R$ 120.000</strong> · pitch Morno</td>
+                    <td>Maior ticket potencial da safra EE Marcelo; trava interna + handoff fraco mata o upsell.</td>
+                    <td class="src">planilha marcelo-ee-drops.json</td>
+                </tr>
+                <tr>
+                    <td><strong>Simple WMS</strong></td>
+                    <td>B2B high ticket (SAP EWM) · Billions</td>
+                    <td><strong>177 dias</strong> abertos no funil E.E (ref. 21/05/2026) · SLA 45d vencido (−132d) · <strong>sem data de pitch</strong></td>
+                    <td>Conta crítica de transição SABER→EXECUTAR: diagnóstico sem mesa comercial amarrada.</td>
+                    <td class="src">briefing simple-wms · planilha EE</td>
+                </tr>
+                <tr>
+                    <td><strong>CIEP Brasil</strong> (CPBR)</td>
+                    <td>MEDIUM · Exclusive · DR-X</td>
+                    <td>Start <strong>25/03/2026</strong> · concluded <strong>04/05/2026</strong> · fee SABER <strong>R$ 22.992,52</strong> · coord Rafaela · CSAT “Pouco desapontado” (digestão) · NPS 9</td>
+                    <td>Entrega SABER até fechou; atrito está na absorção + proposta Executar seguinte (não no NPS bruto).</td>
+                    <td class="src">Cockpit CPBR · briefing ciep-brasil</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="grid-3">
+        <div class="fca-card fatos">
+            <h4 style="color:#b91c1c;">🔴 Fatos (casos)</h4>
+            <ul>
+                <li>Global WeB: SABER aberto desde set/25 (LT 6 no Cockpit).</li>
+                <li>Simple WMS: 177d sem pitch (maio/26).</li>
+                <li>C4: drop Interno com R$ 120k na obs.</li>
+                <li>CIEP: CSAT pede mais tempo para digerir o diagnóstico.</li>
+            </ul>
+        </div>
+        <div class="fca-card causas">
+            <h4 style="color:#b45309;">🟡 Causas</h4>
+            <ul>
+                <li>Playbook de entrega único para TINY e LARGE.</li>
+                <li>Proposta sem valor por fase → susto no final.</li>
+                <li>Comercial cita faixa larga (2k–8k).</li>
+                <li>Capacidade sênior insuficiente no pico de EE complexa.</li>
+            </ul>
+        </div>
+        <div class="fca-card acoes">
+            <h4 style="color:#047857;">🟢 Ações</h4>
+            <ul>
+                <li>Régua de aging: 30/45/60d com dono.</li>
+                <li>Template de proposta faseada (valor + prazo + responsável).</li>
+                <li>Banir faixa 2k–8k: só âncora + escopo fechado.</li>
+                <li>Staffing EE LARGE: sênior obrigatório.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section-title" id="segmentacao">👥 Segmentação por fit · Farmer × tier</div>
+    <div class="insight-box">
+        <strong>Plano prático (piloto, não dogma):</strong> os dados mostram diferença real de ticket e estabilidade (Marcelo mais alto e menos volátil que Sara). Isso <em>sustenta testar</em> atendimento segmentado — não garante sozinho +X% de conversão Saber→Executar. Medir em 30 dias: win rate EE, aging médio, % propostas com valor por fase.
+    </div>
+    <div class="grid-2">
+        <div class="kpi-mini">
+            <div class="n" style="color:#065f46;">Marcelo</div>
+            <div class="l">Fit sugerido: MEDIUM/LARGE · ciclo consultivo · bundles S+T+E · tríade especialista+consultor+farmer</div>
+            <div class="compare-bar"><span style="width:55%;background:#10b981;">Ticket 69,7k</span><span style="width:45%;background:#e2e8f0;color:#334155;">base</span></div>
+            <p class="src">31,7% conv · 19 wins · TCV ~R$ 1,32M</p>
+        </div>
+        <div class="kpi-mini">
+            <div class="n" style="color:#1e40af;">Sara</div>
+            <div class="l">Fit sugerido: entrada / SMALL-MEDIUM · pacote Lite R$ 2,5–3,5k · volume com escopo fechado</div>
+            <div class="compare-bar"><span style="width:45%;background:#3b82f6;">Ticket 44,8k</span><span style="width:55%;background:#e2e8f0;color:#334155;">mais volátil</span></div>
+            <p class="src">25,0% conv · 20 wins · TCV ~R$ 896k · ticket Jun 28,7k vs Abr 61,4k</p>
+        </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:18px;">
+        <div class="fca-card fatos">
+            <h4 style="color:#b91c1c;">🔴 Fatos</h4>
+            <ul>
+                <li>Gap de ticket +55% Marcelo vs Sara.</li>
+                <li>Sara: alta volatilidade mensal de ticket.</li>
+                <li>Marcelo: mais wins com Saber no pacote (5 vs 2).</li>
+            </ul>
+        </div>
+        <div class="fca-card causas">
+            <h4 style="color:#b45309;">🟡 Causas</h4>
+            <ul>
+                <li>Carteiras misturam ICP e complexidade de entrega.</li>
+                <li>Sem régua de staffing por tier.</li>
+                <li>Mesmo script de preço para perfis diferentes.</li>
+            </ul>
+        </div>
+        <div class="fca-card acoes">
+            <h4 style="color:#047857;">🟢 Ações 30 dias</h4>
+            <ul>
+                <li>Repartir novos leads EE por tier/fit.</li>
+                <li>KPI compartilhado: aging EE e % S→E.</li>
+                <li>Review quinzenal dos 4 casos críticos.</li>
+            </ul>
+        </div>
+    </div>
+
     <!-- ==================== ESTRATÉGIA E PLANO DE AÇÃO ==================== -->
-    <div class="section-title">🚀 Estratégia e Plano de Ação – Elevando a Operação para 10</div>
+    <div class="section-title" id="estrategia">🚀 Plano prático · o que executar em 30–90 dias</div>
 
     <div class="strategy-block">
         <h4>🎯 1. Reestruturação do ICP e Pré-Qualificação (SDR/BDR)</h4>
@@ -541,6 +791,15 @@
         </ul>
     </div>
 
+
+    <div class="strategy-block" style="background:#ecfdf5; border-color:#6ee7b7;">
+        <h4 style="color:#047857;">✅ O que é plano prático (e o que não é)</h4>
+        <ul>
+            <li><strong>É prático:</strong> banir faixa 2k–8k; template de proposta com valor por fase; régua 45d de aging EE; tríade em MEDIUM/LARGE; piloto de split Farmer por tier.</li>
+            <li><strong>Não é prático ainda:</strong> prometer meta de conversão sem baseline semanal; trocar time inteiro sem staffing sênior definido; “pacote Lite” sem Service Card aprovado.</li>
+            <li><strong>Como medir em 30 dias:</strong> (1) % EE com valor por fase na proposta · (2) aging médio EE · (3) nº de Saber-only sem Conversa de Transição · (4) wins S+E vs Saber-only.</li>
+        </ul>
+    </div>
     <div style="background:#dbeafe; border-radius:12px; padding:20px; margin-top:20px; border-left:6px solid #2563eb;">
         <h4 style="color:#1e3a8a;">📌 Próximos Passos – Roadmap de Implementação</h4>
         <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:15px; margin-top:10px;">
@@ -578,7 +837,7 @@
     </div>
 
     <div class="footer">
-        Relatório consolidado com dados corrigidos (Prime Dente e Espirito Santo) – análise aprofundada de Fatos, Causas e Ações, com recomendações estratégicas detalhadas.
+        Atualizado 01/08/2026 · FCA SABER→EXECUTAR · casos Global WeB / C4 / Simple WMS / CIEP com fontes · sem inventar métricas de conversão futura.
     </div>
 </div>
 
@@ -702,6 +961,70 @@
             }
         });
 
+
+        // ========== SABER → EXECUTAR (novos) ==========
+        new Chart(document.getElementById('pathMix'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Executar only (18)', 'Ter only (7)', 'Ter+Executar (7)', 'S+T+E (3)', 'S+E (2)', 'Saber only (2)'],
+                datasets: [{ data: [18, 7, 7, 3, 2, 2], backgroundColor: ['#f472b6','#34d399','#a78bfa','#f59e0b','#60a5fa','#ef4444'] }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } } }, cutout: '55%' }
+        });
+        new Chart(document.getElementById('saberFunnel'), {
+            type: 'bar',
+            data: {
+                labels: ['Wins com Saber', 'Saber+Executar', 'Saber only'],
+                datasets: [{ data: [7, 5, 2], backgroundColor: ['#3b82f6', '#22c55e', '#ef4444'], borderRadius: 6 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+        });
+        new Chart(document.getElementById('ticketCompare'), {
+            type: 'bar',
+            data: {
+                labels: ['Sara', 'Marcelo'],
+                datasets: [{ label: 'Ticket médio TCV', data: [44806, 69723], backgroundColor: ['#3b82f6', '#10b981'], borderRadius: 6 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
+        });
+        new Chart(document.getElementById('tcvShare'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Sara ~R$ 896k', 'Marcelo ~R$ 1,32M'],
+                datasets: [{ data: [896120, 1324737], backgroundColor: ['#3b82f6', '#10b981'] }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }, cutout: '60%' }
+        });
+        new Chart(document.getElementById('agingCases'), {
+            type: 'bar',
+            data: {
+                labels: ['Global WeB (LT×30≈)', 'Simple WMS (abertos)', 'C4 janela planilha', 'CIEP ciclo DR-X'],
+                datasets: [{
+                    label: 'Dias (referência)',
+                    data: [180, 177, 45, 40],
+                    backgroundColor: ['#ef4444', '#f59e0b', '#8b5cf6', '#22c55e'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { afterLabel: (ctx) => {
+                        const tips = [
+                            'LT Cockpit 6 ≈ 180d desde 03/09/2025',
+                            'Briefing 21/05/2026 · 177d sem pitch',
+                            '05/11→20/12/2025 · drop Interno',
+                            '25/03→04/05/2026 concluded'
+                        ];
+                        return tips[ctx.dataIndex];
+                    } } }
+                },
+                scales: { x: { beginAtZero: true, title: { display: true, text: 'dias' } } }
+            }
+        });
     })();
 </script>
 
