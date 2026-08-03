@@ -1,1079 +1,1272 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório de Negociações – Sara & Marcelo (Corrigido)</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f4f7fc;
-            color: #1e293b;
-            padding: 30px;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-            padding: 40px 35px;
-        }
-        h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #0f172a;
-            border-left: 6px solid #2563eb;
-            padding-left: 18px;
-        }
-        .subtitle {
-            font-size: 16px;
-            color: #64748b;
-            margin-bottom: 30px;
-            padding-left: 24px;
-        }
-        .section-title {
-            font-size: 22px;
-            font-weight: 600;
-            margin: 40px 0 20px 0;
-            color: #0f172a;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 12px;
-        }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; margin-bottom: 30px; }
-        .card { background: #f8fafc; border-radius: 16px; padding: 20px 22px; border: 1px solid #e9edf2; }
-        .card h3 { font-size: 16px; font-weight: 600; color: #334155; margin-bottom: 14px; }
-        .chart-container { position: relative; height: 220px; }
-        .stats-row { display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0 10px 0; }
-        .stat-box { background: #f1f5f9; border-radius: 12px; padding: 12px 20px; flex: 1 1 160px; }
-        .stat-box .label { font-size: 13px; color: #64748b; }
-        .stat-box .value { font-size: 24px; font-weight: 700; }
-        .stat-box .value.green { color: #16a34a; }
-        .stat-box .value.red { color: #dc2626; }
-        .stat-box .value.blue { color: #2563eb; }
-        .stat-box .value.purple { color: #7c3aed; }
-        .table-wrap { overflow-x: auto; margin: 15px 0; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e2e8f0; }
-        th { background: #f1f5f9; font-weight: 600; }
-        tr:hover { background: #f8fafc; }
-        .insight-box { background: #eef2ff; border-left: 6px solid #2563eb; padding: 18px 22px; border-radius: 12px; margin: 25px 0; }
-        .insight-box strong { color: #1e3a8a; }
-        ul { padding-left: 24px; margin: 8px 0; }
-        ul li { margin-bottom: 6px; }
-        .footer { margin-top: 40px; font-size: 13px; color: #94a3b8; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 20px; }
-        .badge { display: inline-block; padding: 2px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-        .badge-sara { background: #dbeafe; color: #1e40af; }
-        .badge-marcelo { background: #d1fae5; color: #065f46; }
-        .farmer-header { display: flex; align-items: center; gap: 10px; margin: 20px 0 10px 0; }
-        .farmer-header h3 { font-size: 18px; }
-        .fca-card { padding: 16px 20px; border-radius: 12px; height: 100%; }
-        .fca-card.fatos { background: #fef2f2; border: 1px solid #fecaca; }
-        .fca-card.causas { background: #fffbeb; border: 1px solid #fde68a; }
-        .fca-card.acoes { background: #ecfdf5; border: 1px solid #a7f3d0; }
-        .fca-card h4 { font-size: 18px; margin-bottom: 12px; }
-        .fca-card ul { list-style: disc; padding-left: 20px; }
-        .fca-card ul li { margin-bottom: 6px; }
-        .farmer-fca { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 10px; }
-        .farmer-fca .fca-card { padding: 14px 16px; }
-        .farmer-fca .fca-card h4 { font-size: 15px; margin-bottom: 8px; }
-        .farmer-fca .fca-card ul { font-size: 13px; }
-        .farmer-fca .fca-card ul li { margin-bottom: 4px; }
-        .impact-card { background: #f1f5f9; padding: 16px 20px; border-radius: 12px; border-left: 6px solid #8b5cf6; }
-        .impact-card h4 { font-size: 16px; color: #4c1d95; margin-bottom: 8px; }
-        .strategy-block {
-            background: #f0f9ff;
-            border-radius: 16px;
-            padding: 24px 28px;
-            border: 1px solid #bae6fd;
-            margin-bottom: 20px;
-        }
-        .strategy-block h4 {
-            font-size: 18px;
-            color: #0369a1;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .strategy-block ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        .strategy-block ul li {
-            padding: 8px 0 8px 28px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%230369a1" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>') left center no-repeat;
-            background-size: 16px;
-            margin-bottom: 2px;
-        }
-        .strategy-block .highlight {
-            background: #e0f2fe;
-            border-radius: 8px;
-            padding: 10px 14px;
-            margin: 10px 0;
-            font-weight: 500;
-            color: #0c4a6e;
-        }
-        .two-col-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px 30px;
-        }
-        @media (max-width: 768px) {
-            .grid-2, .grid-3, .farmer-fca, .two-col-list { grid-template-columns: 1fr; }
-            .container { padding: 20px; }
-        }
-
-        .compare-bar { display:flex; height:28px; border-radius:8px; overflow:hidden; margin:10px 0 6px; }
-        .compare-bar span { display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700; }
-        .case-tag { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700; background:#fee2e2; color:#991b1b; }
-        .src { font-size:12px; color:#64748b; }
-        .kpi-mini { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:14px; }
-        .kpi-mini .n { font-size:26px; font-weight:800; color:#0f172a; }
-        .kpi-mini .l { font-size:12px; color:#64748b; margin-top:4px; }
-        .anchor-nav { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 24px 24px; }
-        .anchor-nav a { font-size:13px; text-decoration:none; background:#f1f5f9; color:#1e40af; padding:6px 12px; border-radius:999px; border:1px solid #e2e8f0; }
-        .note-box {
-            background: #fefce8;
-            border: 1px solid #fde68a;
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-size: 14px;
-            margin: 10px 0;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Relatório Negociações · Sara & Marcelo | V4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wdth,wght@75..100,500;75..100,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./tokens-relatorios-v4.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    .chart-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:18px; margin:18px 0 28px; }
+    .chart-grid.equal { grid-template-columns:1fr 1fr; }
+    .chart-card { background:var(--surface-glass); border:1px solid var(--line); border-radius:var(--radius-table); padding:18px 20px; backdrop-filter:blur(var(--blur)); }
+    .chart-card h3 { margin:0 0 4px; font-size:1.05rem; font-stretch:85%; }
+    .chart-card .sub { color:var(--text-muted); font-size:.85rem; margin-bottom:12px; }
+    .chart-wrap { position:relative; height:280px; }
+    .chart-wrap.tall { height:320px; }
+    .chart-wrap.short { height:160px; }
+    .fca-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0 28px; }
+    .fca { border-radius:18px; padding:16px 18px; border:1px solid var(--line); background:var(--surface-glass-soft); }
+    .fca h4 { margin:0 0 10px; font-stretch:85%; letter-spacing:.02em; }
+    .fca.fatos { border-color:rgba(255,138,128,.45); }
+    .fca.causas { border-color:rgba(255,209,102,.45); }
+    .fca.acoes { border-color:rgba(99,212,113,.45); }
+    .fca ul { margin:0; padding-left:18px; color:var(--text-muted); }
+    .fca li { margin-bottom:8px; }
+    .num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    .tag { display:inline-block; padding:2px 10px; border-radius:999px; background:var(--surface-glass-strong); font-size:.75rem; }
+    .two { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .cards .metric { min-width:0; overflow:hidden; }
+    .cards .metric-number {
+      font-size: clamp(20px, 2.2vw, 28px);
+      line-height: 1.15;
+      font-stretch: 85%;
+      letter-spacing: -0.02em;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .verdict strong {
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+    .farmer-mini { display:flex; flex-wrap:wrap; gap:12px 18px; margin-bottom:10px; color:var(--text-muted); font-size:.85rem; }
+    .farmer-mini strong { color:var(--text-primary); }
+    .compare-bar { display:flex; height:28px; border-radius:8px; overflow:hidden; margin:10px 0 6px; }
+    .compare-bar span { display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700; }
+    .roadmap { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px; }
+    .roadmap .step {
+      background:var(--surface-glass-soft);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+    }
+    .roadmap .step strong { display:block; margin-bottom:6px; font-stretch:85%; }
+    .roadmap .step p { margin:0; color:var(--text-muted); font-size:.88rem; }
+    .src { font-size:.8rem; color:var(--text-muted); margin-top:8px; }
+    @media (max-width:980px) {
+      .chart-grid, .fca-grid, .two, .roadmap { grid-template-columns:1fr; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-    <h1>📊 Relatório de Negociações – Sara & Marcelo</h1>
-    <div class="subtitle">Dados corrigidos (Prime Dente e Espírito Santo) · forma de pagamento nas 39 vendas · foco SABER → EXECUTAR · atualizado 03/08/2026</div>
-    <div class="anchor-nav">
-        <a href="#fca-geral">FCA geral</a>
-        <a href="#saber-executar">Saber → Executar</a>
-        <a href="#casos-ml">Casos MEDIUM/LARGE</a>
-        <a href="#segmentacao">Segmentação Farmer</a>
-        <a href="#graficos">Gráficos</a>
-        <a href="#pagamento">Pagamento</a>
-        <a href="#estrategia">Plano prático</a>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">
+        <img src="./assets/v4-company-logo-branca-oficial.svg" alt="V4 Company">
+      </span>
+      Negociações · Sara & Marcelo · 2026
+    </div>
+    <nav class="nav-pills">
+      <a href="#veredito">Veredito</a>
+      <a href="#fca">FCA</a>
+      <a href="#graficos">Gráficos</a>
+      <a href="#vendas">Vendas</a>
+      <a href="#pagamento">Pagamento</a>
+      <a href="#saber-executar">Saber → Executar</a>
+      <a href="#casos-ml">Casos M/L</a>
+      <a href="#segmentacao">Segmentação</a>
+      <a href="#estrategia">Estratégia</a>
+    </nav>
+  </header>
+
+  <main class="report-shell">
+    <section class="hero" id="veredito">
+      <div class="hero-card hero-watermark" data-watermark="V4">
+        <div class="eyebrow">Planilha EE · dados corrigidos (Prime Dente + Espírito Santo) · atualizado 03/08/2026</div>
+        <h1>Relatório Negociações · Sara & Marcelo.</h1>
+        <p>TCV ~R$ 2,28M em 39 wins. Conversão 27,9% sobre 140 oportunidades. Ticket médio R$ 58.491. Forma de pagamento 100% preenchida (Cartão 30 · Boleto 6 · PIX 3). Foco SABER → EXECUTAR e casos MEDIUM/LARGE.</p>
+      </div>
+      <aside class="verdict glass">
+        <div>
+          <div class="eyebrow">TCV monetizado · 39 wins</div>
+          <strong>~R$ 2,28M</strong>
+          <span>39 wins · conv 27,9% · ticket R$ 58.491 · Sara 20 wins · Marcelo 19 wins.</span>
+        </div>
+        <div class="pill">Fonte: planilha EE + confirmação Farmer · 03/08/2026</div>
+      </aside>
+    </section>
+
+    <div class="cards">
+      <div class="metric">
+        <div class="metric-label">Oportunidades</div>
+        <div class="metric-number">140</div>
+        <small>Carteira analisada</small>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Monetizadas</div>
+        <div class="metric-number safe">39</div>
+        <small>Sara 20 · Marcelo 19</small>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Drop</div>
+        <div class="metric-number danger">60</div>
+        <small>42,9% da carteira</small>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Conversão</div>
+        <div class="metric-number">27,9%</div>
+        <small>39 / 140 opps</small>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Ticket médio TCV</div>
+        <div class="metric-number">R$ 58.491</div>
+        <small>Soma TCV ÷ 39 wins</small>
+      </div>
     </div>
 
+    <section class="callout">
+      <div class="eyebrow">Leitura executiva</div>
+      <h2>Cartão concentra 76,9% dos wins e 72,7% do TCV · Saber só em 18% dos contratos.</h2>
+      <p>Gap de ticket Farmer: Marcelo R$ 72.896 vs Sara R$ 44.806 (+63%). Budget lidera drops (41,7%). Path SABER→EXECUTAR ainda é minoria no mix; quando há Saber, 71% já saem com Executar no pacote.</p>
+    </section>
 
-    <!-- ==================== FATOS, CAUSAS E AÇÕES - GERAL ==================== -->
-    <div class="section-title" id="fca-geral">🔍 Fatos, Causas e Ações – Geral</div>
-    <div class="grid-3">
-        <div class="fca-card fatos">
-            <h4 style="color:#b91c1c;">🔴 Fatos – O que aconteceu?</h4>
-            <ul>
-                <li><strong>Carteira total:</strong> 140 oportunidades analisadas.</li>
-                <li><strong>Monetização:</strong> 39 contratos fechados (27,9% de conversão).</li>
-                <li><strong>Perdas:</strong> 60 oportunidades descartadas (42,9%).</li>
-                <li><strong>Ticket médio geral:</strong> R$ 58.491 (TCV) · recalculado da tabela de 39 vendas.</li>
-                <li><strong>Forma de pagamento (39/39):</strong> Cartão 30 · Boleto 6 · PIX 3. Cartão domina (~77% dos wins).</li>
-                <li><strong>Distribuição por Farmer:</strong>
-                    <ul>
-                        <li><strong>Sara:</strong> 80 ops → 20 monetizadas (25,0%) – Ticket médio R$ 44.806.</li>
-                        <li><strong>Marcelo:</strong> 60 ops → 19 monetizadas (31,7%) – Ticket médio R$ 72.896.</li>
-                    </ul>
-                </li>
-                <li><strong>Produtos mais vendidos:</strong> Executar e Ter.</li>
-                <li><strong>Path SABER:</strong> só <strong>7 de 39</strong> wins (18%) têm linha Saber no contrato. Desses, <strong>5 fecharam também Executar</strong> (71% do subset Saber).</li>
-                <li><strong>Executar sem Saber:</strong> <strong>25 de 39</strong> wins (64%) entraram direto em Executar (ou Ter+Executar), sem Saber no TCV.</li>
-                <li><strong>Gap de ticket Farmer:</strong> Marcelo R$ 72.896 vs Sara R$ 44.806 (+63% ticket médio).</li>
-                <li><strong>Sazonalidade:</strong> Pico de fechamentos em Março e Maio; queda em Junho/Julho.</li>
-                <li><strong>Ticket médio de Sara:</strong> maior em Abril (R$ 61,4k), menor em Junho (R$ 28,7k).</li>
-                <li><strong>Ticket médio de Marcelo:</strong> mais estável, com pico em Janeiro (R$ 87,0k) e Junho (R$ 77,7k).</li>
-            </ul>
+    <!-- ===================== FCA ===================== -->
+    <section id="fca">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Metodologia FCA</div>
+          <h2>Fatos · Causas · Ações · geral.</h2>
         </div>
-        <div class="fca-card causas">
-            <h4 style="color:#b45309;">🟡 Causas – O que impactou?</h4>
-            <ul>
-                <li><strong>Restrição orçamentária:</strong> 41,7% dos drops foram por falta de budget (clientes com faturamento < R$ 500k/mês ou margem apertada).</li>
-                <li><strong>Timing inadequado:</strong> 28,3% dos drops (17/60, soma Sara+Marcelo) estavam em reestruturação, troca de sócios ou aguardando decisões internas.</li>
-                <li><strong>Falta de percepção de valor:</strong> em alguns casos, o ROI não foi claramente demonstrado durante o processo de diagnóstico.</li>
-                <li><strong>Handoff / ciclo longo em MEDIUM-LARGE:</strong> contas de Estruturação tratadas com ritmo de entrega “padrão” geraram atraso, refação e assombro de preço no fechamento (casos Global WeB, C4, Simple WMS, CIEP — ver seção dedicada).</li>
-                <li><strong>Comunicação de preço vaga:</strong> faixas tipo “de R$ 2k a R$ 8k” foram ouvidas pelo time comercial e corroem âncora na transição para Executar.</li>
-                <li><strong>Concorrência / solução interna:</strong> aparece no histórico qualitativo; não está isolada como fatia própria no pie de drops (vai em “Outros” quando agregada).</li>
-                <li><strong>Perfil de lead:</strong> leads de pequeno porte (TINY/SMALL) têm maior taxa de drop por budget.</li>
-            </ul>
-        </div>
-        <div class="fca-card acoes">
-            <h4 style="color:#047857;">🟢 Ações – O que podemos melhorar?</h4>
-            <ul>
-                <li><strong>EQV na faixa de budget:</strong> R$ 15–20k / 6 meses (≈ R$ 2.500/mês) para o que hoje não vendemos.</li>
-                <li><strong>Qualificação mais rigorosa:</strong> perguntar orçamento e prazo na primeira reunião.</li>
-                <li><strong>Provas sociais e cases:</strong> apresentar cases de sucesso em segmentos similares.</li>
-                <li><strong>Follow-up encurtado:</strong> cronograma de reengajamento (15/30/45 dias).</li>
-                <li><strong>Treinamento em negociação:</strong> capacitar para lidar com objeções financeiras.</li>
-                <li><strong>Revisão do ICP:</strong> priorizar empresas com faturamento > R$ 500k/mês.</li>
-                <li><strong>Handoff MEDIUM/LARGE:</strong> time mais robusto + proposta faseada com valor por fase (sem faixa 2k–8k).</li>
-                <li><strong>Segmentar Farmer por fit/tier:</strong> Marcelo em MEDIUM/LARGE consultivo; Sara em entrada/volume com EQV (hipótese operacional — validar em piloto 30d).</li>
-                <li><strong>Trilha Saber→Executar:</strong> em todo Saber, calendário de Conversa de Transição + valores por fase antes do pitch final.</li>
-            </ul>
-        </div>
-    </div>
+        <p>Base: 140 opps · 39 wins · 60 drops. Ticket e TCV da tabela detalhada (correções Prime Dente + Espírito Santo).</p>
+      </div>
 
-    <!-- ==================== ANÁLISE DE IMPACTO ==================== -->
-    <div class="section-title">📊 Análise de Impacto – Fatores Críticos</div>
-    <div class="grid-2">
-        <div class="impact-card">
-            <h4>💰 Impacto do Budget nas Perdas</h4>
-            <p>Hipótese operacional (não auditada linha a linha neste relatório): boa parte dos drops por budget parece concentrada em leads com orçamento mensal estimado baixo (faixa &lt; R$ 5.000). A precificação consultiva média (~R$ 6.000/mês) fica acima do que muitos TINY/SMALL conseguem pagar.</p>
-            <p><strong>Recomendação:</strong> ofertar <strong>EQV</strong> (R$ 15–20k / 6 meses ≈ R$ 2.500/mês) para essa faixa de budget, e manter ticket consultivo alto só onde cabe.</p>
+      <div class="fca-grid">
+        <div class="fca fatos">
+          <h4>Fatos · o que aconteceu</h4>
+          <ul>
+            <li><strong>Carteira total:</strong> 140 oportunidades analisadas.</li>
+            <li><strong>Monetização:</strong> 39 contratos fechados (27,9% de conversão).</li>
+            <li><strong>Perdas:</strong> 60 oportunidades descartadas (42,9%).</li>
+            <li><strong>Ticket médio geral:</strong> R$ 58.491 (TCV) · recalculado da tabela de 39 vendas.</li>
+            <li><strong>Forma de pagamento (39/39):</strong> Cartão 30 · Boleto 6 · PIX 3. Cartão domina (~77% dos wins).</li>
+            <li><strong>Sara:</strong> 80 ops → 20 monetizadas (25,0%) · Ticket médio R$ 44.806.</li>
+            <li><strong>Marcelo:</strong> 60 ops → 19 monetizadas (31,7%) · Ticket médio R$ 72.896.</li>
+            <li><strong>Produtos mais vendidos:</strong> Executar e Ter.</li>
+            <li><strong>Path SABER:</strong> só <strong>7 de 39</strong> wins (18%) têm linha Saber no contrato. Desses, <strong>5 fecharam também Executar</strong> (71% do subset Saber).</li>
+            <li><strong>Executar sem Saber:</strong> <strong>25 de 39</strong> wins (64%) entraram direto em Executar (ou Ter+Executar), sem Saber no TCV.</li>
+            <li><strong>Gap de ticket Farmer:</strong> Marcelo R$ 72.896 vs Sara R$ 44.806 (+63% ticket médio).</li>
+            <li><strong>Sazonalidade:</strong> Pico de fechamentos em Março e Maio; queda em Junho/Julho.</li>
+            <li><strong>Ticket médio de Sara:</strong> maior em Abril (R$ 61,4k), menor em Junho (R$ 28,7k).</li>
+            <li><strong>Ticket médio de Marcelo:</strong> mais estável, com pico em Janeiro (R$ 87,0k) e Junho (R$ 77,7k).</li>
+          </ul>
         </div>
-        <div class="impact-card">
-            <h4>⏰ Impacto do Timing e Handoff</h4>
-            <p>Dos 28,3% de drops por timing (17/60), parte relevante no histórico qualitativo aponta atraso de Estruturação ou falta de clareza no handoff. Não há contagem auditável “X% do timing = handoff” neste extrato; tratar como hipótese até cruzar call-by-call.</p>
-            <p><strong>Recomendação:</strong> estabelecer um cronograma claro de entregas e revisões, com checkpoints semanais durante a fase de diagnóstico.</p>
+        <div class="fca causas">
+          <h4>Causas · o que impactou</h4>
+          <ul>
+            <li><strong>Restrição orçamentária:</strong> 41,7% dos drops foram por falta de budget (clientes com faturamento &lt; R$ 500k/mês ou margem apertada).</li>
+            <li><strong>Timing inadequado:</strong> 28,3% dos drops (17/60, soma Sara+Marcelo) estavam em reestruturação, troca de sócios ou aguardando decisões internas.</li>
+            <li><strong>Falta de percepção de valor:</strong> em alguns casos, o ROI não foi claramente demonstrado durante o processo de diagnóstico.</li>
+            <li><strong>Handoff / ciclo longo em MEDIUM-LARGE:</strong> contas de Estruturação tratadas com ritmo de cronograma “padrão” geraram atraso, refação e assombro de preço no fechamento (casos Global WeB, C4, Simple WMS, CIEP · ver seção dedicada).</li>
+            <li><strong>Comunicação de preço vaga:</strong> faixas tipo “de R$ 2k a R$ 8k” foram ouvidas pelo time comercial e corroem âncora na transição para Executar.</li>
+            <li><strong>Concorrência / solução interna:</strong> aparece no histórico qualitativo; não está isolada como fatia própria no pie de drops (vai em “Outros” quando agregada).</li>
+            <li><strong>Perfil de lead:</strong> leads de pequeno porte (TINY/SMALL) têm maior taxa de drop por budget.</li>
+          </ul>
         </div>
-        <div class="impact-card">
-            <h4>📉 Variação do Ticket Médio (Sara)</h4>
-            <p>Sara apresenta alta volatilidade no ticket médio (R$ 28,7k em Junho vs R$ 61,4k em Abril). Isso sugere que ela está fechando negócios de perfis muito distintos.</p>
-            <p><strong>Recomendação:</strong> segmentar a carteira em duas frentes: uma para clientes de maior ticket (com mais suporte) e outra para clientes de entrada (com escopo mais enxuto).</p>
+        <div class="fca acoes">
+          <h4>Ações · o que melhorar</h4>
+          <ul>
+            <li><strong>EQV na faixa de budget:</strong> R$ 15-20k / 6 meses (≈ R$ 2.500/mês) para o que hoje não vendemos.</li>
+            <li><strong>Qualificação mais rigorosa:</strong> perguntar orçamento e prazo na primeira reunião.</li>
+            <li><strong>Provas sociais e cases:</strong> apresentar cases de sucesso em segmentos similares.</li>
+            <li><strong>Follow-up encurtado:</strong> cronograma de reengajamento (15/30/45 dias).</li>
+            <li><strong>Treinamento em negociação:</strong> capacitar para lidar com objeções financeiras.</li>
+            <li><strong>Revisão do ICP:</strong> priorizar empresas com faturamento &gt; R$ 500k/mês.</li>
+            <li><strong>Handoff MEDIUM/LARGE:</strong> time mais robusto + proposta faseada com valor por fase (sem faixa 2k-8k).</li>
+            <li><strong>Segmentar Farmer por fit/tier:</strong> Marcelo em MEDIUM/LARGE consultivo; Sara em entrada/volume com EQV (hipótese operacional · validar em piloto 30d).</li>
+            <li><strong>Trilha Saber→Executar:</strong> em todo Saber, calendário de Conversa de Transição + valores por fase antes do pitch final.</li>
+          </ul>
         </div>
-        <div class="impact-card">
-            <h4>📊 Mix de Produtos (Executar vs Ter)</h4>
-            <p>Com a tabela normalizada (Saber/Ter OT · Executar MRR×booking): <strong>Executar ~82%</strong> do TCV · <strong>Ter ~14%</strong> · <strong>Saber ~5%</strong>.</p>
-            <p><strong>Recomendação:</strong> reforçar Ter/Saber como porta de entrada (EQV + faseamento) sem depender só de Executar no mix.</p>
-        </div>
-    </div>
+      </div>
 
-    <!-- ==================== FATOS, CAUSAS E AÇÕES - POR FARMER ==================== -->
-    <div class="section-title">👥 Fatos, Causas e Ações – Por Farmer</div>
-    <div class="grid-2">
-        <div class="card" style="background:#eff6ff; border-color:#93c5fd;">
-            <h3 style="color:#1e40af;">👩 Sara Pizzico</h3>
-            <div class="farmer-fca">
-                <div class="fca-card fatos" style="background:#fee2e2; border-color:#fca5a5;">
-                    <h4 style="color:#b91c1c; font-size:14px;">Fatos</h4>
-                    <ul>
-                        <li><strong>80 oportunidades</strong> em carteira.</li>
-                        <li><strong>20 monetizadas</strong> (25,0% de conversão).</li>
-                        <li><strong>35 drops</strong> (43,8% do total).</li>
-                        <li><strong>Ticket médio TCV:</strong> R$ 44.806.</li>
-                        <li>Pico de ticket em Abril (R$ 61,4k) e vale em Junho (R$ 28,7k).</li>
-                        <li>Maior parte das vendas são de <strong>Executar</strong> e <strong>Ter</strong>.</li>
-                    </ul>
-                </div>
-                <div class="fca-card causas" style="background:#fef3c7; border-color:#fcd34d;">
-                    <h4 style="color:#b45309; font-size:14px;">Causas</h4>
-                    <ul>
-                        <li><strong>Budget</strong> (40% · 14/35) – clientes com faturamento abaixo de R$ 300k/mês.</li>
-                        <li><strong>Timing</strong> (29% · 10/35) – clientes em reestruturação.</li>
-                        <li><strong>Tratativa Ops</strong> (20% · 7/35) – falta de priorização interna.</li>
-                        <li><strong>Interno</strong> (11% · 4/35) – inclui handoff / atraso quando tipado assim.</li>
-                    </ul>
-                </div>
-                <div class="fca-card acoes" style="background:#d1fae5; border-color:#6ee7b7;">
-                    <h4 style="color:#047857; font-size:14px;">Ações</h4>
-                    <ul>
-                        <li><strong>EQV</strong> (R$ 15–20k / 6 meses ≈ R$ 2.500/mês) na faixa de budget.</li>
-                        <li><strong>Qualificação rigorosa</strong> – orçamento e prazo na primeira reunião.</li>
-                        <li><strong>Follow-up estruturado</strong> (15/30/45 dias).</li>
-                        <li><strong>Upsell</strong> em clientes já monetizados.</li>
-                    </ul>
-                </div>
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Impacto</div>
+          <h2>Fatores críticos.</h2>
+        </div>
+        <p>Hipóteses operacionais amarradas aos fatos contáveis da carteira.</p>
+      </div>
+      <div class="two">
+        <div class="chart-card">
+          <h3>Impacto do Budget nas perdas</h3>
+          <p class="sub">Hipótese operacional (não auditada linha a linha neste relatório): boa parte dos drops por budget parece concentrada em leads com orçamento mensal estimado baixo (faixa &lt; R$ 5.000). A precificação consultiva média (~R$ 6.000/mês) fica acima do que muitos TINY/SMALL conseguem pagar.</p>
+          <p><strong>Recomendação:</strong> ofertar <strong>EQV</strong> (R$ 15-20k / 6 meses ≈ R$ 2.500/mês) para essa faixa de budget, e manter ticket consultivo alto só onde cabe.</p>
+        </div>
+        <div class="chart-card">
+          <h3>Impacto do Timing e Handoff</h3>
+          <p class="sub">Dos 28,3% de drops por timing (17/60), parte relevante no histórico qualitativo aponta atraso de Estruturação ou falta de clareza no handoff. Não há contagem auditável “X% do timing = handoff” neste extrato; tratar como hipótese até cruzar call-by-call.</p>
+          <p><strong>Recomendação:</strong> estabelecer um cronograma claro de entregas e revisões, com checkpoints semanais durante a fase de diagnóstico.</p>
+        </div>
+        <div class="chart-card">
+          <h3>Variação do Ticket Médio (Sara)</h3>
+          <p class="sub">Sara apresenta alta volatilidade no ticket médio (R$ 28,7k em Junho vs R$ 61,4k em Abril). Isso sugere que ela está fechando negócios de perfis muito distintos.</p>
+          <p><strong>Recomendação:</strong> segmentar a carteira em duas frentes: uma para clientes de maior ticket (com mais suporte) e outra para clientes de entrada (com escopo mais enxuto).</p>
+        </div>
+        <div class="chart-card">
+          <h3>Mix de Produtos (Executar vs Ter)</h3>
+          <p class="sub">Com a tabela normalizada (Saber/Ter OT · Executar MRR×booking): <strong>Executar ~82%</strong> do TCV · <strong>Ter ~14%</strong> · <strong>Saber ~5%</strong>.</p>
+          <p><strong>Recomendação:</strong> reforçar Ter/Saber como porta de entrada (EQV + faseamento) sem depender só de Executar no mix.</p>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Por Farmer</div>
+          <h2>FCA · Sara e Marcelo.</h2>
+        </div>
+        <p>Conversão e ticket da tabela detalhada · drops tipados por motivo.</p>
+      </div>
+      <div class="two">
+        <div class="chart-card">
+          <h3>Sara Pizzico</h3>
+          <div class="fca-grid" style="margin:12px 0 0">
+            <div class="fca fatos">
+              <h4>Fatos</h4>
+              <ul>
+                <li><strong>80 oportunidades</strong> em carteira.</li>
+                <li><strong>20 monetizadas</strong> (25,0% de conversão).</li>
+                <li><strong>35 drops</strong> (43,8% do total).</li>
+                <li><strong>Ticket médio TCV:</strong> R$ 44.806.</li>
+                <li>Pico de ticket em Abril (R$ 61,4k) e vale em Junho (R$ 28,7k).</li>
+                <li>Maior parte das vendas são de <strong>Executar</strong> e <strong>Ter</strong>.</li>
+              </ul>
             </div>
-        </div>
-
-        <div class="card" style="background:#ecfdf5; border-color:#6ee7b7;">
-            <h3 style="color:#065f46;">👨 Marcelo Figueiredo</h3>
-            <div class="farmer-fca">
-                <div class="fca-card fatos" style="background:#fee2e2; border-color:#fca5a5;">
-                    <h4 style="color:#b91c1c; font-size:14px;">Fatos</h4>
-                    <ul>
-                        <li><strong>60 oportunidades</strong> em carteira.</li>
-                        <li><strong>19 monetizadas</strong> (31,7% de conversão).</li>
-                        <li><strong>25 drops</strong> (41,7% do total).</li>
-                        <li><strong>Ticket médio TCV:</strong> R$ 72.896.</li>
-                        <li>Ticket mais alto em Janeiro (R$ 87,0k) e mais baixo em Julho (R$ 29,6k).</li>
-                        <li>Produtos mais vendidos: <strong>Executar</strong> e <strong>Saber</strong>.</li>
-                    </ul>
-                </div>
-                <div class="fca-card causas" style="background:#fef3c7; border-color:#fcd34d;">
-                    <h4 style="color:#b45309; font-size:14px;">Causas</h4>
-                    <ul>
-                        <li><strong>Budget</strong> (44% · 11/25) – clientes com margens apertadas.</li>
-                        <li><strong>Timing</strong> (28% · 7/25) – mudanças internas.</li>
-                        <li><strong>Interno</strong> (20% · 5/25) – falta de governança.</li>
-                        <li><strong>Outros</strong> (8% · 2/25) – inclui concorrência / solução interna quando não tipado.</li>
-                    </ul>
-                </div>
-                <div class="fca-card acoes" style="background:#d1fae5; border-color:#6ee7b7;">
-                    <h4 style="color:#047857; font-size:14px;">Ações</h4>
-                    <ul>
-                        <li><strong>Pacotes customizados</strong> para diferentes perfis.</li>
-                        <li><strong>Reforçar provas sociais</strong> e cases de ROI.</li>
-                        <li><strong>Follow-up</strong> máximo 5 dias para leads quentes.</li>
-                        <li><strong>Segmentar</strong> leads com faturamento > R$ 500k.</li>
-                    </ul>
-                </div>
+            <div class="fca causas">
+              <h4>Causas</h4>
+              <ul>
+                <li><strong>Budget</strong> (40% · 14/35) · clientes com faturamento abaixo de R$ 300k/mês.</li>
+                <li><strong>Timing</strong> (29% · 10/35) · clientes em reestruturação.</li>
+                <li><strong>Tratativa Ops</strong> (20% · 7/35) · falta de priorização interna.</li>
+                <li><strong>Interno</strong> (11% · 4/35) · inclui handoff / atraso quando tipado assim.</li>
+              </ul>
             </div>
-        </div>
-    </div>
-
-    <!-- ==================== MÉTRICAS E GRÁFICOS ==================== -->
-    <div class="stats-row">
-        <div class="stat-box"><span class="label">Oportunidades</span><div class="value">140</div></div>
-        <div class="stat-box"><span class="label">Monetizadas</span><div class="value green">39</div></div>
-        <div class="stat-box"><span class="label">Drop</span><div class="value red">60</div></div>
-        <div class="stat-box"><span class="label">Taxa Conversão</span><div class="value blue">27,9%</div></div>
-        <div class="stat-box"><span class="label">Ticket Médio TCV</span><div class="value purple">R$ 58.491</div></div>
-    </div>
-
-    <div class="section-title" id="graficos">📈 Funil de Vendas – Geral</div>
-    <div class="grid-2">
-        <div class="card">
-            <h3>Distribuição por Estágio</h3>
-            <div class="chart-container"><canvas id="funilGeral"></canvas></div>
-        </div>
-        <div class="card">
-            <h3>Motivos de Drop</h3>
-            <div class="chart-container"><canvas id="dropGeral"></canvas></div>
-        </div>
-    </div>
-
-    <div class="section-title">👥 Visão por Farmer – Follow / Drop / Monetizado</div>
-    <div class="grid-2">
-        <div class="card">
-            <h3>Sara Pizzico</h3>
-            <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:10px;">
-                <div><span class="label">Oport.</span> <strong>80</strong></div>
-                <div><span class="label">Monet.</span> <strong>20</strong></div>
-                <div><span class="label">Drop</span> <strong>35</strong></div>
-                <div><span class="label">Follow</span> <strong>8</strong></div>
-                <div><span class="label">Conv.</span> <strong>25,0%</strong></div>
-                <div><span class="label">Ticket TCV</span> <strong>R$ 44.806</strong></div>
+            <div class="fca acoes">
+              <h4>Ações</h4>
+              <ul>
+                <li><strong>EQV</strong> (R$ 15-20k / 6 meses ≈ R$ 2.500/mês) na faixa de budget.</li>
+                <li><strong>Qualificação rigorosa</strong> · orçamento e prazo na primeira reunião.</li>
+                <li><strong>Follow-up estruturado</strong> (15/30/45 dias).</li>
+                <li><strong>Upsell</strong> em clientes já monetizados.</li>
+              </ul>
             </div>
-            <div style="height:100px;"><canvas id="funilSara"></canvas></div>
+          </div>
         </div>
-        <div class="card">
-            <h3>Marcelo Figueiredo</h3>
-            <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:10px;">
-                <div><span class="label">Oport.</span> <strong>60</strong></div>
-                <div><span class="label">Monet.</span> <strong>19</strong></div>
-                <div><span class="label">Drop</span> <strong>25</strong></div>
-                <div><span class="label">Follow</span> <strong>2</strong></div>
-                <div><span class="label">Conv.</span> <strong>31,7%</strong></div>
-                <div><span class="label">Ticket TCV</span> <strong>R$ 72.896</strong></div>
+        <div class="chart-card">
+          <h3>Marcelo Figueiredo</h3>
+          <div class="fca-grid" style="margin:12px 0 0">
+            <div class="fca fatos">
+              <h4>Fatos</h4>
+              <ul>
+                <li><strong>60 oportunidades</strong> em carteira.</li>
+                <li><strong>19 monetizadas</strong> (31,7% de conversão).</li>
+                <li><strong>25 drops</strong> (41,7% do total).</li>
+                <li><strong>Ticket médio TCV:</strong> R$ 72.896.</li>
+                <li>Ticket mais alto em Janeiro (R$ 87,0k) e mais baixo em Julho (R$ 29,6k).</li>
+                <li>Produtos mais vendidos: <strong>Executar</strong> e <strong>Saber</strong>.</li>
+              </ul>
             </div>
-            <div style="height:100px;"><canvas id="funilMarcelo"></canvas></div>
+            <div class="fca causas">
+              <h4>Causas</h4>
+              <ul>
+                <li><strong>Budget</strong> (44% · 11/25) · clientes com margens apertadas.</li>
+                <li><strong>Timing</strong> (28% · 7/25) · mudanças internas.</li>
+                <li><strong>Interno</strong> (20% · 5/25) · falta de governança.</li>
+                <li><strong>Outros</strong> (8% · 2/25) · inclui concorrência / solução interna quando não tipado.</li>
+              </ul>
+            </div>
+            <div class="fca acoes">
+              <h4>Ações</h4>
+              <ul>
+                <li><strong>Pacotes customizados</strong> para diferentes perfis.</li>
+                <li><strong>Reforçar provas sociais</strong> e cases de ROI.</li>
+                <li><strong>Follow-up</strong> máximo 5 dias para leads quentes.</li>
+                <li><strong>Segmentar</strong> leads com faturamento &gt; R$ 500k.</li>
+              </ul>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+    </section>
 
-    <div class="section-title">📉 Motivos de Drop por Farmer</div>
-    <div class="grid-2">
-        <div class="card"><h3>Sara</h3><div style="height:180px;"><canvas id="dropSara"></canvas></div></div>
-        <div class="card"><h3>Marcelo</h3><div style="height:180px;"><canvas id="dropMarcelo"></canvas></div></div>
-    </div>
+    <!-- ===================== GRAFICOS ===================== -->
+    <section id="graficos">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Funil e evolução</div>
+          <h2>Gráficos · funil, drops, farmer, mensal e mix.</h2>
+        </div>
+        <p>IDs Chart.js preservados do relatório original. Cores ajustadas para fundo V4.</p>
+      </div>
 
-    <div class="section-title">📅 Evolução Mensal (Mês a Mês)</div>
-    <div class="grid-2">
-        <div class="card">
-            <h3>Total TCV Fechado – Sara</h3>
-            <div class="chart-container"><canvas id="saraTotalTCV"></canvas></div>
+      <div class="chart-grid equal">
+        <div class="chart-card">
+          <h3>Funil de vendas · geral</h3>
+          <div class="sub">Distribuição por estágio · 140 opps</div>
+          <div class="chart-wrap"><canvas id="funilGeral"></canvas></div>
         </div>
-        <div class="card">
-            <h3>Total TCV Fechado – Marcelo</h3>
-            <div class="chart-container"><canvas id="marceloTotalTCV"></canvas></div>
+        <div class="chart-card">
+          <h3>Motivos de Drop · geral</h3>
+          <div class="sub">Soma Sara+Marcelo = 60 (Budget 25 · Timing 17 · Ops 7 · Interno 9 · Outros 2)</div>
+          <div class="chart-wrap"><canvas id="dropGeral"></canvas></div>
         </div>
-        <div class="card">
-            <h3>Ticket Médio – Sara</h3>
-            <div class="chart-container"><canvas id="saraAvgTicket"></canvas></div>
-        </div>
-        <div class="card">
-            <h3>Ticket Médio – Marcelo</h3>
-            <div class="chart-container"><canvas id="marceloAvgTicket"></canvas></div>
-        </div>
-    </div>
+      </div>
 
-    <div class="section-title">🧩 Mix de Produtos (MRR) – Evolução Mensal</div>
-    <div class="grid-2">
-        <div class="card">
-            <h3>Sara – MRR por Produto</h3>
-            <div class="chart-container"><canvas id="saraProductMix"></canvas></div>
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Visão Farmer</div>
+          <h2>Follow · Drop · Monetizado.</h2>
         </div>
-        <div class="card">
-            <h3>Marcelo – MRR por Produto</h3>
-            <div class="chart-container"><canvas id="marceloProductMix"></canvas></div>
+      </div>
+      <div class="chart-grid equal">
+        <div class="chart-card">
+          <h3>Sara Pizzico</h3>
+          <div class="farmer-mini">
+            <span>Oport. <strong>80</strong></span>
+            <span>Monet. <strong>20</strong></span>
+            <span>Drop <strong>35</strong></span>
+            <span>Follow <strong>8</strong></span>
+            <span>Conv. <strong>25,0%</strong></span>
+            <span>Ticket TCV <strong>R$ 44.806</strong></span>
+          </div>
+          <div class="chart-wrap short"><canvas id="funilSara"></canvas></div>
         </div>
-    </div>
-    <p style="font-size:13px; color:#64748b; margin-top:-10px;">* MRR (Receita Recorrente Mensal) = valor médio mensal contratado.</p>
+        <div class="chart-card">
+          <h3>Marcelo Figueiredo</h3>
+          <div class="farmer-mini">
+            <span>Oport. <strong>60</strong></span>
+            <span>Monet. <strong>19</strong></span>
+            <span>Drop <strong>25</strong></span>
+            <span>Follow <strong>2</strong></span>
+            <span>Conv. <strong>31,7%</strong></span>
+            <span>Ticket TCV <strong>R$ 72.896</strong></span>
+          </div>
+          <div class="chart-wrap short"><canvas id="funilMarcelo"></canvas></div>
+        </div>
+      </div>
 
-    <div class="section-title">📋 Resumo Mensal por Farmer</div>
-    <div class="note-box">
-        <strong>Atenção de consistência:</strong> o resumo mensal de Marcelo soma TCV <strong>R$ 1.324.743</strong>, enquanto a tabela detalhada (com correções Prime Dente + Espírito Santo) soma <strong>R$ 1.385.029</strong> (Δ ≈ R$ 60k). Os KPIs de ticket/TCV do relatório usam a <strong>tabela detalhada</strong> como fonte. O mensal precisa de redistribuição mês a mês das correções.
-    </div>
-    <div class="table-wrap">
+      <div class="chart-grid equal">
+        <div class="chart-card">
+          <h3>Motivos de Drop · Sara</h3>
+          <div class="sub">Budget 14 · Timing 10 · Tratativa Ops 7 · Interno 4</div>
+          <div class="chart-wrap"><canvas id="dropSara"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Motivos de Drop · Marcelo</h3>
+          <div class="sub">Budget 11 · Timing 7 · Interno 5 · Outros 2</div>
+          <div class="chart-wrap"><canvas id="dropMarcelo"></canvas></div>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Evolução mensal</div>
+          <h2>TCV e ticket · mês a mês.</h2>
+        </div>
+      </div>
+      <div class="chart-grid equal">
+        <div class="chart-card">
+          <h3>Total TCV Fechado · Sara</h3>
+          <div class="chart-wrap"><canvas id="saraTotalTCV"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Total TCV Fechado · Marcelo</h3>
+          <div class="chart-wrap"><canvas id="marceloTotalTCV"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Ticket Médio · Sara</h3>
+          <div class="chart-wrap"><canvas id="saraAvgTicket"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Ticket Médio · Marcelo</h3>
+          <div class="chart-wrap"><canvas id="marceloAvgTicket"></canvas></div>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Mix de produtos</div>
+          <h2>MRR por produto · evolução mensal.</h2>
+        </div>
+        <p>MRR = valor médio mensal contratado (Saber/Ter em R$ k · Executar em R$ k).</p>
+      </div>
+      <div class="chart-grid equal">
+        <div class="chart-card">
+          <h3>Sara · MRR por Produto</h3>
+          <div class="chart-wrap tall"><canvas id="saraProductMix"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Marcelo · MRR por Produto</h3>
+          <div class="chart-wrap tall"><canvas id="marceloProductMix"></canvas></div>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Resumo mensal</div>
+          <h2>Negócios · TCV · ticket por Farmer.</h2>
+        </div>
+        <p>Atenção: o resumo mensal de Marcelo soma TCV R$ 1.324.743, enquanto a tabela detalhada (com correções) soma R$ 1.385.029 (Δ ≈ R$ 60k). KPIs usam a tabela detalhada.</p>
+      </div>
+      <div class="table-card">
         <table>
-            <thead>
-                <tr><th>Mês</th><th>Farmer</th><th>Negócios</th><th>TCV Total (R$)</th><th>Ticket Médio (R$)</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>Jan</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>4</td><td>347.930</td><td>86.983</td></tr>
-                <tr><td>Mar</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>6</td><td>511.813</td><td>85.302</td></tr>
-                <tr><td>Mar</td><td><span class="badge badge-sara">Sara</span></td><td>4</td><td>126.577</td><td>31.644</td></tr>
-                <tr><td>Abr</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>1</td><td>32.000</td><td>32.000</td></tr>
-                <tr><td>Abr</td><td><span class="badge badge-sara">Sara</span></td><td>5</td><td>307.247</td><td>61.449</td></tr>
-                <tr><td>Mai</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>6</td><td>325.630</td><td>54.272</td></tr>
-                <tr><td>Mai</td><td><span class="badge badge-sara">Sara</span></td><td>4</td><td>239.279</td><td>59.820</td></tr>
-                <tr><td>Jun</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>1</td><td>77.740</td><td>77.740</td></tr>
-                <tr><td>Jun</td><td><span class="badge badge-sara">Sara</span></td><td>4</td><td>114.840</td><td>28.710</td></tr>
-                <tr><td>Jul</td><td><span class="badge badge-marcelo">Marcelo</span></td><td>1</td><td>29.630</td><td>29.630</td></tr>
-                <tr><td>Jul</td><td><span class="badge badge-sara">Sara</span></td><td>3</td><td>108.170</td><td>36.057</td></tr>
-            </tbody>
+          <thead>
+            <tr><th>Mês</th><th>Farmer</th><th>Negócios</th><th>TCV Total (R$)</th><th>Ticket Médio (R$)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Jan</td><td><span class="tag">Marcelo</span></td><td class="num">4</td><td class="num">347.930</td><td class="num">86.983</td></tr>
+            <tr><td>Mar</td><td><span class="tag">Marcelo</span></td><td class="num">6</td><td class="num">511.813</td><td class="num">85.302</td></tr>
+            <tr><td>Mar</td><td><span class="tag">Sara</span></td><td class="num">4</td><td class="num">126.577</td><td class="num">31.644</td></tr>
+            <tr><td>Abr</td><td><span class="tag">Marcelo</span></td><td class="num">1</td><td class="num">32.000</td><td class="num">32.000</td></tr>
+            <tr><td>Abr</td><td><span class="tag">Sara</span></td><td class="num">5</td><td class="num">307.247</td><td class="num">61.449</td></tr>
+            <tr><td>Mai</td><td><span class="tag">Marcelo</span></td><td class="num">6</td><td class="num">325.630</td><td class="num">54.272</td></tr>
+            <tr><td>Mai</td><td><span class="tag">Sara</span></td><td class="num">4</td><td class="num">239.279</td><td class="num">59.820</td></tr>
+            <tr><td>Jun</td><td><span class="tag">Marcelo</span></td><td class="num">1</td><td class="num">77.740</td><td class="num">77.740</td></tr>
+            <tr><td>Jun</td><td><span class="tag">Sara</span></td><td class="num">4</td><td class="num">114.840</td><td class="num">28.710</td></tr>
+            <tr><td>Jul</td><td><span class="tag">Marcelo</span></td><td class="num">1</td><td class="num">29.630</td><td class="num">29.630</td></tr>
+            <tr><td>Jul</td><td><span class="tag">Sara</span></td><td class="num">3</td><td class="num">108.170</td><td class="num">36.057</td></tr>
+          </tbody>
         </table>
-    </div>
+      </div>
+    </section>
 
-    <div class="section-title">📦 Vendas Monetizadas – Detalhamento por Produto (39 vendas) · Saber/Ter OT · Executar MRR · TCV</div>
+    <!-- ===================== VENDAS ===================== -->
+    <section id="vendas">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">39 vendas monetizadas</div>
+          <h2>Detalhamento por produto · Pagamento.</h2>
+        </div>
+        <p>Saber/Ter = One Time · Executar = MRR · TCV = Saber OT + Ter OT + (Executar MRR × Booking).</p>
+      </div>
 
-    <!-- SARA (20 vendas) -->
-    <div class="farmer-header">
-        <span class="badge badge-sara" style="font-size:16px; padding:6px 16px;">Sara Pizzico</span>
-        <h3 style="margin:0;">20 vendas – Ticket médio TCV R$ 44.806</h3>
-    </div>
-    <div class="table-wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Sara Pizzico</div>
+          <h2>20 vendas · ticket médio TCV R$ 44.806.</h2>
+        </div>
+      </div>
+      <div class="table-card">
         <table>
-            <thead>
-                <tr><th>Cliente</th><th>Saber (One Time)</th><th>Ter (One Time)</th><th>Executar (MRR)</th><th>TCV</th><th>Booking (meses)</th><th>Pagamento</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>WK Carpetes</td><td>R$ -</td><td>R$ 14.610</td><td>R$ -</td><td>R$ 14.610</td><td>1</td><td>Cartão 12x</td></tr>
-                <tr><td>Pachane</td><td>R$ -</td><td>R$ 17.537</td><td>R$ -</td><td>R$ 17.537</td><td>1</td><td>Cartão 12x</td></tr>
-                <tr><td>Luup Perfumes</td><td>R$ -</td><td>R$ 12.115</td><td>R$ -</td><td>R$ 12.115</td><td>1</td><td>Cartão 12x</td></tr>
-                <tr><td>Gigaclima</td><td>R$ -</td><td>R$ -</td><td>R$ 6.859,58</td><td>R$ 82.315</td><td>12</td><td>Cartão 12x</td></tr>
-                <tr><td>Fares Aquino</td><td>R$ -</td><td>R$ 17.537</td><td>R$ 6.602,08</td><td>R$ 96.762</td><td>12</td><td>Cartão</td></tr>
-                <tr><td>Espaço Zabeu</td><td>R$ -</td><td>R$ 7.534</td><td>R$ 3.050,58</td><td>R$ 44.141</td><td>12</td><td>Boleto</td></tr>
-                <tr><td>Telefer Telecom</td><td>R$ -</td><td>R$ 19.927</td><td>R$ -</td><td>R$ 19.927</td><td>1</td><td>Cartão 12x</td></tr>
-                <tr><td>OFOS</td><td>R$ 23.819</td><td>R$ -</td><td>R$ 1.817,33</td><td>R$ 45.627</td><td>12</td><td>Cartão 12x</td></tr>
-                <tr><td>Studio Henrique Hoffman</td><td>R$ -</td><td>R$ 432</td><td>R$ 3.565,08</td><td>R$ 43.213</td><td>12</td><td>Cartão 12x</td></tr>
-                <tr><td>RPPALS</td><td>R$ -</td><td>R$ 2.927</td><td>R$ 8.155,25</td><td>R$ 100.790</td><td>12</td><td>Cartão</td></tr>
-                <tr><td>REVESERVICE</td><td>R$ -</td><td>R$ 2.196</td><td>R$ 4.225,25</td><td>R$ 52.899</td><td>12</td><td>Boleto</td></tr>
-                <tr><td>Kidys Park</td><td>R$ -</td><td>R$ 5.149</td><td>R$ 3.137,17</td><td>R$ 42.795</td><td>12</td><td>Cartão 12x</td></tr>
-                <tr><td>Natuclean</td><td>R$ -</td><td>R$ -</td><td>R$ 8.364,33</td><td>R$ 100.372</td><td>12</td><td>Cartão</td></tr>
-                <tr><td>Rede Construir</td><td>R$ -</td><td>R$ 13.590</td><td>R$ -</td><td>R$ 13.590</td><td>1</td><td>Cartão 12x</td></tr>
-                <tr><td>Inovar Academy</td><td>R$ -</td><td>R$ 10.142</td><td>R$ -</td><td>R$ 10.142</td><td>1</td><td>Cartão</td></tr>
-                <tr><td>Solução Locação</td><td>R$ 9.939</td><td>R$ -</td><td>R$ 4.321,33</td><td>R$ 61.795</td><td>12</td><td>Cartão</td></tr>
-                <tr><td>Nova York e você</td><td>R$ -</td><td>R$ -</td><td>R$ 4.885,50</td><td>R$ 29.313</td><td>6</td><td>Cartão 6x</td></tr>
-                <tr><td>Modular Estruturas</td><td>R$ -</td><td>R$ -</td><td>R$ 4.713,83</td><td>R$ 28.283</td><td>6</td><td>Cartão 6x</td></tr>
-                <tr><td>BR Distribuidora</td><td>R$ -</td><td>R$ -</td><td>R$ 5.387,25</td><td>R$ 64.647</td><td>12</td><td>PIX</td></tr>
-                <tr><td>Isoluz Mats Eletricos</td><td>R$ -</td><td>R$ 4.000</td><td>R$ 11.240</td><td>R$ 15.240</td><td>1</td><td>Cartão 12x</td></tr>
-            </tbody>
+          <thead>
+            <tr><th>Cliente</th><th>Saber (OT)</th><th>Ter (OT)</th><th>Executar (MRR)</th><th>TCV</th><th>Booking</th><th>Pagamento</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>WK Carpetes</td><td class="num">R$ -</td><td class="num">R$ 14.610</td><td class="num">R$ -</td><td class="num">R$ 14.610</td><td class="num">1</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>Pachane</td><td class="num">R$ -</td><td class="num">R$ 17.537</td><td class="num">R$ -</td><td class="num">R$ 17.537</td><td class="num">1</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>Luup Perfumes</td><td class="num">R$ -</td><td class="num">R$ 12.115</td><td class="num">R$ -</td><td class="num">R$ 12.115</td><td class="num">1</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>Gigaclima</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 6.859,58</td><td class="num">R$ 82.315</td><td class="num">12</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>Fares Aquino</td><td class="num">R$ -</td><td class="num">R$ 17.537</td><td class="num">R$ 6.602,08</td><td class="num">R$ 96.762</td><td class="num">12</td><td><span class="tag">Cartão</span></td></tr>
+            <tr><td>Espaço Zabeu</td><td class="num">R$ -</td><td class="num">R$ 7.534</td><td class="num">R$ 3.050,58</td><td class="num">R$ 44.141</td><td class="num">12</td><td><span class="tag">Boleto</span></td></tr>
+            <tr><td>Telefer Telecom</td><td class="num">R$ -</td><td class="num">R$ 19.927</td><td class="num">R$ -</td><td class="num">R$ 19.927</td><td class="num">1</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>OFOS</td><td class="num">R$ 23.819</td><td class="num">R$ -</td><td class="num">R$ 1.817,33</td><td class="num">R$ 45.627</td><td class="num">12</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>Studio Henrique Hoffman</td><td class="num">R$ -</td><td class="num">R$ 432</td><td class="num">R$ 3.565,08</td><td class="num">R$ 43.213</td><td class="num">12</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>RPPALS</td><td class="num">R$ -</td><td class="num">R$ 2.927</td><td class="num">R$ 8.155,25</td><td class="num">R$ 100.790</td><td class="num">12</td><td><span class="tag">Cartão</span></td></tr>
+            <tr><td>REVESERVICE</td><td class="num">R$ -</td><td class="num">R$ 2.196</td><td class="num">R$ 4.225,25</td><td class="num">R$ 52.899</td><td class="num">12</td><td><span class="tag">Boleto</span></td></tr>
+            <tr><td>Kidys Park</td><td class="num">R$ -</td><td class="num">R$ 5.149</td><td class="num">R$ 3.137,17</td><td class="num">R$ 42.795</td><td class="num">12</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>Natuclean</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 8.364,33</td><td class="num">R$ 100.372</td><td class="num">12</td><td><span class="tag">Cartão</span></td></tr>
+            <tr><td>Rede Construir</td><td class="num">R$ -</td><td class="num">R$ 13.590</td><td class="num">R$ -</td><td class="num">R$ 13.590</td><td class="num">1</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>Inovar Academy</td><td class="num">R$ -</td><td class="num">R$ 10.142</td><td class="num">R$ -</td><td class="num">R$ 10.142</td><td class="num">1</td><td><span class="tag">Cartão</span></td></tr>
+            <tr><td>Solução Locação</td><td class="num">R$ 9.939</td><td class="num">R$ -</td><td class="num">R$ 4.321,33</td><td class="num">R$ 61.795</td><td class="num">12</td><td><span class="tag">Cartão</span></td></tr>
+            <tr><td>Nova York e você</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 4.885,50</td><td class="num">R$ 29.313</td><td class="num">6</td><td><span class="tag">Cartão 6x</span></td></tr>
+            <tr><td>Modular Estruturas</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 4.713,83</td><td class="num">R$ 28.283</td><td class="num">6</td><td><span class="tag">Cartão 6x</span></td></tr>
+            <tr><td>BR Distribuidora</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 5.387,25</td><td class="num">R$ 64.647</td><td class="num">12</td><td><span class="tag">PIX</span></td></tr>
+            <tr><td>Isoluz Mats Eletricos</td><td class="num">R$ -</td><td class="num">R$ 4.000</td><td class="num">R$ 11.240</td><td class="num">R$ 15.240</td><td class="num">1</td><td><span class="tag">Cartão 12x</span></td></tr>
+          </tbody>
         </table>
-    </div>
+      </div>
 
-    <!-- MARCELO (19 vendas) - CORRIGIDO -->
-    <div class="farmer-header" style="margin-top:30px;">
-        <span class="badge badge-marcelo" style="font-size:16px; padding:6px 16px;">Marcelo Figueiredo</span>
-        <h3 style="margin:0;">19 vendas – Ticket médio TCV R$ 72.896</h3>
-    </div>
-    <div class="note-box">
-        <strong>✅ Correções aplicadas:</strong> Prime Dente (Executar R$ 4.182,18 × 12 = R$ 50.186,16) e Espirito Santo Advogados (Saber R$ 10.149,92).
-    </div>
-    <div class="table-wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Marcelo Figueiredo</div>
+          <h2>19 vendas · ticket médio TCV R$ 72.896.</h2>
+        </div>
+        <p>Correções aplicadas: Prime Dente (Executar R$ 4.182,18 × 12 = R$ 50.186,16) e Espírito Santo Advogados (Saber R$ 10.149,92).</p>
+      </div>
+      <div class="table-card">
         <table>
-            <thead>
-                <tr><th>Cliente</th><th>Saber (One Time)</th><th>Ter (One Time)</th><th>Executar (MRR)</th><th>TCV</th><th>Booking (meses)</th><th>Pagamento</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>Dydyo</td><td>R$ 5.300</td><td>R$ 5.300</td><td>R$ 11.633,33</td><td>R$ 80.400</td><td>6</td><td>Boleto</td></tr>
-                <tr><td>Espírito Santo Advogados</td><td>R$ 10.149,92</td><td>R$ -</td><td>R$ -</td><td>R$ 10.149,92</td><td>1</td><td>Cartão</td></tr>
-                <tr><td>Bertoncello</td><td>R$ -</td><td>R$ 141.600</td><td>R$ -</td><td>R$ 141.600</td><td>12</td><td>Cartão 12x</td></tr>
-                <tr><td>Vest Care</td><td>R$ 20.000</td><td>R$ 12.076</td><td>R$ 5.017,53</td><td>R$ 92.286</td><td>12</td><td>PIX</td></tr>
-                <tr><td>Elas Pelo Mundo</td><td>R$ -</td><td>R$ -</td><td>R$ 7.058</td><td>R$ 84.696</td><td>12</td><td>Cartão 12x</td></tr>
-                <tr><td>Espaço Zabeu (Marcelo)</td><td>R$ -</td><td>R$ -</td><td>R$ 9.868,25</td><td>R$ 118.419</td><td>12</td><td>Cartão</td></tr>
-                <tr><td>Educa Safras</td><td>R$ -</td><td>R$ -</td><td>R$ 10.139</td><td>R$ 60.834</td><td>6</td><td>Cartão</td></tr>
-                <tr><td>Avaliza</td><td>R$ -</td><td>R$ -</td><td>R$ 10.000</td><td>R$ 120.000</td><td>12</td><td>Boleto</td></tr>
-                <tr><td>Cartão do Bem</td><td>R$ 20.129</td><td>R$ -</td><td>R$ -</td><td>R$ 20.129</td><td>1</td><td>Cartão 12x</td></tr>
-                <tr><td>Branquinho & Santana</td><td>R$ -</td><td>R$ -</td><td>R$ 6.691,50</td><td>R$ 40.149</td><td>6</td><td>Cartão 6x</td></tr>
-                <tr><td>Prime Dente</td><td>R$ -</td><td>R$ -</td><td>R$ 4.182,18</td><td>R$ 50.186,16</td><td>12</td><td>Cartão 12x</td></tr>
-                <tr><td>New Safes</td><td>R$ -</td><td>R$ -</td><td>R$ 6.478,33</td><td>R$ 77.740</td><td>12</td><td>Boleto</td></tr>
-                <tr><td>GEWT</td><td>R$ -</td><td>R$ -</td><td>R$ 4.938</td><td>R$ 29.629</td><td>6</td><td>Boleto</td></tr>
-                <tr><td>VESTCARE 2</td><td>R$ -</td><td>R$ -</td><td>R$ 5.017,53</td><td>R$ 60.210</td><td>12</td><td>PIX</td></tr>
-                <tr><td>ID Negócios (Marcelo)</td><td>R$ -</td><td>R$ -</td><td>R$ 5.855</td><td>R$ 70.261</td><td>12</td><td>Cartão</td></tr>
-                <tr><td>Safra Cifras</td><td>R$ -</td><td>R$ -</td><td>R$ 10.135</td><td>R$ 60.810</td><td>6</td><td>Cartão 12x</td></tr>
-                <tr><td>US Ophtalmic</td><td>R$ -</td><td>R$ -</td><td>R$ 10.000</td><td>R$ 120.000</td><td>12</td><td>Cartão 12x</td></tr>
-                <tr><td>BUBLU</td><td>R$ 18.250</td><td>R$ 20.620</td><td>R$ 6.455</td><td>R$ 116.330</td><td>12</td><td>Cartão 12x</td></tr>
-                <tr><td>Universo Distribuidora</td><td>R$ -</td><td>R$ -</td><td>R$ 15.600</td><td>R$ 31.200</td><td>2</td><td>Cartão</td></tr>
-            </tbody>
+          <thead>
+            <tr><th>Cliente</th><th>Saber (OT)</th><th>Ter (OT)</th><th>Executar (MRR)</th><th>TCV</th><th>Booking</th><th>Pagamento</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Dydyo</td><td class="num">R$ 5.300</td><td class="num">R$ 5.300</td><td class="num">R$ 11.633,33</td><td class="num">R$ 80.400</td><td class="num">6</td><td><span class="tag">Boleto</span></td></tr>
+            <tr><td>Espírito Santo Advogados</td><td class="num">R$ 10.149,92</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 10.149,92</td><td class="num">1</td><td><span class="tag">Cartão</span></td></tr>
+            <tr><td>Bertoncello</td><td class="num">R$ -</td><td class="num">R$ 141.600</td><td class="num">R$ -</td><td class="num">R$ 141.600</td><td class="num">12</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>Vest Care</td><td class="num">R$ 20.000</td><td class="num">R$ 12.076</td><td class="num">R$ 5.017,53</td><td class="num">R$ 92.286</td><td class="num">12</td><td><span class="tag">PIX</span></td></tr>
+            <tr><td>Elas Pelo Mundo</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 7.058</td><td class="num">R$ 84.696</td><td class="num">12</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>Espaço Zabeu (Marcelo)</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 9.868,25</td><td class="num">R$ 118.419</td><td class="num">12</td><td><span class="tag">Cartão</span></td></tr>
+            <tr><td>Educa Safras</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 10.139</td><td class="num">R$ 60.834</td><td class="num">6</td><td><span class="tag">Cartão</span></td></tr>
+            <tr><td>Avaliza</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 10.000</td><td class="num">R$ 120.000</td><td class="num">12</td><td><span class="tag">Boleto</span></td></tr>
+            <tr><td>Cartão do Bem</td><td class="num">R$ 20.129</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 20.129</td><td class="num">1</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>Branquinho & Santana</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 6.691,50</td><td class="num">R$ 40.149</td><td class="num">6</td><td><span class="tag">Cartão 6x</span></td></tr>
+            <tr><td>Prime Dente</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 4.182,18</td><td class="num">R$ 50.186,16</td><td class="num">12</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>New Safes</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 6.478,33</td><td class="num">R$ 77.740</td><td class="num">12</td><td><span class="tag">Boleto</span></td></tr>
+            <tr><td>GEWT</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 4.938</td><td class="num">R$ 29.629</td><td class="num">6</td><td><span class="tag">Boleto</span></td></tr>
+            <tr><td>VESTCARE 2</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 5.017,53</td><td class="num">R$ 60.210</td><td class="num">12</td><td><span class="tag">PIX</span></td></tr>
+            <tr><td>ID Negócios (Marcelo)</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 5.855</td><td class="num">R$ 70.261</td><td class="num">12</td><td><span class="tag">Cartão</span></td></tr>
+            <tr><td>Safra Cifras</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 10.135</td><td class="num">R$ 60.810</td><td class="num">6</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>US Ophtalmic</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 10.000</td><td class="num">R$ 120.000</td><td class="num">12</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>BUBLU</td><td class="num">R$ 18.250</td><td class="num">R$ 20.620</td><td class="num">R$ 6.455</td><td class="num">R$ 116.330</td><td class="num">12</td><td><span class="tag">Cartão 12x</span></td></tr>
+            <tr><td>Universo Distribuidora</td><td class="num">R$ -</td><td class="num">R$ -</td><td class="num">R$ 15.600</td><td class="num">R$ 31.200</td><td class="num">2</td><td><span class="tag">Cartão</span></td></tr>
+          </tbody>
         </table>
-    </div>
-    <p style="font-size:13px; color:#64748b; margin-top:6px;">* Valores em reais. <strong>Saber</strong> e <strong>Ter</strong> = One Time · <strong>Executar</strong> = MRR mensal · <strong>TCV</strong> = Saber OT + Ter OT + (Executar MRR × Booking). Em Ter-only com booking &gt; 1, o One Time de Ter é o valor total do projeto. <strong>Pagamento</strong> = planilha EE + confirmação Farmer (39/39).</p>
+      </div>
+      <p class="src">Valores em reais. Pagamento = planilha EE + confirmação Farmer (39/39).</p>
+    </section>
 
-    <!-- ==================== FORMA DE PAGAMENTO ==================== -->
-    <div class="section-title" id="pagamento">💳 Forma de pagamento · 39 vendas monetizadas</div>
-    <div class="insight-box">
-        <strong>Leitura:</strong> <strong>cartão</strong> concentra a maior parte dos fechamentos (30/39 · ~77%). Boleto 6 · PIX 3. Base completa após confirmação Farmer (03/08).
-    </div>
-    <div class="stats-row">
-        <div class="stat-box"><span class="label">Cartão</span><div class="value blue">30</div><div class="src">~77% dos 39 wins</div></div>
-        <div class="stat-box"><span class="label">Boleto</span><div class="value purple">6</div><div class="src">~15% dos wins</div></div>
-        <div class="stat-box"><span class="label">PIX</span><div class="value green">3</div><div class="src">BR · Vest Care · VESTCARE 2</div></div>
-        <div class="stat-box"><span class="label">Cobertura</span><div class="value">39/39</div><div class="src">100% preenchido</div></div>
-    </div>
-    <div class="grid-2">
-        <div class="card">
-            <h3>Mix geral (39 wins)</h3>
-            <div class="chart-container"><canvas id="pagGeral"></canvas></div>
-            <p class="src">Fonte: planilha CRM EE + confirmação Farmer (12 gaps preenchidos em 03/08).</p>
+    <!-- ===================== PAGAMENTO ===================== -->
+    <section id="pagamento">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Forma de pagamento · 39 wins</div>
+          <h2>PIX · Boleto · Cartão · taxas do mix.</h2>
         </div>
-        <div class="card">
-            <h3>Por Farmer (contagem)</h3>
-            <div class="chart-container"><canvas id="pagFarmer"></canvas></div>
-            <p class="src">Sara: Cartão 17 · Boleto 2 · PIX 1. Marcelo: Cartão 13 · Boleto 4 · PIX 2.</p>
-        </div>
-    </div>
+        <p>Fonte: planilha EE + confirmação Farmer (03/08). Taxa = % de wins e % de TCV por forma. Cobertura: 39/39 (100%). Total TCV R$ 2.281.142,08.</p>
+      </div>
 
+      <div class="cards">
+        <div class="metric">
+          <div class="metric-label">Cobertura preenchida</div>
+          <div class="metric-number">100%</div>
+          <small>39 de 39 wins com forma informada</small>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Forma mais usada</div>
+          <div class="metric-number">Cartão</div>
+          <small>30 wins · 76.9% dos wins</small>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Maior TCV por forma</div>
+          <div class="metric-number">Cartão</div>
+          <small>R$ 1.659.190,08 · 72.7% do TCV</small>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Sem info (gap)</div>
+          <div class="metric-number">0</div>
+          <small>Cobertura 100% após confirmação Farmer</small>
+        </div>
+      </div>
 
-    <!-- ==================== SABER → EXECUTAR ==================== -->
-    <div class="section-title" id="saber-executar">🔄 SABER → EXECUTAR · Onde o funil trava</div>
-    <div class="insight-box">
-        <strong>Leitura (só com os 39 wins):</strong> a esteira SABER ainda é minoria no TCV fechado (7/39). Quando o Saber entra no contrato, a chance de vir com Executar no mesmo pacote é alta (5/7). O volume de Executar “puro” (25) mostra que muita receita não passa pelo diagnóstico — e, quando passa, o risco está na <em>entrega longa + preço mal amarrado</em>, não só no close do Farmer.
-    </div>
+      <div class="chart-grid equal">
+        <div class="chart-card">
+          <h3>Taxa de wins por forma (%)</h3>
+          <div class="sub">% dos 39 wins · Cartão 76.9 · Boleto 15.4 · PIX 7.7</div>
+          <div class="chart-wrap"><canvas id="chartPagWins"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Taxa de TCV por forma (%)</h3>
+          <div class="sub">% do TCV total R$ 2.281.142,08</div>
+          <div class="chart-wrap"><canvas id="chartPagTcv"></canvas></div>
+        </div>
+      </div>
 
-    <div class="stats-row">
-        <div class="stat-box"><span class="label">Wins com Saber</span><div class="value blue">7 / 39</div><div class="src">18% dos contratos</div></div>
-        <div class="stat-box"><span class="label">Saber + Executar</span><div class="value green">5 / 7</div><div class="src">71% do subset Saber</div></div>
-        <div class="stat-box"><span class="label">Saber só (sem Exec)</span><div class="value red">2</div><div class="src">Espírito Santo · Cartão do Bem</div></div>
-        <div class="stat-box"><span class="label">Executar s/ Saber</span><div class="value purple">25</div><div class="src">64% dos wins</div></div>
-    </div>
+      <div class="chart-card" style="margin-bottom:24px">
+        <h3>Por Farmer · contagem empilhada</h3>
+        <div class="sub">Sara: Cartão 17 · Boleto 2 · PIX 1 · Marcelo: Cartão 13 · Boleto 4 · PIX 2</div>
+        <div class="chart-wrap"><canvas id="chartPagFarmer"></canvas></div>
+      </div>
 
-    <div class="grid-2">
-        <div class="card">
-            <h3>Mix de path nos 39 wins</h3>
-            <div class="chart-container"><canvas id="pathMix"></canvas></div>
-            <p class="src">Fonte: tabela de vendas monetizadas deste relatório (contagem por presença de TCV Saber/Ter/Executar &gt; 0).</p>
+      <div class="two">
+        <div>
+          <div class="section-head"><div><div class="eyebrow">Mix geral</div><h2>39 wins · TCV por forma.</h2></div></div>
+          <div class="table-card">
+            <table>
+              <thead><tr><th>Forma</th><th>Wins</th><th>Taxa wins</th><th>TCV</th><th>Taxa TCV</th></tr></thead>
+              <tbody>
+                <tr><td>Cartão</td><td class="num">30</td><td class="num">76.9%</td><td class="num">R$ 1.659.190,08</td><td class="num">72.7%</td></tr>
+                <tr><td>Boleto</td><td class="num">6</td><td class="num">15.4%</td><td class="num">R$ 404.809,00</td><td class="num">17.7%</td></tr>
+                <tr><td>PIX</td><td class="num">3</td><td class="num">7.7%</td><td class="num">R$ 217.143,00</td><td class="num">9.5%</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="card">
-            <h3>Saber → Executar (subset)</h3>
-            <div class="chart-container"><canvas id="saberFunnel"></canvas></div>
-            <p class="src">Dos 7 wins com Saber: 5 fecharam Executar no mesmo contrato; 2 ficaram Saber-only.</p>
+        <div>
+          <div class="section-head"><div><div class="eyebrow">Por Farmer</div><h2>Sara vs Marcelo.</h2></div></div>
+          <div class="table-card">
+            <table>
+              <thead><tr><th>Farmer</th><th>Forma</th><th>Wins</th><th>TCV</th></tr></thead>
+              <tbody>
+                <tr><td>Sara</td><td>Cartão</td><td class="num">17</td><td class="num">R$ 734.426</td></tr>
+                <tr><td>Sara</td><td>Boleto</td><td class="num">2</td><td class="num">R$ 97.040</td></tr>
+                <tr><td>Sara</td><td>PIX</td><td class="num">1</td><td class="num">R$ 64.647</td></tr>
+                <tr><td>Marcelo</td><td>Cartão</td><td class="num">13</td><td class="num">R$ 924.764</td></tr>
+                <tr><td>Marcelo</td><td>Boleto</td><td class="num">4</td><td class="num">R$ 307.769</td></tr>
+                <tr><td>Marcelo</td><td>PIX</td><td class="num">2</td><td class="num">R$ 152.496</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="card">
-            <h3>Ticket médio · Sara vs Marcelo</h3>
-            <div class="chart-container"><canvas id="ticketCompare"></canvas></div>
-            <p class="src">Marcelo +63% vs Sara (R$ 72.896 vs R$ 44.806). Suporte à hipótese de segmentação por fit/ticket — não prova causalidade sozinha.</p>
-        </div>
-        <div class="card">
-            <h3>TCV total por Farmer</h3>
-            <div class="chart-container"><canvas id="tcvShare"></canvas></div>
-            <p class="src">Sara ~R$ 896k · Marcelo ~R$ 1,39M · Total ~R$ 2,28M (soma TCV da tabela de 39 vendas).</p>
-        </div>
-    </div>
+      </div>
 
-    <div class="section-title">🧩 FCA · Transição SABER → EXECUTAR</div>
-    <div class="grid-3">
-        <div class="fca-card fatos">
-            <h4 style="color:#b91c1c;">🔴 Fatos</h4>
-            <ul>
-                <li>Só <strong>18%</strong> dos wins têm Saber no TCV.</li>
-                <li>Quando há Saber, <strong>71%</strong> já saem com Executar no pacote (OFOS, Solução Locação, Dydyo, Vest Care, BUBLU).</li>
-                <li>2 Saber-only: Espírito Santo (R$ 10.150) e Cartão do Bem (R$ 20.129) — sem upsell Executar registrado nesta base.</li>
-                <li>25 wins Executar sem Saber: receita grande fora da esteira diagnóstica.</li>
-                <li>Feedback CIEP (Cockpit CSAT): “Talvez um pouco mais de tempo neste processo, poderia auxiliar na melhor digestão das informações” — sinal de sobrecarga de entrega/absorção.</li>
-            </ul>
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Por cliente</div>
+          <h2>Forma de pagamento em cada win.</h2>
         </div>
-        <div class="fca-card causas">
-            <h4 style="color:#b45309;">🟡 Causas</h4>
-            <ul>
-                <li><strong>MEDIUM/LARGE tratados como entrega normal:</strong> mesmo playbook de ciclo curto em conta complexa → atraso e refação.</li>
-                <li><strong>Proposta sem fases de investimento:</strong> cliente só vê o número final e assusta.</li>
-                <li><strong>Faixa comercial vaga (2k–8k):</strong> destrói âncora e gera desalinhamento na mesa de preço.</li>
-                <li><strong>Time de entrega subdimensionado</strong> para profundidade de EE/DR-X em contas maiores.</li>
-                <li><strong>Farmer único para perfis distintos:</strong> ticket e ciclo de Sara ≠ Marcelo; misturar sem régua de fit aumenta ruído.</li>
-            </ul>
-        </div>
-        <div class="fca-card acoes">
-            <h4 style="color:#047857;">🟢 Ações (executáveis)</h4>
-            <ul>
-                <li><strong>Checklist de fase:</strong> toda entrega EE lista ação + valor estimado + prazo (sem faixa aberta).</li>
-                <li><strong>Conversa de Transição obrigatória</strong> antes do pitch Executar (cliente verbaliza dor).</li>
-                <li><strong>Squad EE MEDIUM/LARGE:</strong> especialista + consultor (ponte confiança) + farmer (preço).</li>
-                <li><strong>Piloto 30d de segmentação:</strong> Marcelo prioriza MEDIUM/LARGE; Sara volume/entrada com EQV.</li>
-                <li><strong>Kill criteria:</strong> EE &gt;45d sem pitch → review gerência (Simple WMS já estourou esse padrão).</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="table-wrap" style="margin-top:18px;">
+        <p>Raw = planilha ou confirmação Farmer. Classificação: PIX / Boleto / Cartão.</p>
+      </div>
+      <div class="table-card">
         <table>
-            <thead>
-                <tr><th>Cliente (win com Saber)</th><th>Farmer</th><th>Saber</th><th>Ter</th><th>Executar</th><th>TCV</th><th>Path</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>OFOS</td><td>Sara</td><td>23.819</td><td>—</td><td>21.809</td><td>45.627</td><td><span class="badge badge-sara">S+E</span></td></tr>
-                <tr><td>Solução Locação</td><td>Sara</td><td>9.939</td><td>—</td><td>51.856</td><td>61.795</td><td><span class="badge badge-sara">S+E</span></td></tr>
-                <tr><td>Dydyo</td><td>Marcelo</td><td>5.300</td><td>5.300</td><td>8.500</td><td>80.400</td><td><span class="badge badge-marcelo">S+T+E</span></td></tr>
-                <tr><td>Vest Care</td><td>Marcelo</td><td>20.000</td><td>12.076</td><td>5.018</td><td>92.286</td><td><span class="badge badge-marcelo">S+T+E</span></td></tr>
-                <tr><td>BUBLU</td><td>Marcelo</td><td>18.250</td><td>20.620</td><td>6.455</td><td>116.330</td><td><span class="badge badge-marcelo">S+T+E</span></td></tr>
-                <tr><td>Espírito Santo Advogados</td><td>Marcelo</td><td>10.150</td><td>—</td><td>—</td><td>10.150</td><td><span class="case-tag">Saber only</span></td></tr>
-                <tr><td>Cartão do Bem</td><td>Marcelo</td><td>20.129</td><td>—</td><td>—</td><td>20.129</td><td><span class="case-tag">Saber only</span></td></tr>
-            </tbody>
+          <thead><tr><th>Cliente</th><th>Farmer</th><th>Forma</th><th>Raw</th><th>TCV</th></tr></thead>
+          <tbody>
+            <tr><td>WK Carpetes</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 14.610</td></tr>
+            <tr><td>Pachane</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 17.537</td></tr>
+            <tr><td>Luup Perfumes</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 12.115</td></tr>
+            <tr><td>Gigaclima</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 82.315</td></tr>
+            <tr><td>Fares Aquino</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão</td><td class="num">R$ 96.762</td></tr>
+            <tr><td>Espaço Zabeu</td><td>Sara</td><td><span class="tag">Boleto</span></td><td>Boleto</td><td class="num">R$ 44.141</td></tr>
+            <tr><td>Telefer Telecom</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 19.927</td></tr>
+            <tr><td>OFOS</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 45.627</td></tr>
+            <tr><td>Studio Henrique Hoffman</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 43.213</td></tr>
+            <tr><td>RPPALS</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão</td><td class="num">R$ 100.790</td></tr>
+            <tr><td>REVESERVICE</td><td>Sara</td><td><span class="tag">Boleto</span></td><td>Boleto</td><td class="num">R$ 52.899</td></tr>
+            <tr><td>Kidys Park</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 42.795</td></tr>
+            <tr><td>Natuclean</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão</td><td class="num">R$ 100.372</td></tr>
+            <tr><td>Rede Construir</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 13.590</td></tr>
+            <tr><td>Inovar Academy</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão</td><td class="num">R$ 10.142</td></tr>
+            <tr><td>Solução Locação</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão</td><td class="num">R$ 61.795</td></tr>
+            <tr><td>Nova York e você</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 6x</td><td class="num">R$ 29.313</td></tr>
+            <tr><td>Modular Estruturas</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 6x</td><td class="num">R$ 28.283</td></tr>
+            <tr><td>BR Distribuidora</td><td>Sara</td><td><span class="tag">PIX</span></td><td>PIX</td><td class="num">R$ 64.647</td></tr>
+            <tr><td>Isoluz Mats Eletricos</td><td>Sara</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 15.240</td></tr>
+            <tr><td>Dydyo</td><td>Marcelo</td><td><span class="tag">Boleto</span></td><td>Boleto</td><td class="num">R$ 80.400</td></tr>
+            <tr><td>Espírito Santo Advogados</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão</td><td class="num">R$ 10.149,92</td></tr>
+            <tr><td>Bertoncello</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 141.600</td></tr>
+            <tr><td>Vest Care</td><td>Marcelo</td><td><span class="tag">PIX</span></td><td>PIX</td><td class="num">R$ 92.286</td></tr>
+            <tr><td>Elas Pelo Mundo</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 84.696</td></tr>
+            <tr><td>Espaço Zabeu (Marcelo)</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão</td><td class="num">R$ 118.419</td></tr>
+            <tr><td>Educa Safras</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão</td><td class="num">R$ 60.834</td></tr>
+            <tr><td>Avaliza</td><td>Marcelo</td><td><span class="tag">Boleto</span></td><td>Boleto</td><td class="num">R$ 120.000</td></tr>
+            <tr><td>Cartão do Bem</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 20.129</td></tr>
+            <tr><td>Branquinho & Santana</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão 6x</td><td class="num">R$ 40.149</td></tr>
+            <tr><td>Prime Dente</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 50.186,16</td></tr>
+            <tr><td>New Safes</td><td>Marcelo</td><td><span class="tag">Boleto</span></td><td>Boleto</td><td class="num">R$ 77.740</td></tr>
+            <tr><td>GEWT</td><td>Marcelo</td><td><span class="tag">Boleto</span></td><td>Boleto</td><td class="num">R$ 29.629</td></tr>
+            <tr><td>VESTCARE 2</td><td>Marcelo</td><td><span class="tag">PIX</span></td><td>PIX</td><td class="num">R$ 60.210</td></tr>
+            <tr><td>ID Negócios (Marcelo)</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão</td><td class="num">R$ 70.261</td></tr>
+            <tr><td>Safra Cifras</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 60.810</td></tr>
+            <tr><td>US Ophtalmic</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 120.000</td></tr>
+            <tr><td>BUBLU</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão 12x</td><td class="num">R$ 116.330</td></tr>
+            <tr><td>Universo Distribuidora</td><td>Marcelo</td><td><span class="tag">Cartão</span></td><td>Cartão</td><td class="num">R$ 31.200</td></tr>
+          </tbody>
         </table>
-        <p class="src">Fonte: detalhamento de vendas monetizadas deste HTML.</p>
-    </div>
+      </div>
 
-    <div class="section-title" id="casos-ml">⚠️ Casos MEDIUM/LARGE · atraso, refação e preço</div>
-    <div class="note-box">
-        <strong>Escopo desta seção:</strong> fatos operacionais citados pelo Farmer + cruzamento com Cockpit/planilha EE quando existir. Não inventamos taxa de conversão “após o plano”. Onde o número é aging/data, a fonte está na coluna.
-    </div>
+      <section class="callout">
+        <div class="eyebrow">Leitura · pagamento</div>
+        <h2>Cobertura 100% nos 39 wins · Cartão domina wins (76.9%) e TCV (72.7%).</h2>
+        <p>Boleto carrega 17.7% do TCV com só 15.4% dos wins (ticket médio maior). PIX: 3 wins (BR Distribuidora · Vest Care · VESTCARE 2) = 9.5% do TCV. Sem inventar MDR de gateway.</p>
+      </section>
+    </section>
 
-    <div class="grid-2">
-        <div class="card">
-            <h3>Aging / ciclo (referências)</h3>
-            <div class="chart-container"><canvas id="agingCases"></canvas></div>
-            <p class="src">Barras = dias de referência documentados (não é média estatística da carteira inteira).</p>
+    <!-- ===================== SABER EXECUTAR ===================== -->
+    <section id="saber-executar">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Saber → Executar</div>
+          <h2>Onde o funil trava.</h2>
         </div>
-        <div class="card">
-            <h3>O que o cliente sente (síntese)</h3>
-            <ul>
-                <li><strong>Demora / refação</strong> em conta complexa tratada como entrega padrão.</li>
-                <li><strong>Preço final sem ramp</strong> de investimento por fase.</li>
-                <li><strong>Faixa 2k–8k</strong> no comercial: âncora fraca, objeção forte.</li>
-                <li><strong>Digestão</strong> do diagnóstico (CIEP CSAT) antes de decidir Executar.</li>
-            </ul>
-        </div>
-    </div>
+        <p>Leitura só com os 39 wins. Saber ainda é minoria no TCV fechado (7/39).</p>
+      </div>
 
-    <div class="table-wrap">
+      <section class="callout">
+        <div class="eyebrow">Leitura</div>
+        <h2>Quando o Saber entra no contrato, 71% já vêm com Executar (5/7).</h2>
+        <p>O volume de Executar “puro” (25) mostra que muita receita não passa pelo diagnóstico. Quando passa, o risco está na entrega longa + preço mal amarrado, não só no close do Farmer.</p>
+      </section>
+
+      <div class="cards">
+        <div class="metric">
+          <div class="metric-label">Wins com Saber</div>
+          <div class="metric-number">7 / 39</div>
+          <small>18% dos contratos</small>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Saber + Executar</div>
+          <div class="metric-number safe">5 / 7</div>
+          <small>71% do subset Saber</small>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Saber só (sem Exec)</div>
+          <div class="metric-number danger">2</div>
+          <small>Espírito Santo · Cartão do Bem</small>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Executar s/ Saber</div>
+          <div class="metric-number">25</div>
+          <small>64% dos wins</small>
+        </div>
+      </div>
+
+      <div class="chart-grid equal">
+        <div class="chart-card">
+          <h3>Mix de path nos 39 wins</h3>
+          <div class="sub">Contagem por presença de TCV Saber/Ter/Executar &gt; 0</div>
+          <div class="chart-wrap"><canvas id="pathMix"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Saber → Executar (subset)</h3>
+          <div class="sub">Dos 7 wins com Saber: 5 com Executar · 2 Saber-only</div>
+          <div class="chart-wrap"><canvas id="saberFunnel"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Ticket médio · Sara vs Marcelo</h3>
+          <div class="sub">Marcelo +63% vs Sara (R$ 72.896 vs R$ 44.806)</div>
+          <div class="chart-wrap"><canvas id="ticketCompare"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>TCV total por Farmer</h3>
+          <div class="sub">Sara ~R$ 896k · Marcelo ~R$ 1,39M · Total ~R$ 2,28M</div>
+          <div class="chart-wrap"><canvas id="tcvShare"></canvas></div>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">FCA · transição</div>
+          <h2>Saber → Executar.</h2>
+        </div>
+      </div>
+      <div class="fca-grid">
+        <div class="fca fatos">
+          <h4>Fatos</h4>
+          <ul>
+            <li>Só <strong>18%</strong> dos wins têm Saber no TCV.</li>
+            <li>Quando há Saber, <strong>71%</strong> já saem com Executar no pacote (OFOS, Solução Locação, Dydyo, Vest Care, BUBLU).</li>
+            <li>2 Saber-only: Espírito Santo (R$ 10.150) e Cartão do Bem (R$ 20.129) · sem upsell Executar registrado nesta base.</li>
+            <li>25 wins Executar sem Saber: receita grande fora da esteira diagnóstica.</li>
+            <li>Feedback CIEP (Cockpit CSAT): “Talvez um pouco mais de tempo neste processo, poderia auxiliar na melhor digestão das informações” · sinal de sobrecarga de entrega/absorção.</li>
+          </ul>
+        </div>
+        <div class="fca causas">
+          <h4>Causas</h4>
+          <ul>
+            <li><strong>MEDIUM/LARGE tratados como entrega normal:</strong> mesmo playbook de ciclo curto em conta complexa → atraso e refação.</li>
+            <li><strong>Proposta sem fases de investimento:</strong> cliente só vê o número final e assusta.</li>
+            <li><strong>Faixa comercial vaga (2k-8k):</strong> destrói âncora e gera desalinhamento na mesa de preço.</li>
+            <li><strong>Time de entrega subdimensionado</strong> para profundidade de EE/DR-X em contas maiores.</li>
+            <li><strong>Farmer único para perfis distintos:</strong> ticket e ciclo de Sara ≠ Marcelo; misturar sem régua de fit aumenta ruído.</li>
+          </ul>
+        </div>
+        <div class="fca acoes">
+          <h4>Ações (executáveis)</h4>
+          <ul>
+            <li><strong>Checklist de fase:</strong> toda entrega EE lista ação + valor estimado + prazo (sem faixa aberta).</li>
+            <li><strong>Conversa de Transição obrigatória</strong> antes do pitch Executar (cliente verbaliza dor).</li>
+            <li><strong>Squad EE MEDIUM/LARGE:</strong> especialista + consultor (ponte confiança) + farmer (preço).</li>
+            <li><strong>Piloto 30d de segmentação:</strong> Marcelo prioriza MEDIUM/LARGE; Sara volume/entrada com EQV.</li>
+            <li><strong>Kill criteria:</strong> EE &gt;45d sem pitch → review gerência (Simple WMS já estourou esse padrão).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="table-card">
         <table>
-            <thead>
-                <tr><th>Conta</th><th>Tier (fonte)</th><th>Fato documentado</th><th>Sinal para S→E</th><th>Fonte</th></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Global WeB</strong> (GOB)</td>
-                    <td>LARGE (planilha) · Cockpit Exclusive / SABER · LT 6</td>
-                    <td>Início projeto <strong>03/09/2025</strong> · LT Cockpit <strong>6</strong> em ago/26 · pitch Quente · POC Design+Social ainda em jul/26</td>
-                    <td>Ciclo SABER longo (meses), não janela de 4–5 semanas. Risco de desgaste antes do Executar.</td>
-                    <td class="src">Cockpit GOB · planilha EE drops · calls analysis jul/26</td>
-                </tr>
-                <tr>
-                    <td><strong>C4 Científica</strong></td>
-                    <td>MEDIUM</td>
-                    <td>Início 05/11/2025 · limite 20/12/2025 (janela 45d) · motivo drop <strong>Interno</strong> · obs <strong>R$ 120.000</strong> · pitch Morno</td>
-                    <td>Maior ticket potencial da safra EE Marcelo; trava interna + handoff fraco mata o upsell.</td>
-                    <td class="src">planilha marcelo-ee-drops.json</td>
-                </tr>
-                <tr>
-                    <td><strong>Simple WMS</strong></td>
-                    <td>B2B high ticket (SAP EWM) · Billions</td>
-                    <td><strong>177 dias</strong> abertos no funil E.E (ref. 21/05/2026) · SLA 45d vencido (−132d) · <strong>sem data de pitch</strong></td>
-                    <td>Conta crítica de transição SABER→EXECUTAR: diagnóstico sem mesa comercial amarrada.</td>
-                    <td class="src">briefing simple-wms · planilha EE</td>
-                </tr>
-                <tr>
-                    <td><strong>CIEP Brasil</strong> (CPBR)</td>
-                    <td>MEDIUM · Exclusive · DR-X</td>
-                    <td>Start <strong>25/03/2026</strong> · concluded <strong>04/05/2026</strong> · fee SABER <strong>R$ 22.992,52</strong> · coord Rafaela · CSAT “Pouco desapontado” (digestão) · NPS 9</td>
-                    <td>Entrega SABER até fechou; atrito está na absorção + proposta Executar seguinte (não no NPS bruto).</td>
-                    <td class="src">Cockpit CPBR · briefing ciep-brasil</td>
-                </tr>
-            </tbody>
+          <thead>
+            <tr><th>Cliente (win com Saber)</th><th>Farmer</th><th>Saber</th><th>Ter</th><th>Executar</th><th>TCV</th><th>Path</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>OFOS</td><td>Sara</td><td class="num">23.819</td><td class="num">-</td><td class="num">21.809</td><td class="num">45.627</td><td><span class="tag">S+E</span></td></tr>
+            <tr><td>Solução Locação</td><td>Sara</td><td class="num">9.939</td><td class="num">-</td><td class="num">51.856</td><td class="num">61.795</td><td><span class="tag">S+E</span></td></tr>
+            <tr><td>Dydyo</td><td>Marcelo</td><td class="num">5.300</td><td class="num">5.300</td><td class="num">8.500</td><td class="num">80.400</td><td><span class="tag">S+T+E</span></td></tr>
+            <tr><td>Vest Care</td><td>Marcelo</td><td class="num">20.000</td><td class="num">12.076</td><td class="num">5.018</td><td class="num">92.286</td><td><span class="tag">S+T+E</span></td></tr>
+            <tr><td>BUBLU</td><td>Marcelo</td><td class="num">18.250</td><td class="num">20.620</td><td class="num">6.455</td><td class="num">116.330</td><td><span class="tag">S+T+E</span></td></tr>
+            <tr><td>Espírito Santo Advogados</td><td>Marcelo</td><td class="num">10.150</td><td class="num">-</td><td class="num">-</td><td class="num">10.150</td><td><span class="tag">Saber only</span></td></tr>
+            <tr><td>Cartão do Bem</td><td>Marcelo</td><td class="num">20.129</td><td class="num">-</td><td class="num">-</td><td class="num">20.129</td><td><span class="tag">Saber only</span></td></tr>
+          </tbody>
         </table>
-    </div>
+      </div>
+      <p class="src">Fonte: detalhamento de vendas monetizadas deste HTML.</p>
+    </section>
 
-    <div class="grid-3">
-        <div class="fca-card fatos">
-            <h4 style="color:#b91c1c;">🔴 Fatos (casos)</h4>
-            <ul>
-                <li>Global WeB: SABER aberto desde set/25 (LT 6 no Cockpit).</li>
-                <li>Simple WMS: 177d sem pitch (maio/26).</li>
-                <li>C4: drop Interno com R$ 120k na obs.</li>
-                <li>CIEP: CSAT pede mais tempo para digerir o diagnóstico.</li>
-            </ul>
+    <!-- ===================== CASOS ML ===================== -->
+    <section id="casos-ml">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Casos MEDIUM/LARGE</div>
+          <h2>Atraso, refação e preço.</h2>
         </div>
-        <div class="fca-card causas">
-            <h4 style="color:#b45309;">🟡 Causas</h4>
-            <ul>
-                <li>Playbook de entrega único para TINY e LARGE.</li>
-                <li>Proposta sem valor por fase → susto no final.</li>
-                <li>Comercial cita faixa larga (2k–8k).</li>
-                <li>Capacidade sênior insuficiente no pico de EE complexa.</li>
-            </ul>
-        </div>
-        <div class="fca-card acoes">
-            <h4 style="color:#047857;">🟢 Ações</h4>
-            <ul>
-                <li>Régua de aging: 30/45/60d com dono.</li>
-                <li>Template de proposta faseada (valor + prazo + responsável).</li>
-                <li>Banir faixa 2k–8k: só âncora + escopo fechado.</li>
-                <li>Staffing EE LARGE: sênior obrigatório.</li>
-            </ul>
-        </div>
-    </div>
+        <p>Fatos operacionais citados pelo Farmer + cruzamento Cockpit/planilha EE. Não inventamos taxa de conversão “após o plano”.</p>
+      </div>
 
-    <div class="section-title" id="segmentacao">👥 Segmentação por fit · Farmer × tier</div>
-    <div class="insight-box">
-        <strong>Plano prático (piloto, não dogma):</strong> os dados mostram diferença real de ticket (Marcelo mais alto). Isso <em>sustenta testar</em> atendimento segmentado + EQV na faixa de budget — não garante sozinho +X% de conversão Saber→Executar. Medir em 30 dias: win rate EE, aging médio, % propostas com valor por fase, wins EQV.
-    </div>
-    <div class="grid-2">
-        <div class="kpi-mini">
-            <div class="n" style="color:#065f46;">Marcelo</div>
-            <div class="l">Fit sugerido: MEDIUM/LARGE · ciclo consultivo · bundles S+T+E · tríade especialista+consultor+farmer</div>
-            <div class="compare-bar"><span style="width:62%;background:#10b981;">Ticket 72,9k</span><span style="width:38%;background:#e2e8f0;color:#334155;">base</span></div>
-            <p class="src">31,7% conv · 19 wins · TCV ~R$ 1,39M</p>
+      <div class="chart-grid equal">
+        <div class="chart-card">
+          <h3>Aging / ciclo (referências)</h3>
+          <div class="sub">Barras = dias de referência documentados (não é média estatística da carteira)</div>
+          <div class="chart-wrap"><canvas id="agingCases"></canvas></div>
         </div>
-        <div class="kpi-mini">
-            <div class="n" style="color:#1e40af;">Sara</div>
-            <div class="l">Fit sugerido: entrada / SMALL-MEDIUM · EQV (~R$ 2.500/mês em 6 meses) · volume com escopo fechado</div>
-            <div class="compare-bar"><span style="width:45%;background:#3b82f6;">Ticket 44,8k</span><span style="width:55%;background:#e2e8f0;color:#334155;">entrada / volume</span></div>
-            <p class="src">25,0% conv · 20 wins · TCV ~R$ 896k</p>
+        <div class="chart-card">
+          <h3>O que o cliente sente (síntese)</h3>
+          <ul style="color:var(--text-muted); margin:8px 0 0; padding-left:18px;">
+            <li style="margin-bottom:8px;"><strong style="color:var(--text)">Demora / refação</strong> em conta complexa tratada como entrega padrão.</li>
+            <li style="margin-bottom:8px;"><strong style="color:var(--text)">Preço final sem ramp</strong> de investimento por fase.</li>
+            <li style="margin-bottom:8px;"><strong style="color:var(--text)">Faixa 2k-8k</strong> no comercial: âncora fraca, objeção forte.</li>
+            <li style="margin-bottom:8px;"><strong style="color:var(--text)">Digestão</strong> do diagnóstico (CIEP CSAT) antes de decidir Executar.</li>
+          </ul>
         </div>
-    </div>
+      </div>
 
-    <div class="grid-3" style="margin-top:18px;">
-        <div class="fca-card fatos">
-            <h4 style="color:#b91c1c;">🔴 Fatos</h4>
-            <ul>
-                        <li>Gap de ticket +63% Marcelo vs Sara.</li>
-                        <li>Marcelo: mais wins com Saber no pacote (5 vs 2).</li>
-            </ul>
-        </div>
-        <div class="fca-card causas">
-            <h4 style="color:#b45309;">🟡 Causas</h4>
-            <ul>
-                <li>Carteiras misturam ICP e complexidade de entrega.</li>
-                <li>Sem régua de staffing por tier.</li>
-                <li>Mesmo script de preço para perfis diferentes.</li>
-            </ul>
-        </div>
-        <div class="fca-card acoes">
-            <h4 style="color:#047857;">🟢 Ações 30 dias</h4>
-            <ul>
-                <li>Repartir novos leads EE por tier/fit.</li>
-                <li>KPI compartilhado: aging EE e % S→E.</li>
-                <li>Review quinzenal dos 4 casos críticos.</li>
-            </ul>
-        </div>
-    </div>
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr><th>Conta</th><th>Tier (fonte)</th><th>Fato documentado</th><th>Sinal para S→E</th><th>Fonte</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Global WeB</strong> (GOB)</td>
+              <td>LARGE (planilha) · Cockpit Exclusive / SABER · LT 6</td>
+              <td>Início projeto <strong>03/09/2025</strong> · LT Cockpit <strong>6</strong> em ago/26 · pitch Quente · POC Design+Social ainda em jul/26</td>
+              <td>Ciclo SABER longo (meses), não janela de 4-5 semanas. Risco de desgaste antes do Executar.</td>
+              <td class="src">Cockpit GOB · planilha EE drops · calls analysis jul/26</td>
+            </tr>
+            <tr>
+              <td><strong>C4 Científica</strong></td>
+              <td>MEDIUM</td>
+              <td>Início 05/11/2025 · limite 20/12/2025 (janela 45d) · motivo drop <strong>Interno</strong> · obs <strong>R$ 120.000</strong> · pitch Morno</td>
+              <td>Maior ticket potencial da safra EE Marcelo; trava interna + handoff fraco mata o upsell.</td>
+              <td class="src">planilha marcelo-ee-drops.json</td>
+            </tr>
+            <tr>
+              <td><strong>Simple WMS</strong></td>
+              <td>B2B high ticket (SAP EWM) · Billions</td>
+              <td><strong>177 dias</strong> abertos no funil E.E (ref. 21/05/2026) · SLA 45d vencido (−132d) · <strong>sem data de pitch</strong></td>
+              <td>Conta crítica de transição SABER→EXECUTAR: diagnóstico sem mesa comercial amarrada.</td>
+              <td class="src">briefing simple-wms · planilha EE</td>
+            </tr>
+            <tr>
+              <td><strong>CIEP Brasil</strong> (CPBR)</td>
+              <td>MEDIUM · Exclusive · DR-X</td>
+              <td>Start <strong>25/03/2026</strong> · concluded <strong>04/05/2026</strong> · fee SABER <strong>R$ 22.992,52</strong> · coord Rafaela · CSAT “Pouco desapontado” (digestão) · NPS 9</td>
+              <td>Entrega SABER até fechou; atrito está na absorção + proposta Executar seguinte (não no NPS bruto).</td>
+              <td class="src">Cockpit CPBR · briefing ciep-brasil</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-    <!-- ==================== ESTRATÉGIA E PLANO DE AÇÃO ==================== -->
-    <div class="section-title" id="estrategia">🚀 Plano prático · o que executar em 30–90 dias</div>
+      <div class="fca-grid">
+        <div class="fca fatos">
+          <h4>Fatos (casos)</h4>
+          <ul>
+            <li>Global WeB: SABER aberto desde set/25 (LT 6 no Cockpit).</li>
+            <li>Simple WMS: 177d sem pitch (maio/26).</li>
+            <li>C4: drop Interno com R$ 120k na obs.</li>
+            <li>CIEP: CSAT pede mais tempo para digerir o diagnóstico.</li>
+          </ul>
+        </div>
+        <div class="fca causas">
+          <h4>Causas</h4>
+          <ul>
+            <li>Playbook de entrega único para TINY e LARGE.</li>
+            <li>Proposta sem valor por fase → susto no final.</li>
+            <li>Comercial cita faixa larga (2k-8k).</li>
+            <li>Capacidade sênior insuficiente no pico de EE complexa.</li>
+          </ul>
+        </div>
+        <div class="fca acoes">
+          <h4>Ações</h4>
+          <ul>
+            <li>Régua de aging: 30/45/60d com dono.</li>
+            <li>Template de proposta faseada (valor + prazo + responsável).</li>
+            <li>Banir faixa 2k-8k: só âncora + escopo fechado.</li>
+            <li>Staffing EE LARGE: sênior obrigatório.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-    <div class="strategy-block">
-        <h4>📦 1. Reformulação da Esteira de Produtos e Pricing · EQV</h4>
-        <ul>
-            <li><strong>EQV no funil:</strong> o produto EQV começa a mexer o ponteiro na <strong>taxa de conversão</strong> e no <strong>aproveitamento do funil</strong> — captura a faixa que hoje fica de fora do ticket alto.</li>
-            <li><strong>O buraco dos ~70%:</strong> grande parte do que <strong>não vendemos</strong> (drops por budget / leads que não cabiam no ticket atual) passa a ter oferta viável: pacote na casa de <strong>R$ 15k–20k</strong> com acompanhamento de <strong>6 meses</strong>, o que equivale a cerca de <strong>R$ 2.500/mês</strong> — patamar que esses clientes conseguem pagar.</li>
-            <li><strong>Empacotamento (Saber + Ter + Executar) para Marcelo:</strong> bundles consultivos em MEDIUM/LARGE, sem misturar com a faixa EQV de entrada.</li>
-            <li><strong>Dois andares de pricing:</strong> EQV (~R$ 2.500/mês efetivo em 6 meses) para aproveitar o funil; ticket consultivo alto para contas que já entram no ICP de Marcelo.</li>
+    <!-- ===================== SEGMENTACAO ===================== -->
+    <section id="segmentacao">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Segmentação por fit</div>
+          <h2>Farmer × tier.</h2>
+        </div>
+        <p>Plano prático (piloto, não dogma): diferença real de ticket sustenta testar atendimento segmentado + EQV na faixa de budget.</p>
+      </div>
+
+      <section class="callout">
+        <div class="eyebrow">Piloto 30 dias</div>
+        <h2>Medir: win rate EE · aging médio · % propostas com valor por fase · wins EQV.</h2>
+        <p>Não garante sozinho +X% de conversão Saber→Executar. Validar com KPI compartilhado.</p>
+      </section>
+
+      <div class="two">
+        <div class="chart-card">
+          <h3 style="color:var(--safe)">Marcelo</h3>
+          <p class="sub">Fit sugerido: MEDIUM/LARGE · ciclo consultivo · bundles S+T+E · tríade especialista+consultor+farmer</p>
+          <div class="compare-bar"><span style="width:62%;background:var(--safe)">Ticket 72,9k</span><span style="width:38%;background:rgba(255,255,255,.12);color:var(--text-muted)">base</span></div>
+          <p class="src">31,7% conv · 19 wins · TCV ~R$ 1,39M</p>
+        </div>
+        <div class="chart-card">
+          <h3>Sara</h3>
+          <p class="sub">Fit sugerido: entrada / SMALL-MEDIUM · EQV (~R$ 2.500/mês em 6 meses) · volume com escopo fechado</p>
+          <div class="compare-bar"><span style="width:45%;background:var(--gold,#FFD166);color:#1a0a0a">Ticket 44,8k</span><span style="width:55%;background:rgba(255,255,255,.12);color:var(--text-muted)">entrada / volume</span></div>
+          <p class="src">25,0% conv · 20 wins · TCV ~R$ 896k</p>
+        </div>
+      </div>
+
+      <div class="fca-grid">
+        <div class="fca fatos">
+          <h4>Fatos</h4>
+          <ul>
+            <li>Gap de ticket +63% Marcelo vs Sara.</li>
+            <li>Marcelo: mais wins com Saber no pacote (5 vs 2).</li>
+          </ul>
+        </div>
+        <div class="fca causas">
+          <h4>Causas</h4>
+          <ul>
+            <li>Carteiras misturam ICP e complexidade de entrega.</li>
+            <li>Sem régua de staffing por tier.</li>
+            <li>Mesmo script de preço para perfis diferentes.</li>
+          </ul>
+        </div>
+        <div class="fca acoes">
+          <h4>Ações 30 dias</h4>
+          <ul>
+            <li>Repartir novos leads EE por tier/fit.</li>
+            <li>KPI compartilhado: aging EE e % S→E.</li>
+            <li>Review quinzenal dos 4 casos críticos.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ESTRATEGIA ===================== -->
+    <section id="estrategia">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Plano prático</div>
+          <h2>O que executar em 30-90 dias.</h2>
+        </div>
+        <p>Ações concretas com medição. Sem inventar métricas de conversão futura.</p>
+      </div>
+
+      <div class="chart-card" style="margin-bottom:16px">
+        <h3>1. Reformulação da esteira de produtos e pricing · EQV</h3>
+        <ul style="color:var(--text-muted); padding-left:18px;">
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">EQV no funil:</strong> começa a mexer o ponteiro na taxa de conversão e no aproveitamento do funil · captura a faixa que hoje fica de fora do ticket alto.</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">O buraco dos ~70%:</strong> grande parte do que não vendemos (drops por budget) passa a ter oferta viável: pacote R$ 15k-20k com acompanhamento de 6 meses (≈ R$ 2.500/mês).</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Empacotamento (Saber + Ter + Executar) para Marcelo:</strong> bundles consultivos em MEDIUM/LARGE, sem misturar com a faixa EQV de entrada.</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Dois andares de pricing:</strong> EQV para aproveitar o funil; ticket consultivo alto para contas no ICP de Marcelo.</li>
         </ul>
-    </div>
+      </div>
 
-    <div class="strategy-block">
-        <h4>⏱️ 2. Mitigação de Drops por Timing e Handoff</h4>
-        <ul>
-            <li><strong>Cronograma Amarrado de Handoff:</strong> Definir prazo limite de <strong>48 horas</strong> entre o fechamento comercial e a reunião de kick-off com a equipe de entrega para evitar insegurança do cliente.</li>
-            <li><strong>Régua Rigorosa de Follow-up (15-30-45 dias):</strong> Impor limitação no CRM: qualquer negócio em Follow-up por mais de 20 dias sem avanço de etapa deve ser marcado como <strong>Lost/Drop temporário</strong> para limpar o funil e acionar régua de e-mails automáticos.</li>
-            <li><strong>Entregas Faseadas:</strong> Cada entrega da fase de Estruturação deve apresentar <strong>perspectivas de valores de investimento para cada ação</strong>, para que o cliente não se assuste com o valor final. Evitar citações vagas como "de 2k a 8k de investimento".</li>
+      <div class="chart-card" style="margin-bottom:16px">
+        <h3>2. Mitigação de drops por Timing e Handoff</h3>
+        <ul style="color:var(--text-muted); padding-left:18px;">
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Cronograma amarrado de handoff:</strong> prazo limite de 48 horas entre fechamento comercial e kick-off com a equipe de entrega.</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Régua de follow-up (15-30-45 dias):</strong> negócio em Follow por mais de 20 dias sem avanço → Lost/Drop temporário + régua de e-mails.</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Entregas faseadas:</strong> cada entrega da Estruturação com perspectivas de valores de investimento por ação. Evitar “de 2k a 8k”.</li>
         </ul>
-    </div>
+      </div>
 
-    <div class="strategy-block">
-        <h4>🔄 3. Otimização da Transição Saber → Executar</h4>
-        <ul>
-            <li><strong>Trilha de Onboarding:</strong> Criar um programa de 30 dias que começa com <strong>Saber</strong> (diagnóstico e automação) e já engata no <strong>Executar</strong> com métricas claras de sucesso.</li>
-            <li><strong>Times com Mais Fit:</strong> Alocar Farmers especialistas em segmentos específicos (ex: Marcelo para LARGE, Sara para MEDIUM) para aumentar a taxa de conversão e reduzir o tempo de negociação.</li>
-            <li><strong>Atendimento Segmentado por Tier:</strong> Empresas <strong>MEDIUM/LARGE</strong> devem ter um atendimento diferenciado, com entregas mais robustas e um planejamento em fases, evitando refações e prazos estendidos (>90 dias) como observado em casos como Global WeB, C4 Científica, Simple WMS e CIEP.</li>
+      <div class="chart-card" style="margin-bottom:16px">
+        <h3>3. Otimização da transição Saber → Executar</h3>
+        <ul style="color:var(--text-muted); padding-left:18px;">
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Trilha de onboarding:</strong> programa de 30 dias que começa com Saber e já engata no Executar com métricas claras.</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Times com mais fit:</strong> Marcelo para LARGE, Sara para MEDIUM/entrada.</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Atendimento segmentado por tier:</strong> MEDIUM/LARGE com entregas mais robustas e planejamento em fases (casos Global WeB, C4, Simple WMS, CIEP).</li>
         </ul>
-    </div>
+      </div>
 
-    <div class="strategy-block">
-        <h4>📋 4. Melhorias no Processo de Entrega e Proposta</h4>
-        <ul>
-            <li><strong>Proposta Mais Amarrada:</strong> A proposta comercial deve refletir o planejamento em fases, com marcos de entrega e <strong>valores parciais</strong> para cada etapa, de modo que o cliente veja o ROI progressivo.</li>
-            <li><strong>Revisão de Escopo:</strong> Para clientes MEDIUM/LARGE, o escopo deve ser mais detalhado e personalizado, com entregas validadas a cada 15 dias.</li>
-            <li><strong>Capacitação da Equipe de Entrega:</strong> Investir em treinamento para reduzir o tempo de execução e aumentar a qualidade das entregas, evitando refações que atrasam o ciclo.</li>
+      <div class="chart-card" style="margin-bottom:16px">
+        <h3>4. Melhorias no processo de entrega e proposta</h3>
+        <ul style="color:var(--text-muted); padding-left:18px;">
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Proposta mais amarrada:</strong> planejamento em fases, marcos e valores parciais (ROI progressivo).</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Revisão de escopo:</strong> MEDIUM/LARGE com escopo detalhado e entregas validadas a cada 15 dias.</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Capacitação da equipe de entrega:</strong> reduzir tempo de execução e refações.</li>
         </ul>
-    </div>
+      </div>
 
-    <div class="strategy-block" style="background:#fef9e7; border-color:#fcd34d;">
-        <h4 style="color:#b45309;">⚠️ Ponto Crítico – Entregas e Prazos</h4>
-        <ul>
-            <li><strong>Problema identificado:</strong> Entregas para clientes MEDIUM/LARGE estão demorando até <strong>90 dias ou mais</strong> (ex: Global WeB, C4 Científica, Simple WMS, CIEP). Isso gera insatisfação e impacta a renovação.</li>
-            <li><strong>Causa raiz:</strong> Equipe de entrega não dimensionada para o volume de projetos complexos; planejamento de fases não está claro na proposta.</li>
-            <li><strong>Ação corretiva:</strong>
-                <ul>
-                    <li>Reforçar a equipe de entrega com <strong>profissionais seniores</strong> para projetos LARGE.</li>
-                    <li>Estabelecer <strong>checkpoints semanais</strong> com o cliente para alinhar expectativas.</li>
-                    <li>Na proposta, detalhar <strong>cada fase com valor associado</strong> e prazo de entrega.</li>
-                    <li>Evitar citações de valores genéricos como "de R$ 2k a R$ 8k" – isso foi muito criticado pelos clientes.</li>
-                </ul>
-            </li>
+      <div class="chart-card" style="margin-bottom:16px; border-color:rgba(255,209,102,.45)">
+        <h3>Ponto crítico · entregas e prazos</h3>
+        <ul style="color:var(--text-muted); padding-left:18px;">
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Problema:</strong> entregas MEDIUM/LARGE demorando até 90 dias ou mais (Global WeB, C4, Simple WMS, CIEP).</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Causa raiz:</strong> equipe não dimensionada para projetos complexos; fases pouco claras na proposta.</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Ação corretiva:</strong> seniores em LARGE · checkpoints semanais · cada fase com valor + prazo · banir faixa genérica R$ 2k-8k.</li>
         </ul>
-    </div>
+      </div>
 
-
-    <div class="strategy-block" style="background:#ecfdf5; border-color:#6ee7b7;">
-        <h4 style="color:#047857;">✅ O que é plano prático (e o que não é)</h4>
-        <ul>
-            <li><strong>É prático:</strong> banir faixa 2k–8k; template de proposta com valor por fase; régua 45d de aging EE; tríade em MEDIUM/LARGE; piloto de split Farmer por tier; ofertar EQV (~R$ 15–20k / 6 meses ≈ R$ 2.500/mês) para a faixa que hoje dropa por budget.</li>
-            <li><strong>Como medir em 30 dias:</strong> (1) % EE com valor por fase na proposta · (2) aging médio EE · (3) nº de Saber-only sem Conversa de Transição · (4) wins S+E vs Saber-only · (5) wins EQV vs drops budget.</li>
+      <div class="chart-card" style="margin-bottom:16px; border-color:rgba(99,212,113,.45)">
+        <h3>O que é plano prático (e o que não é)</h3>
+        <ul style="color:var(--text-muted); padding-left:18px;">
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">É prático:</strong> banir faixa 2k-8k; template com valor por fase; régua 45d de aging EE; tríade em MEDIUM/LARGE; piloto de split Farmer por tier; ofertar EQV (~R$ 15-20k / 6 meses ≈ R$ 2.500/mês).</li>
+          <li style="margin-bottom:8px;"><strong style="color:var(--text)">Como medir em 30 dias:</strong> (1) % EE com valor por fase · (2) aging médio EE · (3) nº de Saber-only sem Conversa de Transição · (4) wins S+E vs Saber-only · (5) wins EQV vs drops budget.</li>
         </ul>
-    </div>
-    <div style="background:#dbeafe; border-radius:12px; padding:20px; margin-top:20px; border-left:6px solid #2563eb;">
-        <h4 style="color:#1e3a8a;">📌 Próximos Passos – Roadmap de Implementação</h4>
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:15px; margin-top:10px;">
-            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
-                <span style="font-size:24px; display:block;">📋</span>
-                <strong>Semana 1-2</strong>
-                <p style="font-size:13px; color:#475569;">Empacotar EQV (R$ 15–20k / 6 meses) e alinhar script comercial.</p>
-            </div>
-            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
-                <span style="font-size:24px; display:block;">💰</span>
-                <strong>Semana 3-4</strong>
-                <p style="font-size:13px; color:#475569;">Rodar EQV no funil de budget e medir conversão vs drop.</p>
-            </div>
-            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
-                <span style="font-size:24px; display:block;">⚙️</span>
-                <strong>Semana 5-6</strong>
-                <p style="font-size:13px; color:#475569;">Implantar cronograma de Handoff e régua de follow-up.</p>
-            </div>
-            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
-                <span style="font-size:24px; display:block;">📊</span>
-                <strong>Mês 2</strong>
-                <p style="font-size:13px; color:#475569;">Treinar equipe de entrega e revisar propostas com valores faseados.</p>
-            </div>
-            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
-                <span style="font-size:24px; display:block;">📈</span>
-                <strong>Mês 3</strong>
-                <p style="font-size:13px; color:#475569;">Monitorar KPIs: conversão, ticket, tempo de fechamento e renovação.</p>
-            </div>
-            <div style="background:white; border-radius:10px; padding:14px; text-align:center;">
-                <span style="font-size:24px; display:block;">🔄</span>
-                <strong>Contínuo</strong>
-                <p style="font-size:13px; color:#475569;">Revisar mensalmente a performance e ajustar estratégias.</p>
-            </div>
+      </div>
+
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Roadmap</div>
+          <h2>Próximos passos de implementação.</h2>
         </div>
-    </div>
+      </div>
+      <div class="roadmap">
+        <div class="step"><strong>Semana 1-2</strong><p>Empacotar EQV (R$ 15-20k / 6 meses) e alinhar script comercial.</p></div>
+        <div class="step"><strong>Semana 3-4</strong><p>Rodar EQV no funil de budget e medir conversão vs drop.</p></div>
+        <div class="step"><strong>Semana 5-6</strong><p>Implantar cronograma de Handoff e régua de follow-up.</p></div>
+        <div class="step"><strong>Mês 2</strong><p>Treinar equipe de entrega e revisar propostas com valores faseados.</p></div>
+        <div class="step"><strong>Mês 3</strong><p>Monitorar KPIs: conversão, ticket, tempo de fechamento e renovação.</p></div>
+        <div class="step"><strong>Contínuo</strong><p>Revisar mensalmente a performance e ajustar estratégias.</p></div>
+      </div>
+    </section>
 
-    <div class="footer">
-        Atualizado 03/08/2026 · FCA SABER→EXECUTAR · forma de pagamento (planilha EE) · casos Global WeB / C4 / Simple WMS / CIEP com fontes · sem inventar métricas de conversão futura.
-    </div>
-</div>
+    <p class="src" style="text-align:center; margin:40px 0 20px">Atualizado 03/08/2026 · FCA SABER→EXECUTAR · forma de pagamento (planilha EE) · casos Global WeB / C4 / Simple WMS / CIEP com fontes · sem inventar métricas de conversão futura.</p>
+  </main>
 
 <script>
-    (function() {
-        // ========== GRÁFICOS ==========
-        new Chart(document.getElementById('funilGeral'), {
-            type: 'bar',
-            data: {
-                labels: ['Estruturação', 'Follow/Aceito', 'Monetizado', 'Drop', 'Outros/aberto'],
-                datasets: [{ data: [20, 10, 39, 60, 11], backgroundColor: ['#3b82f6', '#f59e0b', '#22c55e', '#ef4444', '#94a3b8'], borderRadius: 6 }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
-        });
-        new Chart(document.getElementById('dropGeral'), {
-            type: 'doughnut',
-            data: {
-                // soma Sara+Marcelo = 60 (antes o pie geral somava 75 e estourava a base)
-                labels: ['Budget', 'Timing', 'Tratativa Ops', 'Interno', 'Outros'],
-                datasets: [{ data: [25, 17, 7, 9, 2], backgroundColor: ['#ef4444','#f59e0b','#8b5cf6','#3b82f6','#64748b'] }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }, cutout: '65%' }
-        });
-        new Chart(document.getElementById('funilSara'), {
-            type: 'bar',
-            data: { labels: ['Follow', 'Monetizado', 'Drop', 'Outros'], datasets: [{ data: [8, 20, 35, 17], backgroundColor: ['#f59e0b', '#22c55e', '#ef4444', '#94a3b8'], borderRadius: 4 }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 40 } } }
-        });
-        new Chart(document.getElementById('funilMarcelo'), {
-            type: 'bar',
-            data: { labels: ['Follow', 'Monetizado', 'Drop', 'Outros'], datasets: [{ data: [2, 19, 25, 14], backgroundColor: ['#f59e0b', '#22c55e', '#ef4444', '#94a3b8'], borderRadius: 4 }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 40 } } }
-        });
-        new Chart(document.getElementById('dropSara'), {
-            type: 'doughnut',
-            data: { labels: ['Budget', 'Timing', 'Tratativa Ops', 'Interno'], datasets: [{ data: [14, 10, 7, 4], backgroundColor: ['#ef4444','#f59e0b','#8b5cf6','#3b82f6'] }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }, cutout: '60%' }
-        });
-        new Chart(document.getElementById('dropMarcelo'), {
-            type: 'doughnut',
-            data: { labels: ['Budget', 'Timing', 'Interno', 'Outros'], datasets: [{ data: [11, 7, 5, 2], backgroundColor: ['#ef4444','#f59e0b','#3b82f6','#64748b'] }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }, cutout: '60%' }
-        });
+(function () {
+  Chart.defaults.color = 'rgba(255,255,255,0.78)';
+  Chart.defaults.borderColor = 'rgba(255,255,255,0.12)';
 
-        // ========== EVOLUÇÃO MENSAL (CORRIGIDA) ==========
-        const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
-        // Sara (mantida)
-        const saraTCV = [0, 0, 126577, 307247, 239279, 114840, 108170];
-        const saraAvg = [0, 0, 31644, 61449, 59820, 28710, 36057];
-        // Marcelo (corrigido)
-        const marceloTCV = [347930, 0, 511813, 32000, 325630, 77740, 29630];
-        const marceloAvg = [86982.5, 0, 85302.16, 32000, 54271.66, 77740, 29630];
+  const C = {
+    gold: '#FFD166',
+    green: '#63D471',
+    coral: '#FF8A80',
+    white: 'rgba(255,255,255,0.88)',
+    muted: 'rgba(255,255,255,0.45)',
+    amber: '#F6C445',
+    softBlue: '#8EC5FF',
+    softTeal: '#5EEAD4',
+  };
 
-        new Chart(document.getElementById('saraTotalTCV'), {
-            type: 'bar',
-            data: { labels: months, datasets: [{ label: 'TCV Total (R$)', data: saraTCV, backgroundColor: '#3b82f6', borderRadius: 4 }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
-        });
-        new Chart(document.getElementById('marceloTotalTCV'), {
-            type: 'bar',
-            data: { labels: months, datasets: [{ label: 'TCV Total (R$)', data: marceloTCV, backgroundColor: '#10b981', borderRadius: 4 }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
-        });
+  new Chart(document.getElementById('funilGeral'), {
+    type: 'bar',
+    data: {
+      labels: ['Estruturação', 'Follow/Aceito', 'Monetizado', 'Drop', 'Outros/aberto'],
+      datasets: [{ data: [20, 10, 39, 60, 11], backgroundColor: [C.softBlue, C.amber, C.green, C.coral, C.muted], borderRadius: 6 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
 
-        new Chart(document.getElementById('saraAvgTicket'), {
-            type: 'line',
-            data: { labels: months, datasets: [{ label: 'Ticket Médio', data: saraAvg, borderColor: '#2563eb', tension: 0.2, fill: false, pointBackgroundColor: '#2563eb' }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
-        });
-        new Chart(document.getElementById('marceloAvgTicket'), {
-            type: 'line',
-            data: { labels: months, datasets: [{ label: 'Ticket Médio', data: marceloAvg, borderColor: '#059669', tension: 0.2, fill: false, pointBackgroundColor: '#059669' }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
-        });
+  new Chart(document.getElementById('dropGeral'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Budget', 'Timing', 'Tratativa Ops', 'Interno', 'Outros'],
+      datasets: [{ data: [25, 17, 7, 9, 2], backgroundColor: [C.coral, C.amber, C.gold, C.softBlue, C.muted] }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }, cutout: '65%' }
+  });
 
-        // ========== MIX DE PRODUTOS (MRR) ==========
-        const saraMixData = {
-            labels: months,
-            saber: [0, 0, 0, 23.8, 0, 9.9, 0],
-            ter: [0, 0, 44.3, 25.0, 10.3, 23.7, 4.0],
-            executar: [0, 0, 82.3, 137.6, 127.7, 81.2, 104.2]
-        };
-        new Chart(document.getElementById('saraProductMix'), {
-            type: 'bar',
-            data: {
-                labels: months,
-                datasets: [
-                    { label: 'Saber', data: saraMixData.saber, backgroundColor: '#60a5fa' },
-                    { label: 'Ter', data: saraMixData.ter, backgroundColor: '#34d399' },
-                    { label: 'Executar', data: saraMixData.executar, backgroundColor: '#f472b6' }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
-                scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { callback: v => 'R$ ' + v.toFixed(0) + 'k' } } }
-            }
-        });
+  new Chart(document.getElementById('funilSara'), {
+    type: 'bar',
+    data: { labels: ['Follow', 'Monetizado', 'Drop', 'Outros'], datasets: [{ data: [8, 20, 35, 17], backgroundColor: [C.amber, C.green, C.coral, C.muted], borderRadius: 4 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 40 } } }
+  });
 
-        const marceloMixData = {
-            labels: months,
-            saber: [18.25, 0, 10.15, 20.0, 20.13, 0, 0],
-            ter: [20.62, 0, 11.8, 12.08, 0, 0, 0],
-            executar: [15.6+8.5+10, 0, 10.14+10.0+9.87+10.14, 5.02, 7.06+6.69+4.18+6.38, 6.48, 4.94]
-        };
-        new Chart(document.getElementById('marceloProductMix'), {
-            type: 'bar',
-            data: {
-                labels: months,
-                datasets: [
-                    { label: 'Saber', data: marceloMixData.saber, backgroundColor: '#60a5fa' },
-                    { label: 'Ter', data: marceloMixData.ter, backgroundColor: '#34d399' },
-                    { label: 'Executar', data: marceloMixData.executar, backgroundColor: '#f472b6' }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
-                scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { callback: v => 'R$ ' + v.toFixed(0) + 'k' } } }
-            }
-        });
+  new Chart(document.getElementById('funilMarcelo'), {
+    type: 'bar',
+    data: { labels: ['Follow', 'Monetizado', 'Drop', 'Outros'], datasets: [{ data: [2, 19, 25, 14], backgroundColor: [C.amber, C.green, C.coral, C.muted], borderRadius: 4 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 40 } } }
+  });
 
+  new Chart(document.getElementById('dropSara'), {
+    type: 'doughnut',
+    data: { labels: ['Budget', 'Timing', 'Tratativa Ops', 'Interno'], datasets: [{ data: [14, 10, 7, 4], backgroundColor: [C.coral, C.amber, C.gold, C.softBlue] }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }, cutout: '60%' }
+  });
 
-        // ========== SABER → EXECUTAR (novos) ==========
-        new Chart(document.getElementById('pathMix'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Executar only (18)', 'Ter only (7)', 'Ter+Executar (7)', 'S+T+E (3)', 'S+E (2)', 'Saber only (2)'],
-                datasets: [{ data: [18, 7, 7, 3, 2, 2], backgroundColor: ['#f472b6','#34d399','#a78bfa','#f59e0b','#60a5fa','#ef4444'] }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } } }, cutout: '55%' }
-        });
-        new Chart(document.getElementById('saberFunnel'), {
-            type: 'bar',
-            data: {
-                labels: ['Wins com Saber', 'Saber+Executar', 'Saber only'],
-                datasets: [{ data: [7, 5, 2], backgroundColor: ['#3b82f6', '#22c55e', '#ef4444'], borderRadius: 6 }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
-        });
-        new Chart(document.getElementById('ticketCompare'), {
-            type: 'bar',
-            data: {
-                labels: ['Sara', 'Marcelo'],
-                datasets: [{ label: 'Ticket médio TCV', data: [44806, 72896], backgroundColor: ['#3b82f6', '#10b981'], borderRadius: 6 }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
-        });
-        new Chart(document.getElementById('tcvShare'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Sara ~R$ 896k', 'Marcelo ~R$ 1,39M'],
-                datasets: [{ data: [896113, 1385029], backgroundColor: ['#3b82f6', '#10b981'] }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }, cutout: '60%' }
-        });
-        // ========== FORMA DE PAGAMENTO ==========
-        new Chart(document.getElementById('pagGeral'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Cartão (30)', 'Boleto (6)', 'PIX (3)'],
-                datasets: [{ data: [30, 6, 3], backgroundColor: ['#3b82f6', '#8b5cf6', '#22c55e'] }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }, cutout: '60%' }
-        });
-        new Chart(document.getElementById('pagFarmer'), {
-            type: 'bar',
-            data: {
-                labels: ['Sara', 'Marcelo'],
-                datasets: [
-                    { label: 'Cartão', data: [17, 13], backgroundColor: '#3b82f6' },
-                    { label: 'Boleto', data: [2, 4], backgroundColor: '#8b5cf6' },
-                    { label: 'PIX', data: [1, 2], backgroundColor: '#22c55e' }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
-                scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { stepSize: 2 } } }
-            }
-        });
+  new Chart(document.getElementById('dropMarcelo'), {
+    type: 'doughnut',
+    data: { labels: ['Budget', 'Timing', 'Interno', 'Outros'], datasets: [{ data: [11, 7, 5, 2], backgroundColor: [C.coral, C.amber, C.softBlue, C.muted] }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }, cutout: '60%' }
+  });
 
-        new Chart(document.getElementById('agingCases'), {
-            type: 'bar',
-            data: {
-                labels: ['Global WeB (LT×30≈)', 'Simple WMS (abertos)', 'C4 janela planilha', 'CIEP ciclo DR-X'],
-                datasets: [{
-                    label: 'Dias (referência)',
-                    data: [180, 177, 45, 40],
-                    backgroundColor: ['#ef4444', '#f59e0b', '#8b5cf6', '#22c55e'],
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { callbacks: { afterLabel: (ctx) => {
-                        const tips = [
-                            'LT Cockpit 6 ≈ 180d desde 03/09/2025',
-                            'Briefing 21/05/2026 · 177d sem pitch',
-                            '05/11→20/12/2025 · drop Interno',
-                            '25/03→04/05/2026 concluded'
-                        ];
-                        return tips[ctx.dataIndex];
-                    } } }
-                },
-                scales: { x: { beginAtZero: true, title: { display: true, text: 'dias' } } }
-            }
-        });
-    })();
+  const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
+  const saraTCV = [0, 0, 126577, 307247, 239279, 114840, 108170];
+  const saraAvg = [0, 0, 31644, 61449, 59820, 28710, 36057];
+  const marceloTCV = [347930, 0, 511813, 32000, 325630, 77740, 29630];
+  const marceloAvg = [86982.5, 0, 85302.16, 32000, 54271.66, 77740, 29630];
+
+  new Chart(document.getElementById('saraTotalTCV'), {
+    type: 'bar',
+    data: { labels: months, datasets: [{ label: 'TCV Total (R$)', data: saraTCV, backgroundColor: C.softBlue, borderRadius: 4 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
+  });
+  new Chart(document.getElementById('marceloTotalTCV'), {
+    type: 'bar',
+    data: { labels: months, datasets: [{ label: 'TCV Total (R$)', data: marceloTCV, backgroundColor: C.green, borderRadius: 4 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
+  });
+  new Chart(document.getElementById('saraAvgTicket'), {
+    type: 'line',
+    data: { labels: months, datasets: [{ label: 'Ticket Médio', data: saraAvg, borderColor: C.softBlue, tension: 0.2, fill: false, pointBackgroundColor: C.softBlue }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
+  });
+  new Chart(document.getElementById('marceloAvgTicket'), {
+    type: 'line',
+    data: { labels: months, datasets: [{ label: 'Ticket Médio', data: marceloAvg, borderColor: C.green, tension: 0.2, fill: false, pointBackgroundColor: C.green }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
+  });
+
+  const saraMixData = {
+    saber: [0, 0, 0, 23.8, 0, 9.9, 0],
+    ter: [0, 0, 44.3, 25.0, 10.3, 23.7, 4.0],
+    executar: [0, 0, 82.3, 137.6, 127.7, 81.2, 104.2]
+  };
+  new Chart(document.getElementById('saraProductMix'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [
+        { label: 'Saber', data: saraMixData.saber, backgroundColor: C.softBlue },
+        { label: 'Ter', data: saraMixData.ter, backgroundColor: C.softTeal },
+        { label: 'Executar', data: saraMixData.executar, backgroundColor: C.gold }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+      scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { callback: v => 'R$ ' + v.toFixed(0) + 'k' } } }
+    }
+  });
+
+  const marceloMixData = {
+    saber: [18.25, 0, 10.15, 20.0, 20.13, 0, 0],
+    ter: [20.62, 0, 11.8, 12.08, 0, 0, 0],
+    executar: [15.6+8.5+10, 0, 10.14+10.0+9.87+10.14, 5.02, 7.06+6.69+4.18+6.38, 6.48, 4.94]
+  };
+  new Chart(document.getElementById('marceloProductMix'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [
+        { label: 'Saber', data: marceloMixData.saber, backgroundColor: C.softBlue },
+        { label: 'Ter', data: marceloMixData.ter, backgroundColor: C.softTeal },
+        { label: 'Executar', data: marceloMixData.executar, backgroundColor: C.gold }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+      scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { callback: v => 'R$ ' + v.toFixed(0) + 'k' } } }
+    }
+  });
+
+  new Chart(document.getElementById('pathMix'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Executar only (18)', 'Ter only (7)', 'Ter+Executar (7)', 'S+T+E (3)', 'S+E (2)', 'Saber only (2)'],
+      datasets: [{ data: [18, 7, 7, 3, 2, 2], backgroundColor: [C.gold, C.softTeal, C.softBlue, C.amber, C.white, C.coral] }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } } }, cutout: '55%' }
+  });
+
+  new Chart(document.getElementById('saberFunnel'), {
+    type: 'bar',
+    data: {
+      labels: ['Wins com Saber', 'Saber+Executar', 'Saber only'],
+      datasets: [{ data: [7, 5, 2], backgroundColor: [C.softBlue, C.green, C.coral], borderRadius: 6 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+  });
+
+  new Chart(document.getElementById('ticketCompare'), {
+    type: 'bar',
+    data: {
+      labels: ['Sara', 'Marcelo'],
+      datasets: [{ label: 'Ticket médio TCV', data: [44806, 72896], backgroundColor: [C.softBlue, C.green], borderRadius: 6 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
+  });
+
+  new Chart(document.getElementById('tcvShare'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Sara ~R$ 896k', 'Marcelo ~R$ 1,39M'],
+      datasets: [{ data: [896113, 1385029], backgroundColor: [C.softBlue, C.green] }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }, cutout: '60%' }
+  });
+
+  new Chart(document.getElementById('chartPagWins'), {
+    type: 'bar',
+    data: {
+      labels: ['Cartão', 'Boleto', 'PIX'],
+      datasets: [{ data: [76.9, 15.4, 7.7], backgroundColor: [C.gold, C.softBlue, C.green], borderRadius: 6 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y + '%' } } },
+      scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
+    }
+  });
+
+  new Chart(document.getElementById('chartPagTcv'), {
+    type: 'bar',
+    data: {
+      labels: ['Cartão', 'Boleto', 'PIX'],
+      datasets: [{ data: [72.7, 17.7, 9.5], backgroundColor: [C.gold, C.softBlue, C.green], borderRadius: 6 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y + '%' } } },
+      scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
+    }
+  });
+
+  new Chart(document.getElementById('chartPagFarmer'), {
+    type: 'bar',
+    data: {
+      labels: ['Sara', 'Marcelo'],
+      datasets: [
+        { label: 'Cartão', data: [17, 13], backgroundColor: C.gold },
+        { label: 'Boleto', data: [2, 4], backgroundColor: C.softBlue },
+        { label: 'PIX', data: [1, 2], backgroundColor: C.green }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+      scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { stepSize: 2 } } }
+    }
+  });
+
+  new Chart(document.getElementById('agingCases'), {
+    type: 'bar',
+    data: {
+      labels: ['Global WeB (LT×30≈)', 'Simple WMS (abertos)', 'C4 janela planilha', 'CIEP ciclo DR-X'],
+      datasets: [{
+        label: 'Dias (referência)',
+        data: [180, 177, 45, 40],
+        backgroundColor: [C.coral, C.amber, C.gold, C.green],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { afterLabel: (ctx) => {
+          const tips = [
+            'LT Cockpit 6 ≈ 180d desde 03/09/2025',
+            'Briefing 21/05/2026 · 177d sem pitch',
+            '05/11→20/12/2025 · drop Interno',
+            '25/03→04/05/2026 concluded'
+          ];
+          return tips[ctx.dataIndex];
+        } } }
+      },
+      scales: { x: { beginAtZero: true, title: { display: true, text: 'dias' } } }
+    }
+  });
+})();
 </script>
-
 </body>
 </html>
